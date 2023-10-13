@@ -5,6 +5,8 @@ import {AiOutlineDesktop, AiOutlineMobile, AiOutlineTablet} from "react-icons/ai
 export default function Navigation() {
   return (
     <div>
+
+        {/* navigation will shown other page expect design  */}
         <header className='hidden h-fit flex justify-between items-center bg-slate-800 p-4 text-white'>
             <div>
                 <a href="#">
@@ -12,19 +14,17 @@ export default function Navigation() {
                 </a>
             </div>
             <div className='flex justify-between space-x-4'>
-                <div>
-                    <button
-                        className="rounded-md bg-indigo-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                        Register
-                    </button>
-                </div>
+                <button
+                    className="rounded-md bg-indigo-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                    Register
+                </button>
             </div>
         </header>
 
         {/* size refactor and export code section */}
-        {/* this page will be displayed on editor windowc:\Users\Abijeet\Downloads\WhatsApp Image 2023-09-10 at 9.06.00 PM.jpeg */}
-        <header className='h-fit flex justify-between items-center bg-gray-900 p-4 text-white'>
+        {/* this navigation will be displayed on editor windowc:\Users\Abijeet\Downloads\WhatsApp Image 2023-09-10 at 9.06.00 PM.jpeg */}
+        <header className='h-fit flex justify-between items-center bg-gray-900 p-4 text-white fixed left-0 top-0 w-full z-50'>
             <div>
                 <a href="#">
                     <h1 className='font-extrabold tracking-wider'>WEB-X-LOGO</h1>
@@ -58,12 +58,13 @@ export default function Navigation() {
                     </button>
                 </div>
 
-                <button>
-                    <img src={testProfile} className='h-10 w-10 rounded-full outline' alt="cannot display profile" />
-                </button>
+                <div>
+                    <button>
+                        <img src={testProfile} className='h-10 w-10 rounded-full outline' alt="cannot display profile" />
+                    </button>
+                </div>
             </div>
         </header>
-                
     </div>
   )
 }
