@@ -6,9 +6,14 @@ import testImage from "./../test-image/test-image.png";
 import { useFetch } from "../../hooks/useFetch";
 
 export default function Designs() {
-    const [clicked, SetClicked] = useState("Navigation");
+    const [clicked, SetClicked] = useState("navigation");
     const {data:codes, isProtected, error} = useFetch("http://localhost:8000/api/v1/codes/extractCode", clicked.toLowerCase());
-    console.log("hello", codes)
+
+    // code storer
+    const [navigationCode, setNavigationCode] = useState(null);
+    const [heroCode, setHeroCode] = useState(null);
+    const [bodyCode, setBodyCode] = useState(null);
+    const [footerCode, setFooterCode] = useState(null);
 
     return (
         // side design choosing section
@@ -191,6 +196,7 @@ export default function Designs() {
 
                 <section className="my-4">
                     {isProtected && <p>Fetching codes</p>}
+                    {error && <p>server error please wait we are fixing it.</p>}
                     {codes && codes.map(code => (
                         <div key={code.carouselName.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded">
                             <div className="">
@@ -219,7 +225,40 @@ export default function Designs() {
                                     <button className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                                         Rate
                                     </button>
-                                    <button className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                    <button 
+                                        className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                        onClick={() => {
+                                            if(clicked === "navigation"){
+                                                console.log("Entered navigation")
+                                                setNavigationCode({
+                                                    html: code.htmlCode,
+                                                    css: code.cssCode,    
+                                                })
+                                            }else if (clicked === "hero"){
+                                                
+                                                setHeroCode({
+                                                    html: code.htmlCode,
+                                                    css: code.cssCode,    
+                                                })
+                                                console.log("Entered hero")
+                                                
+                                            }else if (clicked === "body"){
+                                                setBodyCode({
+                                                    html: code.htmlCode,
+                                                    css: code.cssCode,    
+                                                })
+                                                console.log("Entered body")
+                                                
+                                            }else if(clicked === "footer"){
+                                                
+                                                setFooterCode({
+                                                    html: code.htmlCode,
+                                                    css: code.cssCode,    
+                                                })
+                                                console.log("Entered footer")
+                                            }
+                                        }}
+                                    >
                                         Use
                                     </button>
                                 </div>
@@ -228,6 +267,31 @@ export default function Designs() {
                     ))}
                 </section>
             </aside>
+            <section className="h-screen">
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                </head>
+                <body>
+                    {/* navigation section */}
+                    <section dangerouslySetInnerHTML={{ __html: navigationCode ? navigationCode.html : "" }}></section>
+                    <style dangerouslySetInnerHTML={ { __html: navigationCode ? navigationCode.css : "" } }></style>
+
+                    {/* hero section */}
+                    <section dangerouslySetInnerHTML={{ __html: heroCode ? heroCode.html : "" }}></section>
+                    <style dangerouslySetInnerHTML={ { __html: heroCode ? heroCode.css : "" } }></style>
+
+                    {/* body section */}
+                    <section dangerouslySetInnerHTML={{ __html: bodyCode ? heroCode.html : "" }}></section>
+                    <style dangerouslySetInnerHTML={ { __html: bodyCode ? bodyCode.css : "" } }></style>
+
+                    {/* footer section */}
+                    <section dangerouslySetInnerHTML={{ __html: footerCode ? footerCode.html : "" }}></section>
+                    <style dangerouslySetInnerHTML={ { __html: footerCode ? footerCode.css : "" } }></style>
+                </body>
+                </html>
+            </section>
         </section>
     )
 };
