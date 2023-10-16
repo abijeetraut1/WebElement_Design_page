@@ -2,19 +2,21 @@ import { useState } from "react";
 import React from 'react'
 import { FiSidebar } from "react-icons/fi";
 import { MdFilterList, /* MdFilterListOff */} from "react-icons/md";
-import testImage from "./../test-image/test-image.png";
 import { useFetch } from "../../hooks/useFetch";
 
 export default function Designs() {
     const [clicked, SetClicked] = useState("navigation");
     const {data:codes, isProtected, error} = useFetch("http://localhost:8000/api/v1/codes/extractCode", clicked.toLowerCase());
 
-    // code storer
-    const [navigationCode, setNavigationCode] = useState(null);
-    const [heroCode, setHeroCode] = useState(null);
-    const [bodyCode, setBodyCode] = useState(null);
-    const [footerCode, setFooterCode] = useState(null);
+    // stroage clicked code
+    const [storedCode, setStoreCode] = useState([]);
 
+    function storeCodeToState(html, css){
+        setStoreCode((prevStoreCode) => [
+            ...prevStoreCode,
+            { html, css }
+        ]);
+    }
     return (
         // side design choosing section
         <section>
@@ -55,145 +57,6 @@ export default function Designs() {
                     </div>
                 </div>
 
-                {/* choosing section wil be list here */}
-                {/* <section className="my-4">
-                    <div className="bg-white p-2 my-4 rounded">
-                        <div className="">
-                            <img src={testImage} alt="Image not found"/>
-                        </div>
-                        <div className="bg-white py-3 ">
-                            <div className="flex justify-between">
-                                <div>
-                                    <div>
-                                        <h3 className="font-bold">The Carousel</h3>
-                                    </div>
-                                    <div>
-                                        <h5 className="text-slate-500"><a href="#">Abijeet Raut</a></h5>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div>
-                                        <h4><span className="font-bold">Rating</span>: 123456</h4>
-                                    </div>
-                                    <div>
-                                        <h4><span className="font-bold">Used By: </span>: 123456</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex space-x-1">
-                                <button className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                    Rate
-                                </button>
-                                <button className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                    Use
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div className="bg-white p-2 my-4 rounded">
-                        <div className="">
-                            <img src={testImage} alt="Image not found"/>
-                        </div>
-                        <div className="bg-white py-3 ">
-                            <div className="flex justify-between">
-                                <div>
-                                    <div>
-                                        <h3 className="font-bold">The Carousel</h3>
-                                    </div>
-                                    <div>
-                                        <h5 className="text-slate-500"><a href="#">Abijeet Raut</a></h5>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div>
-                                        <h4><span className="font-bold">Rating</span>: 123456</h4>
-                                    </div>
-                                    <div>
-                                        <h4><span className="font-bold">Used By: </span>: 123456</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex space-x-1">
-                                <button className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                    Rate
-                                </button>
-                                <button className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                    Use
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-white p-2 my-4 rounded">
-                        <div className="">
-                            <img src={testImage} alt="Image not found"/>
-                        </div>
-                        <div className="bg-white py-3 ">
-                            <div className="flex justify-between">
-                                <div>
-                                    <div>
-                                        <h3 className="font-bold">The Carousel</h3>
-                                    </div>
-                                    <div>
-                                        <h5 className="text-slate-500"><a href="#">Abijeet Raut</a></h5>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div>
-                                        <h4><span className="font-bold">Rating</span>: 123456</h4>
-                                    </div>
-                                    <div>
-                                        <h4><span className="font-bold">Used By: </span>: 123456</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex space-x-1">
-                                <button className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                    Rate
-                                </button>
-                                <button className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                    Use
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-white p-2 my-4 rounded">
-                        <div className="">
-                            <img src={testImage} alt="Image not found"/>
-                        </div>
-                        <div className="bg-white py-3 ">
-                            <div className="flex justify-between">
-                                <div>
-                                    <div>
-                                        <h3 className="font-bold">The Carousel</h3>
-                                    </div>
-                                    <div>
-                                        <h5 className="text-slate-500"><a href="#">Abijeet Raut</a></h5>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div>
-                                        <h4><span className="font-bold">Rating</span>: 123456</h4>
-                                    </div>
-                                    <div>
-                                        <h4><span className="font-bold">Used By: </span>: 123456</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex space-x-1">
-                                <button className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                    Rate
-                                </button>
-                                <button className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                    Use
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </section> */}
-
                 <section className="my-4">
                     {isProtected && <p>Fetching codes</p>}
                     {error && <p>server error please wait we are fixing it.</p>}
@@ -227,37 +90,7 @@ export default function Designs() {
                                     </button>
                                     <button 
                                         className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                        onClick={() => {
-                                            if(clicked === "navigation"){
-                                                console.log("Entered navigation")
-                                                setNavigationCode({
-                                                    html: code.htmlCode,
-                                                    css: code.cssCode,    
-                                                })
-                                            }else if (clicked === "hero"){
-                                                
-                                                setHeroCode({
-                                                    html: code.htmlCode,
-                                                    css: code.cssCode,    
-                                                })
-                                                console.log("Entered hero")
-                                                
-                                            }else if (clicked === "body"){
-                                                setBodyCode({
-                                                    html: code.htmlCode,
-                                                    css: code.cssCode,    
-                                                })
-                                                console.log("Entered body")
-                                                
-                                            }else if(clicked === "footer"){
-                                                
-                                                setFooterCode({
-                                                    html: code.htmlCode,
-                                                    css: code.cssCode,    
-                                                })
-                                                console.log("Entered footer")
-                                            }
-                                        }}
+                                        onClick={() => storeCodeToState(code.htmlCode, code.cssCode)}
                                     >
                                         Use
                                     </button>
@@ -269,27 +102,18 @@ export default function Designs() {
             </aside>
             <section className="h-screen">
                 <html lang="en">
-                <head>
-                    <meta charset="UTF-8" />
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                </head>
-                <body>
-                    {/* navigation section */}
-                    <section dangerouslySetInnerHTML={{ __html: navigationCode ? navigationCode.html : "" }}></section>
-                    <style dangerouslySetInnerHTML={ { __html: navigationCode ? navigationCode.css : "" } }></style>
-
-                    {/* hero section */}
-                    <section dangerouslySetInnerHTML={{ __html: heroCode ? heroCode.html : "" }}></section>
-                    <style dangerouslySetInnerHTML={ { __html: heroCode ? heroCode.css : "" } }></style>
-
-                    {/* body section */}
-                    <section dangerouslySetInnerHTML={{ __html: bodyCode ? heroCode.html : "" }}></section>
-                    <style dangerouslySetInnerHTML={ { __html: bodyCode ? bodyCode.css : "" } }></style>
-
-                    {/* footer section */}
-                    <section dangerouslySetInnerHTML={{ __html: footerCode ? footerCode.html : "" }}></section>
-                    <style dangerouslySetInnerHTML={ { __html: footerCode ? footerCode.css : "" } }></style>
-                </body>
+                    <head>
+                        <meta charset="UTF-8" />
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                    </head>
+                    <body>
+                        {storedCode && storedCode.map((code, i) => (
+                            <section key={i}>
+                                <div dangerouslySetInnerHTML={{ __html: code.html }}></div>
+                                <style dangerouslySetInnerHTML={ { __html: code.css } }></style>
+                            </section>
+                        ))}
+                    </body>
                 </html>
             </section>
         </section>
