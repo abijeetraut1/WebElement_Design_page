@@ -70,7 +70,7 @@ export default function Designs() {
                                 <div className="flex justify-between">
                                     <div>
                                         <div>
-                                            <h3 className="font-bold">{code.name}</h3>
+                                            <h3 className="font-bold capitalize">{code.name}</h3>
                                         </div>
                                         <div>
                                             <h5 className="text-slate-500"><a href="#">Abijeet Raut</a></h5>
@@ -101,7 +101,7 @@ export default function Designs() {
                     ))}
                 </section>
             </aside>
-            <section className="h-screen">
+            <section id="extract-code" className="h-screen">
                 <html lang="en">
                     <head>
                         <meta charset="UTF-8" />
