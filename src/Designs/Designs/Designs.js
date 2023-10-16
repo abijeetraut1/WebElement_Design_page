@@ -1,7 +1,7 @@
 import { useState } from "react";
 import React from 'react'
 import { FiSidebar } from "react-icons/fi";
-import { MdFilterList, /* MdFilterListOff */} from "react-icons/md";
+import { VscFilterFilled, VscChromeClose, VscGripper} from "react-icons/vsc";
 import { useFetch } from "../../hooks/useFetch";
 
 export default function Designs() {
@@ -11,11 +11,12 @@ export default function Designs() {
     // stroage clicked code
     const [storedCode, setStoreCode] = useState([]);
 
-    function storeCodeToState(html, css){
-        setStoreCode((prevStoreCode) => [
-            ...prevStoreCode,
-            { html, css }
-        ]);
+    function storeCodeToState(name, html, css, slug){
+        setStoreCode((prevStoreCode) => [...prevStoreCode, { name, html, css, slug } ]);
+    }
+
+    function deleteCode(storedCodeObj, deleteEntityName) {
+        setStoreCode(storedCodeObj.filter((el) => el.slug !== deleteEntityName));    
     }
     return (
         // side design choosing section
@@ -49,7 +50,7 @@ export default function Designs() {
                             </select>
                         </div>
                         <button className="border:solid border border-white p-2 rounded-md">
-                            <MdFilterList className="text-white text-xl"/> 
+                            <VscFilterFilled className="text-white text-xl"/> 
                         </button>
                     </div>
                     <div className="my-4 block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
@@ -59,9 +60,9 @@ export default function Designs() {
 
                 <section className="my-4">
                     {isProtected && <p>Fetching codes</p>}
-                    {error && <p>server error please wait we are fixing it.</p>}
+                    {error && <p className="text-white">server error please wait we are fixing it.</p>}
                     {codes && codes.map(code => (
-                        <div key={code.carouselName.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded">
+                        <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded">
                             <div className="">
                                 <img src={`http://localhost:8000/desktop/${code.desktopView}`} alt="Image not found"/>
                             </div>
@@ -69,7 +70,7 @@ export default function Designs() {
                                 <div className="flex justify-between">
                                     <div>
                                         <div>
-                                            <h3 className="font-bold">{code.carouselName}</h3>
+                                            <h3 className="font-bold">{code.name}</h3>
                                         </div>
                                         <div>
                                             <h5 className="text-slate-500"><a href="#">Abijeet Raut</a></h5>
@@ -90,7 +91,7 @@ export default function Designs() {
                                     </button>
                                     <button 
                                         className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                        onClick={() => storeCodeToState(code.htmlCode, code.cssCode)}
+                                        onClick={() => storeCodeToState(code.name, code.htmlCode, code.cssCode, code.slug + "-" + Date.now())}
                                     >
                                         Use
                                     </button>
@@ -108,9 +109,19 @@ export default function Designs() {
                     </head>
                     <body>
                         {storedCode && storedCode.map((code, i) => (
-                            <section key={i}>
-                                <div dangerouslySetInnerHTML={{ __html: code.html }}></div>
-                                <style dangerouslySetInnerHTML={ { __html: code.css } }></style>
+                            <section key={i} className="">
+                                <div className="flex flex-row w-full  items-center justify-center absolute z-50">
+                                    <button className="py-1 px-6 bg-blue-500 flex items-center justify-center space-x-4">
+                                        <VscGripper className="text-black "/>
+                                        <VscChromeClose className="text-black" onClick={el => {
+                                            deleteCode(storedCode, code.slug)
+                                        }} />
+                                    </button>
+                                </div>
+                                <div>
+                                    <div dangerouslySetInnerHTML={{ __html: code.html }}></div>
+                                    <style dangerouslySetInnerHTML={ { __html: code.css } }></style>
+                                </div>
                             </section>
                         ))}
                     </body>
