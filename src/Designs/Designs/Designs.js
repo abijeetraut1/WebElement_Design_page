@@ -8,6 +8,7 @@ import EditDesign from "../Edit/EditDesign";
 export default function Designs() {
     const [clicked, SetClicked] = useState("navigation");
     const {data:codes, isProtected, error} = useFetch("http://localhost:8000/api/v1/codes/extractCode", clicked.toLowerCase());
+    const [viewControls, setViewControls] = useState(false);
 
     // stroage clicked code
     const [storedCode, setStoreCode] = useState([]);
@@ -27,12 +28,12 @@ export default function Designs() {
                 <br /><br />
                 <div className="sm:col-span-3">
                     <div className='flex items-center justify-between  space-x-2'>
-                        <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
-                            Test  Website
-                        </div>  
                         <button className='border:solid border border-white p-2 rounded-md'>
                             {<FiSidebar className='text-white text-xl' />}
                         </button>
+                        <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
+                            Test  Website
+                        </div>  
                     </div>
                     <div className="flex items-center justify-center space-x-1 mt-2">
                         <div>
@@ -127,8 +128,6 @@ export default function Designs() {
                     </body>
                 </html>
             </section>
-
-            <EditDesign />
         </section>
     )
 };

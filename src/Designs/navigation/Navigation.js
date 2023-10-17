@@ -24,7 +24,7 @@ export default function Navigation() {
 
         {/* size refactor and export code section */}
         {/* this navigation will be displayed on editor windowc:\Users\Abijeet\Downloads\WhatsApp Image 2023-09-10 at 9.06.00 PM.jpeg */}
-        <header className='h-fit flex justify-between items-center bg-gray-900 p-4 text-white z-50 fixed left-0 top-0 w-full' > 
+        <header className='h-fit flex justify-between items-center bg-gray-900 p-4 text-white z-50' > 
             <div>
                 <a href="#">
                     <h1 className='font-extrabold tracking-wider'>WEB-X-LOGO</h1>
@@ -42,6 +42,14 @@ export default function Navigation() {
                 </button>
             </div>
             <div className='flex justify-between space-x-4'>                
+                <div>
+                    <button
+                        className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    >
+                        Save
+                    </button>
+                </div>
+
                 <div>
                     <button
                         className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
