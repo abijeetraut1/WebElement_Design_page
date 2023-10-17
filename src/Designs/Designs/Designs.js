@@ -3,6 +3,7 @@ import React from 'react'
 import { FiSidebar } from "react-icons/fi";
 import { VscFilterFilled, VscChromeClose, VscGripper} from "react-icons/vsc";
 import { useFetch } from "../../hooks/useFetch";
+import EditDesign from "../Edit/EditDesign";
 
 export default function Designs() {
     const [clicked, SetClicked] = useState("navigation");
@@ -21,10 +22,9 @@ export default function Designs() {
     return (
         // side design choosing section
         <section>
-            <aside className='l-0 overflow-auto max-h-full h-screen w-1/5 bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 left-0 z-60'>
+            <aside className='l-0 overflow-auto max-h-full h-screen w-1/5 bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 left-0 z-1'>
                 <br />
-                <br />
-                <br />
+                <br /><br />
                 <div className="sm:col-span-3">
                     <div className='flex items-center justify-between  space-x-2'>
                         <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
@@ -127,6 +127,8 @@ export default function Designs() {
                     </body>
                 </html>
             </section>
+
+            <EditDesign />
         </section>
     )
 };
