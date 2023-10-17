@@ -3,12 +3,10 @@ import React from 'react'
 import { FiSidebar } from "react-icons/fi";
 import { VscFilterFilled, VscChromeClose, VscGripper} from "react-icons/vsc";
 import { useFetch } from "../../hooks/useFetch";
-import EditDesign from "../Edit/EditDesign";
 
 export default function Designs() {
     const [clicked, SetClicked] = useState("navigation");
     const {data:codes, isProtected, error} = useFetch("http://localhost:8000/api/v1/codes/extractCode", clicked.toLowerCase());
-    const [viewControls, setViewControls] = useState(false);
 
     // stroage clicked code
     const [storedCode, setStoreCode] = useState([]);
@@ -120,6 +118,10 @@ export default function Designs() {
                                     </button>
                                 </div>
                                 <div>
+
+                                    <script>
+                                        
+                                    </script>
                                     <div dangerouslySetInnerHTML={{ __html: code.html }}></div>
                                     <style dangerouslySetInnerHTML={ { __html: code.css } }></style>
                                 </div>
