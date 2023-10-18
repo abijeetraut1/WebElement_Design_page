@@ -107,7 +107,7 @@ export default function Designs() {
                         <meta charset="UTF-8" />
                         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                     </head>
-                    <body>
+                    <body id="edit-space">
                         {storedCode && storedCode.map((code, i) => (
                             <section key={i} className="">
                                 <div className="flex flex-row w-full  items-center justify-center absolute z-50">
@@ -120,10 +120,14 @@ export default function Designs() {
                                 </div>
                                 <div>
                                     <div onClick={() => {
-                                        document.addEventListener('click', function(event) {
+                                        const editSpace = document.getElementById("edit-space");
+                                        editSpace.addEventListener('click', function(event) {
+                                            
                                             const clickedElement = event.target;
-                                            
-                                            
+                                            console.log(this.children)
+                                            if(clickedElement.textContent === this.childNodes){
+                                                clickedElement.style.border = "4px dahsed black";
+                                            } 
                                         });
                                     }}
                                     dangerouslySetInnerHTML={{ __html: code.html }}></div>
@@ -131,6 +135,7 @@ export default function Designs() {
                                 </div>
                             </section>
                         ))}
+
                     </body>
                 </html>
             </section>
