@@ -7,7 +7,7 @@ import { useFetch } from "../../hooks/useFetch";
 export default function Designs() {
     const [clicked, SetClicked] = useState("navigation");
     const {data:codes, isProtected, error} = useFetch("http://localhost:8000/api/v1/codes/extractCode", clicked.toLowerCase());
-
+    
     // stroage clicked code
     const [storedCode, setStoreCode] = useState([]);
 
@@ -18,6 +18,7 @@ export default function Designs() {
     function deleteCode(storedCodeObj, deleteEntityName) {
         setStoreCode(storedCodeObj.filter((el) => el.slug !== deleteEntityName));    
     }
+
     return (
         // side design choosing section
         <section>
@@ -118,11 +119,14 @@ export default function Designs() {
                                     </button>
                                 </div>
                                 <div>
-
-                                    <script>
-                                        
-                                    </script>
-                                    <div dangerouslySetInnerHTML={{ __html: code.html }}></div>
+                                    <div onClick={() => {
+                                        document.addEventListener('click', function(event) {
+                                            const clickedElement = event.target;
+                                            
+                                            
+                                        });
+                                    }}
+                                    dangerouslySetInnerHTML={{ __html: code.html }}></div>
                                     <style dangerouslySetInnerHTML={ { __html: code.css } }></style>
                                 </div>
                             </section>
