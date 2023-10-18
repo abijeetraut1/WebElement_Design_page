@@ -1,15 +1,17 @@
 import { useState } from "react";
 import React from 'react'
 import { FiSidebar } from "react-icons/fi";
-import { VscFilterFilled, VscChromeClose, VscGripper} from "react-icons/vsc";
+import { VscFilterFilled, VscChromeClose, VscGripper, VscEdit} from "react-icons/vsc";
 import { useFetch } from "../../hooks/useFetch";
+import EditPopUpPanel from "../Edit/EditPopUpPanel";
 
 export default function Designs() {
     const [clicked, SetClicked] = useState("navigation");
     const {data:codes, isProtected, error} = useFetch("http://localhost:8000/api/v1/codes/extractCode", clicked.toLowerCase());
     
-    // stroage clicked code
-    const [storedCode, setStoreCode] = useState([]);
+    
+    const [storedCode, setStoreCode] = useState([]); // stroage clicked code
+    const [activeEdit, setActiveEdit] = useState(true);  // bring the edit window to change the text
 
     function storeCodeToState(name, html, css, slug){
         setStoreCode((prevStoreCode) => [...prevStoreCode, { name, html, css, slug } ]);
@@ -22,6 +24,7 @@ export default function Designs() {
     return (
         // side design choosing section
         <section>
+            
             <aside className='l-0 overflow-auto max-h-full h-screen w-1/5 bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 left-0 z-1'>
                 <br />
                 <br /><br />
@@ -33,6 +36,22 @@ export default function Designs() {
                         <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
                             Test  Website
                         </div>  
+                        
+                        {
+                            activeEdit 
+                            ? 
+                                <button className='border:solid border bg-white border-white p-2 rounded-md'
+                                    onClick={() => setActiveEdit(false)}
+                                >
+                                    <VscEdit className=' bg-white text-inherit text-xl' />
+                                </button>
+                            : 
+                                <button className='border:solid border border-white p-2 rounded-md'
+                                    onClick={() => setActiveEdit(true)}
+                                >
+                                    <VscEdit className= 'text-white text-xl' />
+                                </button>
+                        }
                     </div>
                     <div className="flex items-center justify-center space-x-1 mt-2">
                         <div>
@@ -124,10 +143,7 @@ export default function Designs() {
                                         editSpace.addEventListener('click', function(event) {
                                             
                                             const clickedElement = event.target;
-                                            console.log(this.children)
-                                            if(clickedElement.textContent === this.childNodes){
-                                                clickedElement.style.border = "4px dahsed black";
-                                            } 
+                                            <EditPopUpPanel />
                                         });
                                     }}
                                     dangerouslySetInnerHTML={{ __html: code.html }}></div>
@@ -139,6 +155,7 @@ export default function Designs() {
                     </body>
                 </html>
             </section>
+            {/* <EditDesign props={} /> */}
         </section>
     )
 };
