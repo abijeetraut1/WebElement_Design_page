@@ -3,7 +3,6 @@ import React from 'react'
 import { FiSidebar } from "react-icons/fi";
 import { VscFilterFilled, VscChromeClose, VscGripper, VscEdit} from "react-icons/vsc";
 import { useFetch } from "../../hooks/useFetch";
-import EditPopUpPanel from "../Edit/EditPopUpPanel";
 
 export default function Designs() {
     const [clicked, SetClicked] = useState("navigation");
@@ -12,6 +11,7 @@ export default function Designs() {
     
     const [storedCode, setStoreCode] = useState([]); // stroage clicked code
     const [activeEdit, setActiveEdit] = useState(true);  // bring the edit window to change the text
+    const [clickedText, setClickedText] = useState(null);
 
     function storeCodeToState(name, html, css, slug){
         setStoreCode((prevStoreCode) => [...prevStoreCode, { name, html, css, slug } ]);
@@ -21,6 +21,7 @@ export default function Designs() {
         setStoreCode(storedCodeObj.filter((el) => el.slug !== deleteEntityName));    
     }
 
+    
     return (
         // side design choosing section
         <section>
@@ -120,6 +121,8 @@ export default function Designs() {
                     ))}
                 </section>
             </aside>
+            {/* <EditPopUpPanel /> */}
+
             <section id="extract-code" className="h-screen">
                 <html lang="en">
                     <head>
@@ -138,15 +141,17 @@ export default function Designs() {
                                     </button>
                                 </div>
                                 <div>
-                                    <div onClick={() => {
-                                        const editSpace = document.getElementById("edit-space");
-                                        editSpace.addEventListener('click', function(event) {
-                                            
-                                            const clickedElement = event.target;
-                                            <EditPopUpPanel />
-                                        });
-                                    }}
+                                    <div 
+                                        id={code.slug.replaceAll(" ", "-")}
+                                        onClick={() => {
+                                            const editSpace = document.getElementById("edit-space");
+                                            editSpace.addEventListener('click', function(event) {
+                                                event.target.style.border = "1px dahed black";
+                                                setClickedText(event.target.textContent);
+                                            });
+                                        }}
                                     dangerouslySetInnerHTML={{ __html: code.html }}></div>
+                                    
                                     <style dangerouslySetInnerHTML={ { __html: code.css } }></style>
                                 </div>
                             </section>
@@ -155,7 +160,26 @@ export default function Designs() {
                     </body>
                 </html>
             </section>
-            {/* <EditDesign props={} /> */}
+            
+            <aside className="l-0 overflow-auto max-h-full h-screen w-1/5 bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 right-0 z-1">
+                <br /><br /><br />
+                <div className="">
+                    <div className="flex items-center space-x-2">
+                        <button className='border:solid border border-white p-2 rounded-md'>
+                            {<FiSidebar className='text-white text-xl' />}
+                        </button>
+                        <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
+                            Test  Website
+                        </div>
+                    </div>
+
+                    <section className="py-2">
+                        <div>
+                            <input class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" placeholder={clickedText} type="text" name="search"/>
+                        </div>
+                    </section>
+                </div>
+            </aside>
         </section>
     )
 };
