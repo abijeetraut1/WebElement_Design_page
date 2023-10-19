@@ -11,7 +11,8 @@ export default function Designs() {
     
     const [storedCode, setStoreCode] = useState([]); // stroage clicked code
     const [activeEdit, setActiveEdit] = useState(true);  // bring the edit window to change the text
-    const [clickedText, setClickedText] = useState(null);
+    const [clickedText, setClickedText] = useState(null);  // store clicked text content
+    const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
 
     function storeCodeToState(name, html, css, slug){
         setStoreCode((prevStoreCode) => [...prevStoreCode, { name, html, css, slug } ]);
@@ -146,8 +147,8 @@ export default function Designs() {
                                         onClick={() => {
                                             const editSpace = document.getElementById("edit-space");
                                             editSpace.addEventListener('click', function(event) {
-                                                event.target.style.border = "1px dahed black";
-                                                setClickedText(event.target.textContent);
+                                                setclickedHTMLElement(event.target);
+                                                sessionStorage.setItem("clickedText", event.target.textContent);
                                             });
                                         }}
                                         dangerouslySetInnerHTML={{ __html: code.html }}
@@ -202,11 +203,22 @@ export default function Designs() {
                             </div>
                             <div>
                                 <div>
-                                    <input class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" value={clickedText} type="text" name="search"/>
+                                    <input 
+                                        class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" 
+                                        type="text"
+                                        placeholder={sessionStorage.getItem("clickedText")}
+                                        name="search"
+                                        onChange={(el) => {
+                                            clickedHTMLElement.textContent = el.target.value;
+                                        }}
+                                    />
                                 </div>
                                 <div className="py-2">
                                     <button
                                         className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                        onClick={() => {
+                                            
+                                        }}
                                     >
                                         Save
                                     </button>
