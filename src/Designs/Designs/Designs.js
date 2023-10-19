@@ -1,7 +1,7 @@
 import { useState } from "react";
 import React from 'react'
 import { FiSidebar } from "react-icons/fi";
-import { VscFilterFilled, VscChromeClose, VscGripper, VscEdit} from "react-icons/vsc";
+import { VscFilterFilled, VscChromeClose, VscGripper, VscEdit, VscBold, VscItalic} from "react-icons/vsc";
 import { useFetch } from "../../hooks/useFetch";
 
 export default function Designs() {
@@ -150,8 +150,8 @@ export default function Designs() {
                                                 setClickedText(event.target.textContent);
                                             });
                                         }}
-                                    dangerouslySetInnerHTML={{ __html: code.html }}></div>
-                                    
+                                        dangerouslySetInnerHTML={{ __html: code.html }}
+                                    ></div>
                                     <style dangerouslySetInnerHTML={ { __html: code.css } }></style>
                                 </div>
                             </section>
@@ -169,13 +169,49 @@ export default function Designs() {
                             {<FiSidebar className='text-white text-xl' />}
                         </button>
                         <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
-                            Test  Website
+                            {clickedText}
                         </div>
                     </div>
 
                     <section className="py-2">
                         <div>
-                            <input class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" placeholder={clickedText} type="text" name="search"/>
+                            <div className="flex items-center bolder space-x-2 py-2">
+                                <div>
+                                    <select name="" id="fontSize-changer" className="rounded-sm outline-none">
+                                        <option value="8">8</option>
+                                        <option value="12">12</option>
+                                        <option value="14">14</option>
+                                        <option value="16">16</option>
+                                        <option value="18">18</option>
+                                        <option value="20">20</option>
+                                        <option value="24">24</option>
+                                        <option value="26">26</option>
+                                        <option value="28">27</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <button className="p-1 border rounded-sm">
+                                        <VscBold className="text-white font-semibold" />
+                                    </button>
+                                </div>
+                                <div>
+                                    <button className="p-1 border rounded-sm">
+                                        <VscItalic className="text-white font-semibold" />
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <input class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" value={clickedText} type="text" name="search"/>
+                                </div>
+                                <div className="py-2">
+                                    <button
+                                        className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    >
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </section>
                 </div>
