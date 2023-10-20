@@ -24,7 +24,7 @@ export default function Navigation() {
 
         {/* size refactor and export code section */}
         {/* this navigation will be displayed on editor windowc:\Users\Abijeet\Downloads\WhatsApp Image 2023-09-10 at 9.06.00 PM.jpeg */}
-        <header className='h-fit flex justify-between items-center bg-gray-900 p-4 text-white z-50' > 
+        <header className='h-fit flex justify-between items-center bg-gray-900 p-4 text-white z-99' > 
             <div>
                 <a href="#">
                     <h1 className='font-extrabold tracking-wider'>WEB-X-LOGO</h1>

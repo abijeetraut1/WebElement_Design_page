@@ -11,7 +11,6 @@ export default function Designs() {
     
     const [storedCode, setStoreCode] = useState([]); // stroage clicked code
     const [activeEdit, setActiveEdit] = useState(true);  // bring the edit window to change the text
-    const [clickedText, setClickedText] = useState(null);  // store clicked text content
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
 
     function storeCodeToState(name, html, css, slug){
@@ -26,7 +25,6 @@ export default function Designs() {
     return (
         // side design choosing section
         <section>
-            
             <aside className='l-0 overflow-auto max-h-full h-screen w-1/5 bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 left-0 z-1'>
                 <br />
                 <br /><br />
@@ -147,8 +145,14 @@ export default function Designs() {
                                         onClick={() => {
                                             const editSpace = document.getElementById("edit-space");
                                             editSpace.addEventListener('click', function(event) {
-                                                setclickedHTMLElement(event.target);
-                                                sessionStorage.setItem("clickedText", event.target.textContent);
+                                                const RegExp = /\n/;
+                                                if(RegExp.test(event.target.textContent) === false){
+                                                    event.target.style.border = "1px dashed black"
+                                                    setclickedHTMLElement(event.target);
+                                                    sessionStorage.setItem("clickedText", event.target.textContent);
+                                                }else{
+                                                    setclickedHTMLElement(null);
+                                                }
                                             });
                                         }}
                                         dangerouslySetInnerHTML={{ __html: code.html }}
@@ -169,9 +173,9 @@ export default function Designs() {
                         <button className='border:solid border border-white p-2 rounded-md'>
                             {<FiSidebar className='text-white text-xl' />}
                         </button>
-                        <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
+                        {/* <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
                             {clickedText}
-                        </div>
+                        </div> */}
                     </div>
 
                     <section className="py-2">
@@ -209,7 +213,9 @@ export default function Designs() {
                                         placeholder={sessionStorage.getItem("clickedText")}
                                         name="search"
                                         onChange={(el) => {
-                                            clickedHTMLElement.textContent = el.target.value;
+                                            if(clickedHTMLElement){
+                                                clickedHTMLElement.textContent = el.target.value;
+                                            }
                                         }}
                                     />
                                 </div>
