@@ -144,12 +144,16 @@ export default function Designs() {
                                         id={code.slug.replaceAll(" ", "-")}
                                         onClick={() => {
                                             const editSpace = document.getElementById("edit-space");
+                                            const changeTextInput = document.getElementById("text-input");
+
                                             editSpace.addEventListener('click', function(event) {
                                                 const RegExp = /\n/;
                                                 if(RegExp.test(event.target.textContent) === false){
                                                     event.target.style.border = "1px dashed black"
-                                                    setclickedHTMLElement(event.target);
-                                                    sessionStorage.setItem("clickedText", event.target.textContent);
+                                                    
+                                                    // store the clicked element data to dispaly the text content in input field
+                                                    setclickedHTMLElement(event.target);  
+                                                    changeTextInput.value = "";
                                                 }else{
                                                     setclickedHTMLElement(null);
                                                 }
@@ -210,8 +214,9 @@ export default function Designs() {
                                     <input 
                                         class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" 
                                         type="text"
-                                        placeholder={sessionStorage.getItem("clickedText")}
+                                        placeholder={clickedHTMLElement ? clickedHTMLElement.textContent : ""}
                                         name="search"
+                                        id="text-input"
                                         onChange={(el) => {
                                             if(clickedHTMLElement){
                                                 clickedHTMLElement.textContent = el.target.value;
@@ -222,9 +227,6 @@ export default function Designs() {
                                 <div className="py-2">
                                     <button
                                         className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                        onClick={() => {
-                                            
-                                        }}
                                     >
                                         Save
                                     </button>
