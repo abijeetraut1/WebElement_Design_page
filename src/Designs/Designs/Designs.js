@@ -7,20 +7,49 @@ import { useFetch } from "../../hooks/useFetch";
 export default function Designs() {
     const [clicked, SetClicked] = useState("navigation");
     const {data:codes, isProtected, error} = useFetch("http://localhost:8000/api/v1/codes/extractCode", clicked.toLowerCase());
-    
-    
-    const [storedCode, setStoreCode] = useState([]); // stroage clicked code
+        
+    const [storedCode, setStoreCode] = useState([]); // stroage clicked code in an array of object
     const [activeEdit, setActiveEdit] = useState(true);  // bring the edit window to change the text
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
 
+    function generateUniqueCharacter() {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
+        const uniqueChars = new Set();
+      
+      
+        while (uniqueChars.size < 10) {
+          const randomIndex = Math.floor(Math.random() * characters.length);
+          uniqueChars.add(characters[randomIndex]);
+        }
+      
+        return Array.from(uniqueChars).join('');
+    }
+      
+
     function storeCodeToState(name, html, css, slug){
-        setStoreCode((prevStoreCode) => [...prevStoreCode, { name, html, css, slug } ]);
+        setStoreCode((prevStoreCode) => [...prevStoreCode, { name, html, css, slug, deleteSlug: generateUniqueCharacter() } ]);
     }
 
     function deleteCode(storedCodeObj, deleteEntityName) {
-        setStoreCode(storedCodeObj.filter((el) => el.slug !== deleteEntityName));    
+        /*
+            thing i need to do is
+                1. track the click element id or storedCode.deleteSlug, if the content matched then re-form the array without object which match with the storedCode.deleteSlug 
+        */
+       storedCodeObj.forEach((ele, i) => {
+            if(ele.deleteSlug === deleteEntityName){
+                /* 
+                    form a new array and store the newlly formed array in the same same state
+                */
+                storedCodeObj.splice(i, 1);
+                console.log(storedCodeObj)
+            }
+       });
+        // setStoreCode(
+        //     storedCodeObj.filter((el, i) =>  el.deleteSlug !== deleteEntityName)
+        // );
     }
 
+    
     
     return (
         // side design choosing section
@@ -80,7 +109,7 @@ export default function Designs() {
                 <section className="my-4">
                     {isProtected && <p>Fetching codes</p>}
                     {error && <p className="text-white">server error please wait we are fixing it.</p>}
-                    {codes && codes.map(code => (
+                    {codes && codes.map((code, i) => (
                         <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded">
                             <div className="">
                                 <img src={`http://localhost:8000/desktop/${code.desktopView}`} alt="Image not found"/>
@@ -110,7 +139,10 @@ export default function Designs() {
                                     </button>
                                     <button 
                                         className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                        onClick={() => storeCodeToState(code.name, code.htmlCode, code.cssCode, code.slug + "-" + Date.now())}
+                                        onClick={() => {
+                                            storeCodeToState(code.name, code.htmlCode, code.cssCode, code.slug)
+                                            // console.log(code.slug)
+                                        }} // to add for deleting purpose  
                                     >
                                         Use
                                     </button>
@@ -120,7 +152,6 @@ export default function Designs() {
                     ))}
                 </section>
             </aside>
-            {/* <EditPopUpPanel /> */}
 
             <section id="extract-code" className="h-screen">
                 <html lang="en">
@@ -130,25 +161,26 @@ export default function Designs() {
                     </head>
                     <body id="edit-space">
                         {storedCode && storedCode.map((code, i) => (
-                            <section key={i} className="">
-                                <div className="flex flex-row w-full  items-center justify-center absolute z-50">
+                            <section key={i} id={code.deleteSlug}>
+                                <div id="control-buttons" className="flex flex-row w-full  items-center justify-center absolute z-50">
                                     <button className="py-1 px-6 bg-blue-500 flex items-center justify-center space-x-4">
                                         <VscGripper className="text-black "/>
                                         <VscChromeClose className="text-black" onClick={el => {
-                                            deleteCode(storedCode, code.slug)
+                                            deleteCode(storedCode, code.deleteSlug)
                                         }} />
                                     </button>
                                 </div>
                                 <div>
-                                    <div 
-                                        id={code.slug.replaceAll(" ", "-")}
+                                    <div
                                         onClick={() => {
                                             const editSpace = document.getElementById("edit-space");
                                             const changeTextInput = document.getElementById("text-input");
-
+                                            
                                             editSpace.addEventListener('click', function(event) {
                                                 const RegExp = /\n/;
+
                                                 if(RegExp.test(event.target.textContent) === false){
+
                                                     event.target.style.border = "1px dashed black"
                                                     
                                                     // store the clicked element data to dispaly the text content in input field
