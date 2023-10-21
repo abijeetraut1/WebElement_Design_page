@@ -14,6 +14,7 @@ export default function Designs() {
     const [activeEdit, setActiveEdit] = useState(true);  // bring the edit window to change the text
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
     const [chooseDesign, setChooseDesign] = useState(false);
+    const [open, setOpen] = useState(true);
 
     function generateUniqueCharacter() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
@@ -57,7 +58,7 @@ export default function Designs() {
     return (
         // side design choosing section
         <section>
-            <aside className='l-0 h-screen w-1/5 bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 left-0 z-1 backdrop-opacity-100' >
+            <aside className={`${open ? "w-1/5" : "w-0" } duration-300 l-0 h-screen  bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 left-0 z-1 backdrop-opacity-100`} >
                 <div className="sm:col-span-3 inset-0 backdrop-blur-md">
                     <div className='flex items-center justify-between space-x-2'>
                         <button
@@ -66,7 +67,7 @@ export default function Designs() {
                                 setChooseDesign(true);
                             }}
                         >
-                            {<FiSidebar className='text-white text-xl' />}
+                            {<FiSidebar className='text-white text-xl' onClick={() => setOpen(open ? false : true)}/>}
                         </button>
                         <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
                             Test  Website
