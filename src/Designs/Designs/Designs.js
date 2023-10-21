@@ -54,11 +54,11 @@ export default function Designs() {
     return (
         // side design choosing section
         <section>
-            <aside className='l-0 overflow-auto max-h-full h-screen w-1/5 bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 left-0 z-1'>
+            <aside className='l-0 max-h-full h-screen w-1/5 bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 left-0 z-1'>
                 <br />
                 <br /><br />
-                <div className="sm:col-span-3">
-                    <div className='flex items-center justify-between  space-x-2'>
+                <div className="sm:col-span-3 ">
+                    <div className='flex items-center justify-between space-x-2'>
                         <button className='border:solid border border-white p-2 rounded-md'>
                             {<FiSidebar className='text-white text-xl' />}
                         </button>
@@ -106,7 +106,7 @@ export default function Designs() {
                     </div>
                 </div>
 
-                <section className="my-4">
+                <section id="choose-deign" className="my-4 h-4/5 overflow-auto rounded-md">
                     {isProtected && <p>Fetching codes</p>}
                     {error && <p className="text-white">server error please wait we are fixing it.</p>}
                     {codes && codes.map((code, i) => (

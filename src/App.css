@@ -6,3 +6,7 @@
 aside::-webkit-scrollbar {
   width: 0px;
 }
+
+#choose-deign::-webkit-scrollbar{
+  width: 0px;
+}
