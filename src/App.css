@@ -8,5 +8,5 @@ aside::-webkit-scrollbar {
 }
 
 #choose-deign::-webkit-scrollbar{
-  width: 0px;
+  width: 1px;
 }

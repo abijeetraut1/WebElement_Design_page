@@ -3,6 +3,8 @@ import React from 'react'
 import { FiSidebar } from "react-icons/fi";
 import { VscFilterFilled, VscChromeClose, VscGripper, VscEdit, VscBold, VscItalic} from "react-icons/vsc";
 import { useFetch } from "../../hooks/useFetch";
+import {AiOutlineDesktop, AiOutlineMobile, AiOutlineTablet} from "react-icons/ai"
+import testProfile from "../test-image/test-profile.jpeg"
 
 export default function Designs() {
     const [clicked, SetClicked] = useState("navigation");
@@ -11,6 +13,7 @@ export default function Designs() {
     const [storedCode, setStoreCode] = useState([]); // stroage clicked code in an array of object
     const [activeEdit, setActiveEdit] = useState(true);  // bring the edit window to change the text
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
+    const [chooseDesign, setChooseDesign] = useState(false);
 
     function generateUniqueCharacter() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
@@ -54,18 +57,20 @@ export default function Designs() {
     return (
         // side design choosing section
         <section>
-            <aside className='l-0 max-h-full h-screen w-1/5 bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 left-0 z-1'>
-                <br />
-                <br /><br />
-                <div className="sm:col-span-3 ">
+            <aside className='l-0 h-screen w-1/5 bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 left-0 z-1 backdrop-opacity-100' >
+                <div className="sm:col-span-3 inset-0 backdrop-blur-md">
                     <div className='flex items-center justify-between space-x-2'>
-                        <button className='border:solid border border-white p-2 rounded-md'>
+                        <button
+                            className='border:solid border border-white p-2 rounded-md'
+                            onClick={() => {
+                                setChooseDesign(true);
+                            }}
+                        >
                             {<FiSidebar className='text-white text-xl' />}
                         </button>
                         <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
                             Test  Website
                         </div>  
-                        
                         {
                             activeEdit 
                             ? 
@@ -106,7 +111,7 @@ export default function Designs() {
                     </div>
                 </div>
 
-                <section id="choose-deign" className="my-4 h-4/5 overflow-auto rounded-md">
+                <section id="choose-deign" className="h-3/4 overflow-auto rounded-md">
                     {isProtected && <p>Fetching codes</p>}
                     {error && <p className="text-white">server error please wait we are fixing it.</p>}
                     {codes && codes.map((code, i) => (
@@ -150,6 +155,28 @@ export default function Designs() {
                             </div>
                         </div>
                     ))}
+                </section>
+                
+                <section className="py-3">
+                    <div className="fiexed bottom-0 flex items-center space-x-2 justify-between">
+                        <div className="flex items-center space-x-3">
+                            <div>
+                                <button>
+                                    <img src={testProfile} className='outline-white h-10 w-10 rounded-full outline' alt="cannot display profile" />
+                                </button>
+                            </div>
+                            <div>
+                                <span className="text-white">Abijeet Raut</span>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            >
+                                Host
+                            </button>
+                        </div>
+                    </div>
                 </section>
             </aside>
 
@@ -203,12 +230,24 @@ export default function Designs() {
             </section>
             
             <aside className="l-0 overflow-auto max-h-full h-screen w-1/5 bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 right-0 z-1">
-                <br /><br /><br />
-                <div className="">
+                <div>
+                    <div>
+                        <div className="py-2 flex content-center items-center space-x-4 justify-between text-white">
+                            <div className='flex content-center items-center space-x-4 text-white'>
+                                <button>
+                                    <AiOutlineDesktop className='text-3xl'/>
+                                </button>
+                                <button>
+                                    <AiOutlineMobile className='text-3xl'/>
+                                </button>
+                                <button>
+                                    <AiOutlineTablet className='text-3xl'/>
+                                </button>
+                            </div>
+                        </div> 
+                    </div>
                     <div className="flex items-center space-x-2">
-                        <button className='border:solid border border-white p-2 rounded-md'>
-                            {<FiSidebar className='text-white text-xl' />}
-                        </button>
+                        
                         {/* <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
                             {clickedText}
                         </div> */}
