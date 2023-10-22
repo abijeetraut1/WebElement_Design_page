@@ -1,19 +1,17 @@
 import { useState } from "react";
 import React from 'react'
 import { FiSidebar } from "react-icons/fi";
-import { VscFilterFilled, VscChromeClose, VscGripper, VscEdit, VscBold, VscItalic} from "react-icons/vsc";
+import { VscFilterFilled, VscChromeClose, VscGripper, VscEdit} from "react-icons/vsc";
 import { useFetch } from "../../hooks/useFetch";
-import {AiOutlineDesktop, AiOutlineMobile, AiOutlineTablet} from "react-icons/ai"
 import testProfile from "../test-image/test-profile.jpeg"
 
 export default function Designs() {
     const [clicked, SetClicked] = useState("navigation");
     const {data:codes, isProtected, error} = useFetch("http://localhost:8000/api/v1/codes/extractCode", clicked.toLowerCase());
-        
+    
     const [storedCode, setStoreCode] = useState([]); // stroage clicked code in an array of object
-    const [activeEdit, setActiveEdit] = useState(true);  // bring the edit window to change the text
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
-    const [chooseDesign, setChooseDesign] = useState(false);
+    const [previousClickedElement, setPreviousClickedElement] = useState(null);
 
     const [open, setOpen] = useState(true);
     const [openEditPanel, setOpenEditPanel] = useState(false);
@@ -67,33 +65,17 @@ export default function Designs() {
                     <div className='flex items-center justify-between space-x-2'>
                         <button
                             className='border:solid border border-white bg-gray-900 p-2 rounded-md'
-                            onClick={() => {
-                                setChooseDesign(true);
-                            }}
+                            // onClick={() => {
+                            //     setChooseDesign(true);
+                            // }}
+                            onClick={() => setOpen(open ? false : true)}
                         >
-                            {<FiSidebar className= 'text-white text-xl ' onClick={() => setOpen(open ? false : true)}/>}
+                            {<FiSidebar className= 'text-white text-xl ' />}
                         </button>
 
                         {open && <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
                             Test  Website
                         </div> } 
-                        {open && <div>
-                            { 
-                                activeEdit 
-                                ? 
-                                    <button className={'border:solid border bg-white border-white p-2 rounded-md'}
-                                    onClick={() => setActiveEdit(false)}
-                                    >
-                                        <VscEdit className=' bg-white text-inherit text-xl' />
-                                    </button>
-                                : 
-                                    <button className='border:solid border border-white p-2 rounded-md'
-                                    onClick={() => setActiveEdit(true)}
-                                    >
-                                        <VscEdit className= 'text-white text-xl' />
-                                    </button>
-                            }
-                        </div>}
 
                     </div>
                     {open && <div className="flex items-center justify-center space-x-1 mt-2">
@@ -186,11 +168,11 @@ export default function Designs() {
                             </button>
                         </div>
                     </div>
-                </section>}
+                </section>} 
             </aside>
 
             <section id="extract-code" className="h-screen">
-                <html lang="en">
+                <html lang="en">    
                     <head>
                         <meta charset="UTF-8" />
                         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -198,29 +180,49 @@ export default function Designs() {
                     <body id="edit-space">
                         {storedCode && storedCode.map((code, i) => (
                             <section key={i} id={code.deleteSlug}>
-                                <div id="control-buttons" className="flex flex-row w-full  items-center justify-center absolute z-50">
-                                    <button className="py-1 px-6 bg-blue-500 flex items-center justify-center space-x-4">
-                                        <VscGripper className="text-black "/>
-                                        <VscChromeClose className="text-black" onClick={el => {
+                                <div className="control-buttons flex flex-row w-full  items-center justify-center absolute z-50">
+                                    <div className="control-buttons py-1 px-6 bg-blue-500 flex items-center justify-center space-x-4">
+                                        <button className="control-buttons">
+                                            <VscGripper id="control-buttons" className="control-buttons text-black "/>
+                                        </button>
+                                        
+                                        <button className="control-buttons" onClick={el => {
                                             deleteCode(storedCode, code.deleteSlug)
-                                        }} />
-                                    </button>
+                                        }}>
+                                            <VscChromeClose className="control-buttons text-black"  />
+                                        </button>
+                                    </div>
                                 </div>
                                 <div>
                                     <div
                                         onClick={() => {
+                                            // for click element
                                             const editSpace = document.getElementById("edit-space");
-                                            const changeTextInput = document.getElementById("text-input");
                                             
                                             editSpace.addEventListener('click', function(event) {
                                                 const RegExp = /\n/;
+                                                
+                                                if(previousClickedElement){
+                                                    previousClickedElement.style.border = "0px"
+                                                }
 
+                                                // const classList = event.target.classList("control-buttons");
+                                                if(event.target instanceof HTMLElement){
+                                                    if(event.target.classList.contains("control-buttons")){
+                                                        return;
+                                                    }
+                                                    // && event.target.classList.contains("control-buttons") === false
+                                                }
+
+                                                // shows the clicked element doesnot contain \n tag
                                                 if(RegExp.test(event.target.textContent) === false){
                                                     setOpenEditPanel(true);
-
-                                                    event.target.style.border = "1px dashed black"
+                                                    event.target.style.border = "2px solid blue";
+                                                    event.target.style.transitionDuration = "75ms";
+                                                
                                                     // store the clicked element data to dispaly the text content in input field
                                                     setclickedHTMLElement(event.target);
+                                                    setPreviousClickedElement(event.target);
                                                 }else{
                                                     setOpenEditPanel(false);
                                                     setclickedHTMLElement(null);
@@ -237,55 +239,17 @@ export default function Designs() {
                     </body>
                 </html>
             </section>
-            
-            {openEditPanel && <aside className={`l-0 overflow-auto max-h-full h-screen ${openEditPanel ? "w-1/5" : "w-1/5 bg-transparent" } duration-300 bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 right-0 z-1`}>
+            {/* AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw api key */}
+            {openEditPanel && <aside className={`l-0 overflow-auto max-h-full h-screen  ${openEditPanel ? "w-1/6 bg-gray-900 " : "duration-700 w-0 bg-transparent" }  bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 right-0 z-1`}>
                 <div>
-                    <div>
-                        <div className="py-2 flex content-center items-center space-x-4 justify-between text-white">
-                            <div className='flex content-center items-center space-x-4 text-white'>
-                                <button>
-                                    <AiOutlineDesktop className='text-3xl'/>
-                                </button>
-                                <button>
-                                    <AiOutlineMobile className='text-3xl'/>
-                                </button>
-                                <button>
-                                    <AiOutlineTablet className='text-3xl'/>
-                                </button>
-                            </div>
-                        </div> 
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        
-                        {/* <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
-                            {clickedText}
-                        </div> */}
-                    </div>
-
-                    <section className="py-2">
+                    <section className="">
                         <div>
-                            <div className="flex items-center bolder space-x-2 py-2">
-                                <div>
-                                    <select name="" id="fontSize-changer" className="rounded-sm outline-none">
-                                        <option value="8">8</option>
-                                        <option value="12">12</option>
-                                        <option value="14">14</option>
-                                        <option value="16">16</option>
-                                        <option value="18">18</option>
-                                        <option value="20">20</option>
-                                        <option value="24">24</option>
-                                        <option value="26">26</option>
-                                        <option value="28">27</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <button className="p-1 border rounded-sm">
-                                        <VscBold className="text-white font-semibold" />
-                                    </button>
-                                </div>
-                                <div>
-                                    <button className="p-1 border rounded-sm">
-                                        <VscItalic className="text-white font-semibold" />
+                            <div className="pb-2">
+                                <div className="flex justify-between">
+                                    <button
+                                            className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    >
+                                        Export
                                     </button>
                                 </div>
                             </div>
