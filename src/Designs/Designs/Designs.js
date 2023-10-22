@@ -14,7 +14,9 @@ export default function Designs() {
     const [activeEdit, setActiveEdit] = useState(true);  // bring the edit window to change the text
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
     const [chooseDesign, setChooseDesign] = useState(false);
+
     const [open, setOpen] = useState(true);
+    const [openEditPanel, setOpenEditPanel] = useState(false);
 
     function generateUniqueCharacter() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
@@ -31,10 +33,12 @@ export default function Designs() {
       
 
     function storeCodeToState(name, html, css, slug){
+        // later we will be updgrading the code and do it with 
         setStoreCode((prevStoreCode) => [...prevStoreCode, { name, html, css, slug, deleteSlug: generateUniqueCharacter() } ]);
     }
 
     function deleteCode(storedCodeObj, deleteEntityName) {
+
         /*
             thing i need to do is
                 1. track the click element id or storedCode.deleteSlug, if the content matched then re-form the array without object which match with the storedCode.deleteSlug 
@@ -58,37 +62,41 @@ export default function Designs() {
     return (
         // side design choosing section
         <section>
-            <aside className={`${open ? "w-1/5" : "w-0" } duration-300 l-0 h-screen  bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 left-0 z-1 backdrop-opacity-100`} >
+            <aside className={`fixed top-0 left-0 ${open ? "w-1/5 bg-gray-900 " : "w-0 bg-transparent" } duration-300 l-0 h-screen   px-3 pt-4 shadow-zinc-950  z-1 backdrop-opacity-100`} >
                 <div className="sm:col-span-3 inset-0 backdrop-blur-md">
                     <div className='flex items-center justify-between space-x-2'>
                         <button
-                            className='border:solid border border-white p-2 rounded-md'
+                            className='border:solid border border-white bg-gray-900 p-2 rounded-md'
                             onClick={() => {
                                 setChooseDesign(true);
                             }}
                         >
-                            {<FiSidebar className='text-white text-xl' onClick={() => setOpen(open ? false : true)}/>}
+                            {<FiSidebar className= 'text-white text-xl ' onClick={() => setOpen(open ? false : true)}/>}
                         </button>
-                        <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
+
+                        {open && <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
                             Test  Website
-                        </div>  
-                        {
-                            activeEdit 
-                            ? 
-                                <button className='border:solid border bg-white border-white p-2 rounded-md'
+                        </div> } 
+                        {open && <div>
+                            { 
+                                activeEdit 
+                                ? 
+                                    <button className={'border:solid border bg-white border-white p-2 rounded-md'}
                                     onClick={() => setActiveEdit(false)}
-                                >
-                                    <VscEdit className=' bg-white text-inherit text-xl' />
-                                </button>
-                            : 
-                                <button className='border:solid border border-white p-2 rounded-md'
+                                    >
+                                        <VscEdit className=' bg-white text-inherit text-xl' />
+                                    </button>
+                                : 
+                                    <button className='border:solid border border-white p-2 rounded-md'
                                     onClick={() => setActiveEdit(true)}
-                                >
-                                    <VscEdit className= 'text-white text-xl' />
-                                </button>
-                        }
+                                    >
+                                        <VscEdit className= 'text-white text-xl' />
+                                    </button>
+                            }
+                        </div>}
+
                     </div>
-                    <div className="flex items-center justify-center space-x-1 mt-2">
+                    {open && <div className="flex items-center justify-center space-x-1 mt-2">
                         <div>
                             <select
                                 id="web-section"
@@ -106,13 +114,13 @@ export default function Designs() {
                         <button className="border:solid border border-white p-2 rounded-md">
                             <VscFilterFilled className="text-white text-xl"/> 
                         </button>
-                    </div>
-                    <div className="my-4 block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
+                    </div>}
+                    {open && <div className="my-4 block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
                         {clicked} Section
-                    </div>
+                    </div>}
                 </div>
 
-                <section id="choose-deign" className="h-3/4 overflow-auto rounded-md">
+                {open && <section id="choose-deign" className="h-3/4 overflow-auto rounded-md">
                     {isProtected && <p>Fetching codes</p>}
                     {error && <p className="text-white">server error please wait we are fixing it.</p>}
                     {codes && codes.map((code, i) => (
@@ -156,10 +164,10 @@ export default function Designs() {
                             </div>
                         </div>
                     ))}
-                </section>
+                </section>}
                 
-                <section className="py-3">
-                    <div className="fiexed bottom-0 flex items-center space-x-2 justify-between">
+                {open && <section className="py-3 fiexed bottom-0">
+                    <div className="flex items-center space-x-2 justify-between">
                         <div className="flex items-center space-x-3">
                             <div>
                                 <button>
@@ -178,7 +186,7 @@ export default function Designs() {
                             </button>
                         </div>
                     </div>
-                </section>
+                </section>}
             </aside>
 
             <section id="extract-code" className="h-screen">
@@ -208,13 +216,13 @@ export default function Designs() {
                                                 const RegExp = /\n/;
 
                                                 if(RegExp.test(event.target.textContent) === false){
+                                                    setOpenEditPanel(true);
 
                                                     event.target.style.border = "1px dashed black"
-                                                    
                                                     // store the clicked element data to dispaly the text content in input field
-                                                    setclickedHTMLElement(event.target);  
-                                                    changeTextInput.value = "";
+                                                    setclickedHTMLElement(event.target);
                                                 }else{
+                                                    setOpenEditPanel(false);
                                                     setclickedHTMLElement(null);
                                                 }
                                             });
@@ -230,7 +238,7 @@ export default function Designs() {
                 </html>
             </section>
             
-            <aside className="l-0 overflow-auto max-h-full h-screen w-1/5 bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 right-0 z-1">
+            {openEditPanel && <aside className={`l-0 overflow-auto max-h-full h-screen ${openEditPanel ? "w-1/5" : "w-1/5 bg-transparent" } duration-300 bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 right-0 z-1`}>
                 <div>
                     <div>
                         <div className="py-2 flex content-center items-center space-x-4 justify-between text-white">
@@ -307,7 +315,7 @@ export default function Designs() {
                         </div>
                     </section>
                 </div>
-            </aside>
+            </aside>}
         </section>
     )
 };
