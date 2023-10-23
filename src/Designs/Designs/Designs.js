@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect  } from "react";
 import React from 'react'
 import { FiSidebar } from "react-icons/fi";
 import { VscFilterFilled, VscChromeClose, VscGripper, VscEdit} from "react-icons/vsc";
@@ -9,12 +9,14 @@ export default function Designs() {
     const [clicked, SetClicked] = useState("navigation");
     const {data:codes, isProtected, error} = useFetch("http://localhost:8000/api/v1/codes/extractCode", clicked.toLowerCase());
     
-    const [storedCode, setStoreCode] = useState([]); // stroage clicked code in an array of object
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
     const [previousClickedElement, setPreviousClickedElement] = useState(null);
 
     const [open, setOpen] = useState(true);
     const [openEditPanel, setOpenEditPanel] = useState(false);
+    
+    // counts the number of section the user choosed
+    const [countUsedCode, setCountUsedCode] = useState(0); 
 
     function generateUniqueCharacter() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
@@ -34,6 +36,20 @@ export default function Designs() {
         // later we will be updgrading the code and do it with 
         setStoreCode((prevStoreCode) => [...prevStoreCode, { name, html, css, slug, deleteSlug: generateUniqueCharacter() } ]);
     }
+    
+    const [storedCode, setStoreCode] = useState(new Map()); // stroage clicked code in an array of object
+    function newStoreCodeToState(name, html, css, slug){
+        const newCodeMap = new Map(storedCode);
+
+        newCodeMap.set(generateUniqueCharacter(), { name, html, css, slug});
+
+        setStoreCode(newCodeMap);
+    }
+
+    useEffect(() => {
+        setStoreCode(storedCode);
+        console.log(storedCode)
+    }, [storedCode]);
 
     function deleteCode(storedCodeObj, deleteEntityName) {
 
@@ -106,7 +122,7 @@ export default function Designs() {
                     {isProtected && <p>Fetching codes</p>}
                     {error && <p className="text-white">server error please wait we are fixing it.</p>}
                     {codes && codes.map((code, i) => (
-                        <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded">
+                        <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded" >
                             <div className="">
                                 <img src={`http://localhost:8000/desktop/${code.desktopView}`} alt="Image not found"/>
                             </div>
@@ -136,7 +152,8 @@ export default function Designs() {
                                     <button 
                                         className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                         onClick={() => {
-                                            storeCodeToState(code.name, code.htmlCode, code.cssCode, code.slug)
+                                            // storeCodeToState(code.name, code.htmlCode, code.cssCode, code.slug)
+                                            newStoreCodeToState(code.name, code.htmlCode, code.cssCode, code.slug)
                                             // console.log(code.slug)
                                         }} // to add for deleting purpose  
                                     >
@@ -178,8 +195,8 @@ export default function Designs() {
                         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                     </head>
                     <body id="edit-space">
-                        {storedCode && storedCode.map((code, i) => (
-                            <section key={i} id={code.deleteSlug}>
+                        {storedCode && Array.from(storedCode).map(([key, value]) => (
+                            <section key={key} id={key}>
                                 <div className="control-buttons flex flex-row w-full  items-center justify-center absolute z-50">
                                     <div className="control-buttons py-1 px-6 bg-blue-500 flex items-center justify-center space-x-4">
                                         <button className="control-buttons">
@@ -187,12 +204,13 @@ export default function Designs() {
                                         </button>
                                         
                                         <button className="control-buttons" onClick={el => {
-                                            deleteCode(storedCode, code.deleteSlug)
+                                            deleteCode(storedCode, key)
                                         }}>
                                             <VscChromeClose className="control-buttons text-black"  />
                                         </button>
                                     </div>
                                 </div>
+
                                 <div>
                                     <div
                                         onClick={() => {
@@ -229,9 +247,9 @@ export default function Designs() {
                                                 }
                                             });
                                         }}
-                                        dangerouslySetInnerHTML={{ __html: code.html }}
+                                        dangerouslySetInnerHTML={{ __html: value.html }}
                                     ></div>
-                                    <style dangerouslySetInnerHTML={ { __html: code.css } }></style>
+                                    <style dangerouslySetInnerHTML={ { __html: value.css } }></style>
                                 </div>
                             </section>
                         ))}
@@ -239,6 +257,8 @@ export default function Designs() {
                     </body>
                 </html>
             </section>
+
+
             {/* AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw api key */}
             {openEditPanel && <aside className={`l-0 overflow-auto max-h-full h-screen  ${openEditPanel ? "w-1/6 bg-gray-900 " : "duration-700 w-0 bg-transparent" }  bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 right-0 z-1`}>
                 <div>
