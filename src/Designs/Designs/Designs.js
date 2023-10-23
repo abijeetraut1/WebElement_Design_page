@@ -1,7 +1,7 @@
 import { useState,useEffect  } from "react";
 import React from 'react'
 import { FiSidebar } from "react-icons/fi";
-import { VscFilterFilled, VscChromeClose, VscGripper, VscEdit} from "react-icons/vsc";
+import { VscFilterFilled, VscChromeClose, VscGripper} from "react-icons/vsc";
 import { useFetch } from "../../hooks/useFetch";
 import testProfile from "../test-image/test-profile.jpeg"
 
@@ -14,9 +14,8 @@ export default function Designs() {
 
     const [open, setOpen] = useState(true);
     const [openEditPanel, setOpenEditPanel] = useState(false);
+    const [storedCode, setStoreCode] = useState(new Map()); // stroage clicked code in an array of object
     
-    // counts the number of section the user choosed
-    const [countUsedCode, setCountUsedCode] = useState(0); 
 
     function generateUniqueCharacter() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
@@ -30,15 +29,8 @@ export default function Designs() {
       
         return Array.from(uniqueChars).join('');
     }
-      
-
-    function storeCodeToState(name, html, css, slug){
-        // later we will be updgrading the code and do it with 
-        setStoreCode((prevStoreCode) => [...prevStoreCode, { name, html, css, slug, deleteSlug: generateUniqueCharacter() } ]);
-    }
     
-    const [storedCode, setStoreCode] = useState(new Map()); // stroage clicked code in an array of object
-    function newStoreCodeToState(name, html, css, slug){
+    function StoreCodeToState(name, html, css, slug){
         const newCodeMap = new Map(storedCode);
 
         newCodeMap.set(generateUniqueCharacter(), { name, html, css, slug});
@@ -63,19 +55,33 @@ export default function Designs() {
             <aside className={`fixed top-0 left-0 ${open ? "w-1/5 bg-gray-900 " : "w-0 bg-transparent" } duration-300 l-0 h-screen   px-3 pt-4 shadow-zinc-950  z-1 backdrop-opacity-100`} >
                 <div className="sm:col-span-3 inset-0 backdrop-blur-md">
                     <div className='flex items-center justify-between space-x-2'>
-                        <button
-                            className='border:solid border border-white bg-gray-900 p-2 rounded-md'
-                            // onClick={() => {
-                            //     setChooseDesign(true);
-                            // }}
-                            onClick={() => setOpen(open ? false : true)}
-                        >
-                            {<FiSidebar className= 'text-white text-xl ' />}
-                        </button>
+                        <div className="flex items-center justify-between space-x-2">
+                            <button
+                                className='border:solid border border-white bg-gray-900 p-2 rounded-md'
+                                // onClick={() => {
+                                //     setChooseDesign(true);
+                                // }}
+                                onClick={() => setOpen(open ? false : true)}
+                            >
+                                {<FiSidebar className= 'text-white text-xl ' />}
+                            </button>
 
-                        {open && <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
-                            Test  Website
-                        </div> } 
+                            {open && 
+                                <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
+                                    Test  Website
+                                </div>
+                            } 
+                        </div>
+
+                        {open && 
+                            <div>
+                                <button
+                                    className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                >
+                                    Export
+                                </button>
+                            </div>
+                        }
 
                     </div>
                     {open && <div className="flex items-center justify-center space-x-1 mt-2">
@@ -108,7 +114,7 @@ export default function Designs() {
                     {codes && codes.map((code, i) => (
                         <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded" >
                             <div className="">
-                                <img src={`http://localhost:8000/desktop/${code.desktopView}`} alt="Image not found"/>
+                                <img src={`http://localhost:8000/desktop/${code.desktopView}`} alt="image_cannot_be_shown"/>
                             </div>
                             <div className="bg-white py-3 ">
                                 <div className="flex justify-between">
@@ -117,7 +123,7 @@ export default function Designs() {
                                             <h3 className="font-bold capitalize">{code.name}</h3>
                                         </div>
                                         <div>
-                                            <h5 className="text-slate-500"><a href="#">Abijeet Raut</a></h5>
+                                            <h5 className="text-slate-500 cursor-pointer">Abijeet Raut</h5>
                                         </div>
                                     </div>
                                     <div>
@@ -136,9 +142,7 @@ export default function Designs() {
                                     <button 
                                         className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                         onClick={() => {
-                                            // storeCodeToState(code.name, code.htmlCode, code.cssCode, code.slug)
-                                            newStoreCodeToState(code.name, code.htmlCode, code.cssCode, code.slug)
-                                            // console.log(code.slug)
+                                            StoreCodeToState(code.name, code.htmlCode, code.cssCode, code.slug)
                                         }} // to add for deleting purpose  
                                     >
                                         Use
