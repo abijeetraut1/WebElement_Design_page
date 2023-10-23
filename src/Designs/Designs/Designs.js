@@ -46,31 +46,15 @@ export default function Designs() {
         setStoreCode(newCodeMap);
     }
 
+    function deleteCode(deleteKey) {
+        const deleteTransferMap = new Map(storedCode);
+        deleteTransferMap.delete(deleteKey);
+        setStoreCode(deleteTransferMap);
+    }
+    
     useEffect(() => {
         setStoreCode(storedCode);
-        console.log(storedCode)
     }, [storedCode]);
-
-    function deleteCode(storedCodeObj, deleteEntityName) {
-
-        /*
-            thing i need to do is
-                1. track the click element id or storedCode.deleteSlug, if the content matched then re-form the array without object which match with the storedCode.deleteSlug 
-        */
-       storedCodeObj.forEach((ele, i) => {
-            if(ele.deleteSlug === deleteEntityName){
-                /* 
-                    form a new array and store the newlly formed array in the same same state
-                */
-                storedCodeObj.splice(i, 1);
-                console.log(storedCodeObj)
-            }
-       });
-        // setStoreCode(
-        //     storedCodeObj.filter((el, i) =>  el.deleteSlug !== deleteEntityName)
-        // );
-    }
-
     
     
     return (
@@ -204,7 +188,7 @@ export default function Designs() {
                                         </button>
                                         
                                         <button className="control-buttons" onClick={el => {
-                                            deleteCode(storedCode, key)
+                                            deleteCode(key)
                                         }}>
                                             <VscChromeClose className="control-buttons text-black"  />
                                         </button>
