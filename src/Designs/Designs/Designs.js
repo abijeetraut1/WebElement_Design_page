@@ -1,7 +1,7 @@
 import { useState,useEffect  } from "react";
 import React from 'react'
 import { FiSidebar } from "react-icons/fi";
-import { VscFilterFilled, VscChromeClose, VscGripper} from "react-icons/vsc";
+import { VscFilterFilled, VscChromeClose, VscGripper, /*VscLink*/} from "react-icons/vsc";
 import { useFetch } from "../../hooks/useFetch";
 import testProfile from "../test-image/test-profile.jpeg"
 
@@ -11,11 +11,15 @@ export default function Designs() {
     
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
     const [previousClickedElement, setPreviousClickedElement] = useState(null);
-
+    // for choose design pannel determine close or open
     const [open, setOpen] = useState(true);
+    // for edit pannel to determine close or open
     const [openEditPanel, setOpenEditPanel] = useState(false);
     const [storedCode, setStoreCode] = useState(new Map()); // stroage clicked code in an array of object
-    
+    const [currentColor, setCurrentColor] = useState();
+
+    // counts the clicked word length
+    const [clickWordCount, setClickWordCount] = useState(0);
 
     function generateUniqueCharacter() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
@@ -162,7 +166,7 @@ export default function Designs() {
                                 </button>
                             </div>
                             <div>
-                                <span className="text-white">Abijeet Raut</span>
+                                <span className="text-white cursor-pointer">Abijeet Raut</span>
                             </div>
                         </div>
                         <div>
@@ -183,6 +187,7 @@ export default function Designs() {
                         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                     </head>
                     <body id="edit-space">
+                        
                         {storedCode && Array.from(storedCode).map(([key, value]) => (
                             <section key={key} id={key}>
                                 <div className="control-buttons flex flex-row w-full  items-center justify-center absolute z-50">
@@ -202,12 +207,11 @@ export default function Designs() {
                                 <div>
                                     <div
                                         onClick={() => {
-                                            // for click element
                                             const editSpace = document.getElementById("edit-space");
                                             
                                             editSpace.addEventListener('click', function(event) {
                                                 const RegExp = /\n/;
-                                                
+
                                                 if(previousClickedElement){
                                                     previousClickedElement.style.border = "0px"
                                                 }
@@ -217,12 +221,21 @@ export default function Designs() {
                                                     if(event.target.classList.contains("control-buttons")){
                                                         return;
                                                     }
-                                                    // && event.target.classList.contains("control-buttons") === false
                                                 }
 
                                                 // shows the clicked element doesnot contain \n tag
                                                 if(RegExp.test(event.target.textContent) === false){
                                                     setOpenEditPanel(true);
+                                                    let count = 1;
+
+                                                    // counts the number of words in an clicked text
+                                                    for (let i = 0; i < event.target.textContent.length; i++) {
+                                                        if(event.target.textContent[i] === " "){
+                                                            count++;
+                                                            setClickWordCount(count);
+                                                        }
+                                                    }
+
                                                     event.target.style.border = "2px solid blue";
                                                     event.target.style.transitionDuration = "75ms";
                                                 
@@ -241,40 +254,82 @@ export default function Designs() {
                                 </div>
                             </section>
                         ))}
-
                     </body>
                 </html>
             </section>
 
-
             {/* AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw api key */}
-            {openEditPanel && <aside className={`l-0 overflow-auto max-h-full h-screen  ${openEditPanel ? "w-1/6 bg-gray-900 " : "duration-700 w-0 bg-transparent" }  bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 right-0 z-1`}>
+            {openEditPanel && <aside className={`text-white l-0 overflow-auto max-h-full h-screen  ${openEditPanel ? "w-1/6 bg-gray-900 " : "duration-700 w-0 bg-transparent" }  bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 right-0 z-1`}>
                 <div>
                     <section className="">
                         <div>
-                            <div className="pb-2">
-                                <div className="flex justify-between">
-                                    <button
-                                            className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                    >
-                                        Export
-                                    </button>
+                            <div className="py-3">
+                                {/* border */}
+                                <div className="flex justify-between flex-col py-3">
+                                    <div>
+                                        <h3 className="font-bold">Border</h3>
+                                    </div>
+                                    <div className="flex space-x-3">
+                                        <div>
+                                            <button
+                                                className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                            >
+                                                Add Border
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <select name="" id="" className="rounded-md text-black px-5 py-2.5">
+                                                <option value="" className="text-black" selected>Solid</option>
+                                                <option value="" className="text-black">Dashed</option>
+                                                <option value="" className="text-black">Dotted</option>
+                                                <option value="" className="text-black">none</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="flex space-x-2">
+                                        <div className="">
+                                            <input type="color" name="" id="" className="bg-transparent"  onChange={
+                                                (el) => setCurrentColor(el.target.value)
+                                            }/>
+                                        </div>
+                                        <div>
+                                            <span className="text-white">{currentColor}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <hr className="my-3" />
                             <div>
                                 <div>
-                                    <input 
-                                        class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" 
-                                        type="text"
-                                        placeholder={clickedHTMLElement ? clickedHTMLElement.textContent : ""}
-                                        name="search"
-                                        id="text-input"
-                                        onChange={(el) => {
-                                            if(clickedHTMLElement){
-                                                clickedHTMLElement.textContent = el.target.value;
-                                            }
-                                        }}
-                                    />
+                                    {/* if clickedHTMLElement.textContent contains more then 15 words then open textarea */}
+                                    {clickWordCount >= 15 ? 
+                                        <textarea 
+                                            class="text-black placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" 
+                                            type="text"
+                                            name="search"
+                                            id="text-input"
+                                            rows="5"
+                                            onChange={(el) => {
+                                                if(clickedHTMLElement){
+                                                    clickedHTMLElement.textContent = el.target.value;
+                                                }
+                                            }}
+                                            value={clickedHTMLElement.textContent}
+                                        />
+                                        :
+                                        <input 
+                                            class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" 
+                                            type="text"
+                                            placeholder={clickedHTMLElement ? clickedHTMLElement.textContent : ""}
+                                            name="search"
+                                            id="text-input"
+                                            onChange={(el) => {
+                                                if(clickedHTMLElement){
+                                                    clickedHTMLElement.textContent = el.target.value;
+                                                }
+                                            }}
+                                        />
+                                    }
                                 </div>
                                 <div className="py-2">
                                     <button
@@ -282,6 +337,15 @@ export default function Designs() {
                                     >
                                         Save
                                     </button>
+                                </div>
+                            </div>
+                            <hr className="my-3" />
+                            <div>
+                                <div className="py-2">
+                                    <h3 className="font-bold">upload Image</h3>
+                                </div>
+                                <div className="py-2">
+                                    <input type="file" name="" id=""/>
                                 </div>
                             </div>
                         </div>
