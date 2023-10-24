@@ -17,6 +17,8 @@ export default function Designs() {
     const [openEditPanel, setOpenEditPanel] = useState(false);
     const [storedCode, setStoreCode] = useState(new Map()); // stroage clicked code in an array of object
     const [currentColor, setCurrentColor] = useState();
+    const [storeRadius, setStoreRadius] = useState();
+    const [borderDesign, setBorderDesign] = useState(null);
 
     // counts the clicked word length
     const [clickWordCount, setClickWordCount] = useState(0);
@@ -24,7 +26,6 @@ export default function Designs() {
     function generateUniqueCharacter() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
         const uniqueChars = new Set();
-      
       
         while (uniqueChars.size < 10) {
           const randomIndex = Math.floor(Math.random() * characters.length);
@@ -36,9 +37,7 @@ export default function Designs() {
     
     function StoreCodeToState(name, html, css, slug){
         const newCodeMap = new Map(storedCode);
-
         newCodeMap.set(generateUniqueCharacter(), { name, html, css, slug});
-
         setStoreCode(newCodeMap);
     }
 
@@ -97,9 +96,9 @@ export default function Designs() {
                                 className="block w-96 rounded-md border-0 py-1.5 text-gray-900 outline-none font-bold shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 onChange={el => {SetClicked(el.target.value)}} // section choose name
                             >
-                                <option value="navigation" selected>Navigation Section</option>
+                                <option value="navigation" >Navigation Section</option>
                                 <option value="hero">Hero Section</option>
-                                <option value='body'>Body Section</option>
+                                <option value='body' selected>Body Section</option>
                                 <option value="footer">Footer Section</option>
                             </select>
                         </div>
@@ -207,13 +206,14 @@ export default function Designs() {
                                 <div>
                                     <div
                                         onClick={() => {
+                                            
                                             const editSpace = document.getElementById("edit-space");
                                             
                                             editSpace.addEventListener('click', function(event) {
                                                 const RegExp = /\n/;
 
                                                 if(previousClickedElement){
-                                                    previousClickedElement.style.border = "0px"
+                                                    previousClickedElement.style.border = "none"
                                                 }
 
                                                 // const classList = event.target.classList("control-buttons");
@@ -242,11 +242,20 @@ export default function Designs() {
                                                     // store the clicked element data to dispaly the text content in input field
                                                     setclickedHTMLElement(event.target);
                                                     setPreviousClickedElement(event.target);
+
                                                 }else{
                                                     setOpenEditPanel(false);
                                                     setclickedHTMLElement(null);
                                                 }
                                             });
+                                        }}
+
+                                        onChange={(el) => {
+
+                                            const editSpace = document.getElementById("edit-space");
+                                            editSpace.addEventListener("change", (event) => {
+                                                event.target.style.color = currentColor;
+                                            })
                                         }}
                                         dangerouslySetInnerHTML={{ __html: value.html }}
                                     ></div>
@@ -273,27 +282,102 @@ export default function Designs() {
                                         <div>
                                             <button
                                                 className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                                id="add-border"
+                                                onClick={() => {
+                                                    const addBorderBtn = document.getElementById("add-border");
+                                                    addBorderBtn.addEventListener("click", () => {
+                                                        // add border to the clicked element
+                                                        const createElement = document.createElement("div");
+                                                        clickedHTMLElement.parentElement.insertBefore(createElement, clickedHTMLElement);
+                                                        createElement.appendChild(clickedHTMLElement);
+                                                        createElement.style.border = `2px ${borderDesign ? borderDesign : "solid"} black`;
+                                                        clickedHTMLElement.style.border = "none"; 
+                                                    })
+
+                                                }}
                                             >
                                                 Add Border
                                             </button>
                                         </div>
                                         <div>
-                                            <select name="" id="" className="rounded-md text-black px-5 py-2.5">
-                                                <option value="" className="text-black" selected>Solid</option>
-                                                <option value="" className="text-black">Dashed</option>
-                                                <option value="" className="text-black">Dotted</option>
-                                                <option value="" className="text-black">none</option>
+                                            <select name="" id="" className="rounded-md text-black py-2.5" onClick={(el) => setBorderDesign(el.target.value)}>
+                                                <option value="Solid" className="text-black" selected>Solid</option>
+                                                <option value="Dashed" className="text-black">Dashed</option>
+                                                <option value="Dotted" className="text-black">Dotted</option>
+                                                <option value="none" className="text-black">none</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div className="flex space-x-2">
-                                        <div className="">
-                                            <input type="color" name="" id="" className="bg-transparent"  onChange={
-                                                (el) => setCurrentColor(el.target.value)
-                                            }/>
-                                        </div>
+                                    <div className="flex flex-col space-x-2 py-2.5">
                                         <div>
-                                            <span className="text-white">{currentColor}</span>
+                                            <span>Border Radius</span>
+                                        </div>
+                                        <div className="flex space-x-2 justify-center items-center">
+                                            <div>
+                                                <input type="range" name="" id="" min="0" max="20" value={storeRadius ? storeRadius : 0 } onChange={(el) => {
+                                                    setStoreRadius(el.target.value);
+                                                    if(storeRadius === 0){
+                                                        clickedHTMLElement.style.border = `2px solid blue`;
+                                                    }
+                                                    clickedHTMLElement.style.border = "none"
+                                                    clickedHTMLElement.parentElement.style.borderRadius = el.target.value+"px";
+                                                }} />
+                                            </div>
+                                            <div>
+                                                <input type="text" name="" id="" className="w-1/4 rounded text-black text-center" value={storeRadius ? storeRadius : 0 } />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col space-x-2">
+                                        <div>
+                                            <span className="text-white">Font Color</span> 
+                                        </div>
+                                        <div className="flex space-x-2">
+                                            <div className="">
+                                                <input type="color" name="" id="" className="bg-transparent" onChange={
+                                                    (el) => {
+                                                        console.log(clickedHTMLElement.style.color)
+                                                        // change the click element color 
+                                                        clickedHTMLElement.style.color = el.target.value;
+                                                        
+                                                        // saves the current color to the state
+                                                        setCurrentColor(el.target.value);
+                                                    }
+                                                }/>
+                                            </div>
+                                            <div>
+                                                {/* if clickedHTMLElement.style.color has color them display its color 
+                                                    if not then check currentColor
+                                                    if currentColor not event in currentColor print print #fffff 
+                                                */}
+                                                <span className="text-white">{clickedHTMLElement.style.color ? clickedHTMLElement.style.color : currentColor ? currentColor :  "#ffffff" } </span> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col space-x-2">
+                                        <div>
+                                            <span className="text-white">Background Color</span> 
+                                        </div>
+                                        <div className="flex space-x-2">
+                                            <div className="">
+                                                <input type="color" name="" id="" className="bg-transparent" onChange={
+                                                    (el) => {
+                                                        console.log(clickedHTMLElement.style.color)
+                                                        // change the click element color 
+                                                        clickedHTMLElement.style.backgroundColor = el.target.value;
+                                                        
+                                                        // saves the current color to the state
+                                                        setCurrentColor(el.target.value);
+                                                    }
+                                                }/>
+                                            </div>
+                                            <div>
+                                                {/* if clickedHTMLElement.style.color has color them display its color 
+                                                    if not then check currentColor
+                                                    if currentColor not event in currentColor print print #fffff 
+                                                */}
+                                                <span className="text-white">{clickedHTMLElement.style.color ? clickedHTMLElement.style.color : currentColor ? currentColor :  "#ffffff" } </span> 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
