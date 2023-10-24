@@ -4,24 +4,30 @@ import { FiSidebar } from "react-icons/fi";
 import { VscFilterFilled, VscChromeClose, VscGripper, /*VscLink*/} from "react-icons/vsc";
 import { useFetch } from "../../hooks/useFetch";
 import testProfile from "../test-image/test-profile.jpeg"
+import { useGetFetch } from "../../hooks/useGetFetch";
 
 export default function Designs() {
+    const [choosenFont, setChoosenFont] = useState();
     const [clicked, SetClicked] = useState("navigation");
-    const {data:codes, isProtected, error} = useFetch("http://localhost:8000/api/v1/codes/extractCode", clicked.toLowerCase());
+    const {data:codes, isProtected, error} = useFetch("http://localhost:8000/api/v1/codes/extractCode", clicked.toLowerCase(), "POST");
+    const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useGetFetch("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw");
+    const {data:chooseFont, isProtected:cfontsProtected, error:cfontsExtractError} = useGetFetch(choosenFont);
     
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
     const [previousClickedElement, setPreviousClickedElement] = useState(null);
     // for choose design pannel determine close or open
     const [open, setOpen] = useState(true);
     // for edit pannel to determine close or open
-    const [openEditPanel, setOpenEditPanel] = useState(false);
+    const [openEditPanel, setOpenEditPanel] = useState(true);
     const [storedCode, setStoreCode] = useState(new Map()); // stroage clicked code in an array of object
-    const [currentColor, setCurrentColor] = useState();
-    const [storeRadius, setStoreRadius] = useState();
-    const [borderDesign, setBorderDesign] = useState(null);
+    const [fontIndex, setFontIndex] = useState();
 
     // counts the clicked word length
     const [clickWordCount, setClickWordCount] = useState(0);
+
+    useState(() => {
+        console.log(chooseFont);
+    }, [chooseFont]);
 
     function generateUniqueCharacter() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
@@ -250,13 +256,6 @@ export default function Designs() {
                                             });
                                         }}
 
-                                        onChange={(el) => {
-
-                                            const editSpace = document.getElementById("edit-space");
-                                            editSpace.addEventListener("change", (event) => {
-                                                event.target.style.color = currentColor;
-                                            })
-                                        }}
                                         dangerouslySetInnerHTML={{ __html: value.html }}
                                     ></div>
                                     <style dangerouslySetInnerHTML={ { __html: value.css } }></style>
@@ -268,119 +267,12 @@ export default function Designs() {
             </section>
 
             {/* AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw api key */}
-            {openEditPanel && <aside className={`text-white l-0 overflow-auto max-h-full h-screen  ${openEditPanel ? "w-1/6 bg-gray-900 " : "duration-700 w-0 bg-transparent" }  bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 right-0 z-1`}>
+            {openEditPanel && <aside className={`l-0 overflow-auto max-h-full h-screen  ${openEditPanel ? "w-1/6 bg-gray-900 " : "duration-700 w-0 bg-transparent" }  bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 right-0 z-1`}>
                 <div>
                     <section className="">
                         <div>
                             <div className="py-3">
-                                {/* border */}
-                                <div className="flex justify-between flex-col py-3">
-                                    <div>
-                                        <h3 className="font-bold">Border</h3>
-                                    </div>
-                                    <div className="flex space-x-3">
-                                        <div>
-                                            <button
-                                                className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                                id="add-border"
-                                                onClick={() => {
-                                                    const addBorderBtn = document.getElementById("add-border");
-                                                    addBorderBtn.addEventListener("click", () => {
-                                                        // add border to the clicked element
-                                                        const createElement = document.createElement("div");
-                                                        clickedHTMLElement.parentElement.insertBefore(createElement, clickedHTMLElement);
-                                                        createElement.appendChild(clickedHTMLElement);
-                                                        createElement.style.border = `2px ${borderDesign ? borderDesign : "solid"} black`;
-                                                        clickedHTMLElement.style.border = "none"; 
-                                                    })
-
-                                                }}
-                                            >
-                                                Add Border
-                                            </button>
-                                        </div>
-                                        <div>
-                                            <select name="" id="" className="rounded-md text-black py-2.5" onClick={(el) => setBorderDesign(el.target.value)}>
-                                                <option value="Solid" className="text-black" selected>Solid</option>
-                                                <option value="Dashed" className="text-black">Dashed</option>
-                                                <option value="Dotted" className="text-black">Dotted</option>
-                                                <option value="none" className="text-black">none</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col space-x-2 py-2.5">
-                                        <div>
-                                            <span>Border Radius</span>
-                                        </div>
-                                        <div className="flex space-x-2 justify-center items-center">
-                                            <div>
-                                                <input type="range" name="" id="" min="0" max="20" value={storeRadius ? storeRadius : 0 } onChange={(el) => {
-                                                    setStoreRadius(el.target.value);
-                                                    if(storeRadius === 0){
-                                                        clickedHTMLElement.style.border = `2px solid blue`;
-                                                    }
-                                                    clickedHTMLElement.style.border = "none"
-                                                    clickedHTMLElement.parentElement.style.borderRadius = el.target.value+"px";
-                                                }} />
-                                            </div>
-                                            <div>
-                                                <input type="text" name="" id="" className="w-1/4 rounded text-black text-center" value={storeRadius ? storeRadius : 0 } />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col space-x-2">
-                                        <div>
-                                            <span className="text-white">Font Color</span> 
-                                        </div>
-                                        <div className="flex space-x-2">
-                                            <div className="">
-                                                <input type="color" name="" id="" className="bg-transparent" onChange={
-                                                    (el) => {
-                                                        console.log(clickedHTMLElement.style.color)
-                                                        // change the click element color 
-                                                        clickedHTMLElement.style.color = el.target.value;
-                                                        
-                                                        // saves the current color to the state
-                                                        setCurrentColor(el.target.value);
-                                                    }
-                                                }/>
-                                            </div>
-                                            <div>
-                                                {/* if clickedHTMLElement.style.color has color them display its color 
-                                                    if not then check currentColor
-                                                    if currentColor not event in currentColor print print #fffff 
-                                                */}
-                                                <span className="text-white">{clickedHTMLElement.style.color ? clickedHTMLElement.style.color : currentColor ? currentColor :  "#ffffff" } </span> 
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col space-x-2">
-                                        <div>
-                                            <span className="text-white">Background Color</span> 
-                                        </div>
-                                        <div className="flex space-x-2">
-                                            <div className="">
-                                                <input type="color" name="" id="" className="bg-transparent" onChange={
-                                                    (el) => {
-                                                        console.log(clickedHTMLElement.style.color)
-                                                        // change the click element color 
-                                                        clickedHTMLElement.style.backgroundColor = el.target.value;
-                                                        
-                                                        // saves the current color to the state
-                                                        setCurrentColor(el.target.value);
-                                                    }
-                                                }/>
-                                            </div>
-                                            <div>
-                                                {/* if clickedHTMLElement.style.color has color them display its color 
-                                                    if not then check currentColor
-                                                    if currentColor not event in currentColor print print #fffff 
-                                                */}
-                                                <span className="text-white">{clickedHTMLElement.style.color ? clickedHTMLElement.style.color : currentColor ? currentColor :  "#ffffff" } </span> 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
                             <hr className="my-3" />
                             <div>
@@ -388,7 +280,7 @@ export default function Designs() {
                                     {/* if clickedHTMLElement.textContent contains more then 15 words then open textarea */}
                                     {clickWordCount >= 15 ? 
                                         <textarea 
-                                            class="text-black placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" 
+                                            class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" 
                                             type="text"
                                             name="search"
                                             id="text-input"
@@ -424,6 +316,27 @@ export default function Designs() {
                                 </div>
                             </div>
                             <hr className="my-3" />
+                            <div className="flex">
+                                <div>
+                                    <select name="" id="" onClick={(el) => {
+                                        setChoosenFont(`https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw?family=${el.target.value}`)
+                                    }}>
+                                        {fontsProtected && <option  >Please Wait Slow Internet</option>}
+                                        {fonts && fonts.map((font, i) => (
+                                            <option value={font.family} key={font.family} >{font.family}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div>
+                                    <select name="" id="">
+                                        {fontsProtected && <option  >Please Wait Slow Internet</option>}
+                                        {fontIndex &&
+                                           console.log(choosenFont)
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <hr className="my-3" />
                             <div>
                                 <div className="py-2">
                                     <h3 className="font-bold">upload Image</h3>
@@ -432,6 +345,7 @@ export default function Designs() {
                                     <input type="file" name="" id=""/>
                                 </div>
                             </div>
+                           
                         </div>
                     </section>
                 </div>
