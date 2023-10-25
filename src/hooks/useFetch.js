@@ -17,7 +17,7 @@ export const useFetch = (url, section, method) => {
                 const code = await axios({
                     method: method,
                     url: url,
-                    data: {section}
+                    data: {section : "body"}
                 });
                 setIsPending(false)
                 setData(code.data.message.selectDataQuery)

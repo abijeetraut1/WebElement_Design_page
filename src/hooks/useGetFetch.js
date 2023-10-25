@@ -17,9 +17,9 @@ export const useGetFetch = (url) => {
                     method: "GET",
                     url: url,
                 });
-                console.log(code.data.items);
+
                 setIsPending(false)
-                setData(code.data.items)
+                setData(code)
                 setError(null)
             } catch (err) {
                 if (err.name === "AbortError") {

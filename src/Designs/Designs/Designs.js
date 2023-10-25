@@ -6,13 +6,21 @@ import { useFetch } from "../../hooks/useFetch";
 import testProfile from "../test-image/test-profile.jpeg"
 import { useGetFetch } from "../../hooks/useGetFetch";
 
+// {/* AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw api key */}
 export default function Designs() {
-    const [choosenFont, setChoosenFont] = useState();
     const [clicked, SetClicked] = useState("navigation");
     const {data:codes, isProtected, error} = useFetch("http://localhost:8000/api/v1/codes/extractCode", clicked.toLowerCase(), "POST");
-    const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useGetFetch("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw");
-    const {data:chooseFont, isProtected:cfontsProtected, error:cfontsExtractError} = useGetFetch(choosenFont);
     
+    const [choosenFont, setChoosenFont] = useState();
+
+    // for fonts
+    const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useGetFetch("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&sort=popularity");
+    const {data:fontsVariance, isProtected:fontsVarianceProtected, error:fontsVarianceExtractError} = useGetFetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&family=${choosenFont ? choosenFont : "Roboto"}`);
+   
+    useEffect(() => {
+        console.log(fontsVariance);
+    }, [fontsVariance]);
+
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
     const [previousClickedElement, setPreviousClickedElement] = useState(null);
     // for choose design pannel determine close or open
@@ -20,14 +28,12 @@ export default function Designs() {
     // for edit pannel to determine close or open
     const [openEditPanel, setOpenEditPanel] = useState(true);
     const [storedCode, setStoreCode] = useState(new Map()); // stroage clicked code in an array of object
-    const [fontIndex, setFontIndex] = useState();
+
 
     // counts the clicked word length
     const [clickWordCount, setClickWordCount] = useState(0);
-
-    useState(() => {
-        console.log(chooseFont);
-    }, [chooseFont]);
+    const [fontSize, setFontSize] = useState(12);
+    const [fontWidth, setFontWidth] = useState();
 
     function generateUniqueCharacter() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
@@ -56,6 +62,10 @@ export default function Designs() {
     useEffect(() => {
         setStoreCode(storedCode);
     }, [storedCode]);
+    
+    useEffect(() => {
+        setChoosenFont(choosenFont);
+    }, [choosenFont]);
     
     
     return (
@@ -190,6 +200,9 @@ export default function Designs() {
                     <head>
                         <meta charset="UTF-8" />
                         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                        <link rel="preconnect" href="https://fonts.googleapis.com" />
+                        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+                        <link href={`https://fonts.googleapis.com/css2?family=${choosenFont}`} rel="stylesheet" />
                     </head>
                     <body id="edit-space">
                         
@@ -231,6 +244,10 @@ export default function Designs() {
 
                                                 // shows the clicked element doesnot contain \n tag
                                                 if(RegExp.test(event.target.textContent) === false){
+
+                                                    setChoosenFont(null);
+                                                    setFontSize(null);
+
                                                     setOpenEditPanel(true);
                                                     let count = 1;
 
@@ -249,6 +266,14 @@ export default function Designs() {
                                                     setclickedHTMLElement(event.target);
                                                     setPreviousClickedElement(event.target);
 
+                                                    // apply the choosed font
+                                                    if(choosenFont){
+                                                        event.target.style.fontFamily = choosenFont;
+                                                    }
+
+                                                    if(fontSize){
+                                                        event.target.style.fontSize = fontSize;
+                                                    }
                                                 }else{
                                                     setOpenEditPanel(false);
                                                     setclickedHTMLElement(null);
@@ -266,7 +291,6 @@ export default function Designs() {
                 </html>
             </section>
 
-            {/* AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw api key */}
             {openEditPanel && <aside className={`l-0 overflow-auto max-h-full h-screen  ${openEditPanel ? "w-1/6 bg-gray-900 " : "duration-700 w-0 bg-transparent" }  bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 right-0 z-1`}>
                 <div>
                     <section className="">
@@ -316,24 +340,92 @@ export default function Designs() {
                                 </div>
                             </div>
                             <hr className="my-3" />
-                            <div className="flex">
+                            <div className="flex flex-col">
                                 <div>
-                                    <select name="" id="" onClick={(el) => {
-                                        setChoosenFont(`https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw?family=${el.target.value}`)
-                                    }}>
+                                    <h3 className="text-white font-bolder">Fonts</h3>
+                                </div>
+                                <div>
+                                    <select name="" id="" 
+                                        className="rounded"
+                                        onClick={(el) => {
+                                            setChoosenFont(el.target.value);
+                                            if(clickedHTMLElement){
+                                                clickedHTMLElement.style.fontFamily = el.target.value;    
+                                            }
+                                        }}
+
+                                    >
                                         {fontsProtected && <option  >Please Wait Slow Internet</option>}
-                                        {fonts && fonts.map((font, i) => (
-                                            <option value={font.family} key={font.family} >{font.family}</option>
+                                        {fonts && fonts.data.items.map((font, i) => (
+                                            <>
+                                                <option value={font.family}  style={{fontFamily : font.family}}>{font.family}</option>
+                                            </>
                                         ))}
                                     </select>
                                 </div>
-                                <div>
-                                    <select name="" id="">
-                                        {fontsProtected && <option  >Please Wait Slow Internet</option>}
-                                        {fontIndex &&
-                                           console.log(choosenFont)
-                                        }
-                                    </select>
+                                <div className="py-3 flex space-x-5" >
+                                    <div>
+                                        <div>
+                                            <span className="text-white">font Size</span>
+                                        </div>
+                                        <div>
+                                            <select name="" id="" className="rounded" onClick={(el) => {
+                                                if(clickedHTMLElement){
+                                                    setFontSize(el.target.value);
+                                                    clickedHTMLElement.style.fontSize = el.target.value;
+                                                }
+                                            }}>
+                                                <option value="10px">10 px</option>
+                                                <option value="11px">11 px</option>
+                                                <option value="12px">12 px</option>
+                                                <option value="13px">13 px</option>
+                                                <option value="14px">14 px</option>
+                                                <option value="15px">15 px</option>
+                                                <option value="16px">16 px</option>
+                                                <option value="20px">20 px</option>
+                                                <option value="24px">24 px</option>
+                                                <option value="32px">32 px</option>
+                                                <option value="40px">40 px</option>
+                                                <option value="48px">48 px</option>
+                                                <option value="52px">52 px</option>
+                                                <option value="64px">64 px</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                    <div>
+                                        <div>
+
+                                        {/* add font style and font width */}
+                                        <div>
+                                            <span className="text-white">font Weight</span>
+                                        </div>
+                                        <div>
+                                            <select name="" id="" className="rounded" onClick={(el) => {
+                                                if(clickedHTMLElement){
+                                                    setFontWidth(el.target.value);
+
+                                                    // change the text to italic
+                                                    const italicRegExp =  /\b(\d+)italic\b/g;
+                                                    if(el.target.value.match(italicRegExp)){
+                                                        clickedHTMLElement.style.fontStyle = "italic";
+                                                        clickedHTMLElement.style.fontWeight = el.target.value.split("00")[0] * 100;
+                                                    }else{
+                                                        clickedHTMLElement.style.fontStyle = "normal";
+                                                        clickedHTMLElement.style.fontWeight = el.target.value;
+                                                    }
+                                                }
+                                            }}>
+                                                {fontsVariance && fontsVariance.data.items[0].variants.map((el) => (
+                                                    <option key={el} value={el}>{el}</option>
+                                                        
+                                                ))} 
+                                            </select>
+                                        </div>
+
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                             <hr className="my-3" />
