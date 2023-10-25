@@ -314,7 +314,7 @@ export default function Designs() {
                                                     clickedHTMLElement.textContent = el.target.value;
                                                 }
                                             }}
-                                            value={clickedHTMLElement.textContent}
+                                            placeholder={clickedHTMLElement.textContent}
                                         />
                                         :
                                         <input 
