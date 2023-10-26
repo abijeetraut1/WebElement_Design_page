@@ -6,7 +6,6 @@ export default function Exports() {
   return (
     <div>
         <Navigation />
-        
     </div>
   )
 }

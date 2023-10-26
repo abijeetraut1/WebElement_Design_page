@@ -3,22 +3,20 @@ import React from 'react'
 import { FiSidebar } from "react-icons/fi";
 import { VscFilterFilled, VscChromeClose, VscGripper, /*VscLink*/} from "react-icons/vsc";
 import { useFetch } from "../../hooks/useFetch";
-import testProfile from "../test-image/test-profile.jpeg"
-import { useGetFetch } from "../../hooks/useGetFetch";
+import testProfile from "../test-image/test-profile.jpeg";
 import { Link } from "react-router-dom";
 
-// {/* AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw api key */}
+//  AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw api key
 export default function Designs() {
     const [clicked, SetClicked] = useState("navigation");
-    const {data:codes, isProtected, error} = useFetch("http://localhost:8000/api/v1/codes/extractCode", clicked.toLowerCase(), "POST");
+    const {data:codes, isProtected, error} = useFetch(`http://localhost:8000/api/v1/codes/extractCode?section=${clicked.toLowerCase()}`, "GET");
     
     const [choosenFont, setChoosenFont] = useState();
 
     // for fonts
-    const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useGetFetch("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&sort=popularity");
-    const {data:fontsVariance, isProtected:fontsVarianceProtected, error:fontsVarianceExtractError} = useGetFetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&family=${choosenFont ? choosenFont : "Roboto"}`);
+    const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useFetch("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&sort=popularity", "GET");
+    const {data:fontsVariance, isProtected:fontsVarianceProtected, error:fontsVarianceExtractError} = useFetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&family=${choosenFont ? choosenFont : "Roboto"}`, "GET");
    
-
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
     const [previousClickedElement, setPreviousClickedElement] = useState(null);
     // for choose design pannel determine close or open
@@ -59,20 +57,19 @@ export default function Designs() {
         setStoreCode(storedCode);
     }, [storedCode]);
     
-    useEffect(() => {
-        setChoosenFont(choosenFont);
-    }, [choosenFont]);
+    // useEffect(() => {
+    // }, [choosenFont]);
     
     
     return (
         // side design choosing section
         <section>
-            <aside className={`fixed top-0 left-0 ${open ? "w-1/5 bg-gray-900 " : "w-0 bg-transparent" } duration-300 l-0 h-screen   px-3 pt-4 shadow-zinc-950  z-1 backdrop-opacity-100`} >
+            <aside className={`fixed top-0 left-0 ${open ? "w-1/5 bg-zinc-900" : "w-0 bg-transparent" } duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100 `} >
                 <div className="sm:col-span-3 inset-0 backdrop-blur-md">
                     <div className='flex items-center justify-between space-x-2'>
                         <div className="flex items-center justify-between space-x-2">
                             <button
-                                className='border:solid border border-white bg-gray-900 p-2 rounded-md'
+                                className='border:solid border border-white bg-zinc-900 p-2 rounded-md'
                                 // onClick={() => {
                                 //     setChooseDesign(true);
                                 // }}
@@ -109,9 +106,9 @@ export default function Designs() {
                                 className="block w-96 rounded-md border-0 py-1.5 text-gray-900 outline-none font-bold shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 onChange={el => {SetClicked(el.target.value)}} // section choose name
                             >
-                                <option value="navigation" >Navigation Section</option>
+                                <option value="navigation" selected>Navigation Section</option>
                                 <option value="hero">Hero Section</option>
-                                <option value='body' selected>Body Section</option>
+                                <option value='body'>Body Section</option>
                                 <option value="footer">Footer Section</option>
                             </select>
                         </div>
@@ -127,7 +124,7 @@ export default function Designs() {
                 {open && <section id="choose-deign" className="h-3/4 overflow-auto rounded-md">
                     {isProtected && <p>Fetching codes</p>}
                     {error && <p className="text-white">server error please wait we are fixing it.</p>}
-                    {codes && codes.map((code, i) => (
+                    {codes.data.message.selectDataQuery && codes.data.message.selectDataQuery.map((code, i) => (
                         <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded" >
                             <div className="">
                                 <img src={`http://localhost:8000/desktop/${code.desktopView}`} alt="image_cannot_be_shown"/>
@@ -202,7 +199,6 @@ export default function Designs() {
                         <link href={`https://fonts.googleapis.com/css2?family=${choosenFont}`} rel="stylesheet" />
                     </head>
                     <body id="edit-space">
-                        
                         {storedCode && Array.from(storedCode).map(([key, value]) => (
                             <section key={key} id={key}>
                                 <div className="control-buttons flex flex-row w-full  items-center justify-center absolute z-50">
@@ -213,6 +209,7 @@ export default function Designs() {
                                         
                                         <button className="control-buttons" onClick={el => {
                                             deleteCode(key)
+                                            setOpenEditPanel(false);
                                         }}>
                                             <VscChromeClose className="control-buttons text-black"  />
                                         </button>
@@ -274,7 +271,7 @@ export default function Designs() {
                 </html>
             </section>
 
-            {openEditPanel && <aside className={`l-0 overflow-auto max-h-full h-screen  ${openEditPanel ? "w-1/6 bg-gray-900 " : "duration-700 w-0 bg-transparent" }  bg-gray-900 px-3 py-4 shadow-zinc-950 fixed top-0 right-0 z-1`}>
+            {openEditPanel && <aside className={`l-0 overflow-auto max-h-full h-screen  ${openEditPanel ? "w-1/6 bg-zinc-900" : " w-0 bg-transparent" } duration-700 bg-zinc-900 px-3 py-4 shadow-zinc-950 fixed top-0 right-0 z-1`}>
                 <div>
                     <section className="">
                         <div>
@@ -332,6 +329,7 @@ export default function Designs() {
                                         className="rounded"
                                         onClick={(el) => {
                                             setChoosenFont(el.target.value);
+
                                             if(clickedHTMLElement){
                                                 clickedHTMLElement.style.fontFamily = el.target.value;    
                                             }

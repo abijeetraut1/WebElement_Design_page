@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export const useFetch = (url, section, method) => {
+export const useFetch = (url, method) => {
     const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState(null);
@@ -13,14 +13,13 @@ export const useFetch = (url, section, method) => {
             setIsPending(true)
 
             try {
-                console.log(section)
-                const code = await axios({
+                let code;
+                code = await axios({
                     method: method,
                     url: url,
-                    data: {section : "body"}
                 });
                 setIsPending(false)
-                setData(code.data.message.selectDataQuery)
+                setData(code)
                 setError(null)
             } catch (err) {
                 if (err.name === "AbortError") {
@@ -37,7 +36,7 @@ export const useFetch = (url, section, method) => {
             controller.abort()
         }
 
-    }, [url, section])
+    }, [url, method])
 
     return {
         data,

@@ -7,7 +7,7 @@ export default function Navigation() {
     <div>
 
         {/* navigation will shown other page expect design  */}
-        <header className='h-fit flex justify-between items-center bg-slate-800 p-4 text-white'>
+        <header className='h-fit flex justify-between items-center bg-zinc-900 p-2 text-white pl-4 pr-4'>
             <div>
                 <Link to="#">
                     <h1 className='font-extrabold tracking-wider'>WEB-X-LOGO</h1>
