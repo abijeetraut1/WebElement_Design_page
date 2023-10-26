@@ -5,6 +5,7 @@ import { VscFilterFilled, VscChromeClose, VscGripper, /*VscLink*/} from "react-i
 import { useFetch } from "../../hooks/useFetch";
 import testProfile from "../test-image/test-profile.jpeg"
 import { useGetFetch } from "../../hooks/useGetFetch";
+import { Link } from "react-router-dom";
 
 // {/* AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw api key */}
 export default function Designs() {
@@ -17,23 +18,18 @@ export default function Designs() {
     const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useGetFetch("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&sort=popularity");
     const {data:fontsVariance, isProtected:fontsVarianceProtected, error:fontsVarianceExtractError} = useGetFetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&family=${choosenFont ? choosenFont : "Roboto"}`);
    
-    useEffect(() => {
-        console.log(fontsVariance);
-    }, [fontsVariance]);
 
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
     const [previousClickedElement, setPreviousClickedElement] = useState(null);
     // for choose design pannel determine close or open
     const [open, setOpen] = useState(true);
     // for edit pannel to determine close or open
-    const [openEditPanel, setOpenEditPanel] = useState(true);
+    const [openEditPanel, setOpenEditPanel] = useState(false);
     const [storedCode, setStoreCode] = useState(new Map()); // stroage clicked code in an array of object
 
 
     // counts the clicked word length
     const [clickWordCount, setClickWordCount] = useState(0);
-    const [fontSize, setFontSize] = useState(12);
-    const [fontWidth, setFontWidth] = useState();
 
     function generateUniqueCharacter() {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
@@ -94,14 +90,15 @@ export default function Designs() {
 
                         {open && 
                             <div>
-                                <button
-                                    className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                >
-                                    Export
-                                </button>
+                                <Link to="/export">
+                                    <button
+                                        className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    >
+                                        Export
+                                    </button>
+                                </Link>
                             </div>
                         }
-
                     </div>
                     {open && <div className="flex items-center justify-center space-x-1 mt-2">
                         <div>
@@ -225,7 +222,6 @@ export default function Designs() {
                                 <div>
                                     <div
                                         onClick={() => {
-                                            
                                             const editSpace = document.getElementById("edit-space");
                                             
                                             editSpace.addEventListener('click', function(event) {
@@ -244,10 +240,6 @@ export default function Designs() {
 
                                                 // shows the clicked element doesnot contain \n tag
                                                 if(RegExp.test(event.target.textContent) === false){
-
-                                                    setChoosenFont(null);
-                                                    setFontSize(null);
-
                                                     setOpenEditPanel(true);
                                                     let count = 1;
 
@@ -265,15 +257,6 @@ export default function Designs() {
                                                     // store the clicked element data to dispaly the text content in input field
                                                     setclickedHTMLElement(event.target);
                                                     setPreviousClickedElement(event.target);
-
-                                                    // apply the choosed font
-                                                    if(choosenFont){
-                                                        event.target.style.fontFamily = choosenFont;
-                                                    }
-
-                                                    if(fontSize){
-                                                        event.target.style.fontSize = fontSize;
-                                                    }
                                                 }else{
                                                     setOpenEditPanel(false);
                                                     setclickedHTMLElement(null);
@@ -355,7 +338,8 @@ export default function Designs() {
                                         }}
 
                                     >
-                                        {fontsProtected && <option  >Please Wait Slow Internet</option>}
+                                        {fontsProtected && <h3 className="text-white" >Please Wait Slow Internet.</h3>}
+                                        {fontsExtractError && <h3 className="text-white" >Server Down Please Wait😥 Devs are working on it.</h3>}
                                         {fonts && fonts.data.items.map((font, i) => (
                                             <>
                                                 <option value={font.family}  style={{fontFamily : font.family}}>{font.family}</option>
@@ -371,7 +355,6 @@ export default function Designs() {
                                         <div>
                                             <select name="" id="" className="rounded" onClick={(el) => {
                                                 if(clickedHTMLElement){
-                                                    setFontSize(el.target.value);
                                                     clickedHTMLElement.style.fontSize = el.target.value;
                                                 }
                                             }}>
@@ -395,37 +378,35 @@ export default function Designs() {
                                     </div>
                                     <div>
                                         <div>
+                                            {/* add font style and font width */}
+                                            <div>
+                                                <span className="text-white">font Weight</span>
+                                            </div>
+                                            <div>
+                                                <select name="" id="" className="rounded" onClick={(el) => {
+                                                    if(clickedHTMLElement){
 
-                                        {/* add font style and font width */}
-                                        <div>
-                                            <span className="text-white">font Weight</span>
-                                        </div>
-                                        <div>
-                                            <select name="" id="" className="rounded" onClick={(el) => {
-                                                if(clickedHTMLElement){
-                                                    setFontWidth(el.target.value);
-
-                                                    // change the text to italic
-                                                    const italicRegExp =  /\b(\d+)italic\b/g;
-                                                    if(el.target.value.match(italicRegExp)){
-                                                        clickedHTMLElement.style.fontStyle = "italic";
-                                                        clickedHTMLElement.style.fontWeight = el.target.value.split("00")[0] * 100;
-                                                    }else{
-                                                        clickedHTMLElement.style.fontStyle = "normal";
-                                                        clickedHTMLElement.style.fontWeight = el.target.value;
+                                                        // change the text to italic
+                                                        const italicRegExp =  /\b(\d+)italic\b/g;
+                                                        if(el.target.value.match(italicRegExp)){
+                                                            clickedHTMLElement.style.fontStyle = "italic";
+                                                            clickedHTMLElement.style.fontWeight = el.target.value.split("00")[0] * 100;
+                                                        }else{
+                                                            clickedHTMLElement.style.fontStyle = "normal";
+                                                            clickedHTMLElement.style.fontWeight = el.target.value;
+                                                        }
                                                     }
-                                                }
-                                            }}>
-                                                {fontsVariance && fontsVariance.data.items[0].variants.map((el) => (
-                                                    <option key={el} value={el}>{el}</option>
-                                                        
-                                                ))} 
-                                            </select>
-                                        </div>
-
+                                                }}>
+                                                    {fontsVarianceProtected && <h3 className="text-white" >Please Wait Slow Internet</h3>}
+                                                    {fontsVarianceExtractError && <h3 className="text-white" >Server Down Please Wait😥 Devs are working on it.</h3>}
+                                                    {fontsVariance && fontsVariance.data.items[0].variants.map((el) => (
+                                                        <option key={el} value={el}>{el}</option>
+                                                            
+                                                    ))} 
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <hr className="my-3" />
@@ -437,7 +418,6 @@ export default function Designs() {
                                     <input type="file" name="" id=""/>
                                 </div>
                             </div>
-                           
                         </div>
                     </section>
                 </div>

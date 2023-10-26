@@ -1,14 +1,21 @@
 import React from 'react';
 import './App.css';
-import Navigation from "./Designs/navigation/Navigation";
 import Designs from './Designs/Designs/Designs';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Exports from './Designs/Exports/Exports';
+
 
 function App() {
 
   return (
     <div className="App">
-       <Navigation />
-       <Designs />
+        <BrowserRouter> 
+            <Routes>
+              <Route path='/design'  element={<Designs />} />
+              <Route path='/export'  element={<Exports />} />
+            </Routes>
+        </BrowserRouter>
+       
     </div>
   );
 }
