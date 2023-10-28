@@ -5,17 +5,29 @@ import { VscFilterFilled, VscChromeClose, VscGripper, /*VscLink*/} from "react-i
 import { useFetch } from "../../hooks/useFetch";
 import testProfile from "../test-image/test-profile.jpeg";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+
+import { storeCodes, removeCode } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
+
+
 
 //  AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw api key
 export default function Designs() {
+    // redux
+    const dispatch = useDispatch();
+    const selectedCodes = useSelector(state => state.codes);
+    // selectedCodes.forEach(el => {
+    //     console.log(el.id);
+    // });
+
     const [clicked, SetClicked] = useState("navigation");
-    const {data:codes, isProtected, error} = useFetch(`http://localhost:8000/api/v1/codes/extractCode?section=${clicked.toLowerCase()}`, "GET");
-    
-    const [choosenFont, setChoosenFont] = useState();
+    const {data:codes, isProtected, error} = useFetch(`http://localhost:8000/api/v1/codes/extractCode?section=${clicked.toLowerCase()}`, "GET", "codes");
+    const [choosenFont, setChoosenFont] = useState("Roboto");
+
 
     // for fonts
-    const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useFetch("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&sort=popularity", "GET");
-    const {data:fontsVariance, isProtected:fontsVarianceProtected, error:fontsVarianceExtractError} = useFetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&family=${choosenFont ? choosenFont : "Roboto"}`, "GET");
+    const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useFetch("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&sort=popularity", "GET", "fonts");
+    const {data:fontsVariance, isProtected:fontsVarianceProtected, error:fontsVarianceExtractError} = useFetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&family=${choosenFont ? choosenFont : "Roboto"}`, "GET", "fonts");
    
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
     const [previousClickedElement, setPreviousClickedElement] = useState(null);
@@ -23,43 +35,11 @@ export default function Designs() {
     const [open, setOpen] = useState(true);
     // for edit pannel to determine close or open
     const [openEditPanel, setOpenEditPanel] = useState(false);
-    const [storedCode, setStoreCode] = useState(new Map()); // stroage clicked code in an array of object
 
 
     // counts the clicked word length
     const [clickWordCount, setClickWordCount] = useState(0);
 
-    function generateUniqueCharacter() {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
-        const uniqueChars = new Set();
-      
-        while (uniqueChars.size < 10) {
-          const randomIndex = Math.floor(Math.random() * characters.length);
-          uniqueChars.add(characters[randomIndex]);
-        }
-      
-        return Array.from(uniqueChars).join('');
-    }
-    
-    function StoreCodeToState(name, html, css, slug){
-        const newCodeMap = new Map(storedCode);
-        newCodeMap.set(generateUniqueCharacter(), { name, html, css, slug});
-        setStoreCode(newCodeMap);
-    }
-
-    function deleteCode(deleteKey) {
-        const deleteTransferMap = new Map(storedCode);
-        deleteTransferMap.delete(deleteKey);
-        setStoreCode(deleteTransferMap);
-    }
-    
-    useEffect(() => {
-        setStoreCode(storedCode);
-    }, [storedCode]);
-    
-    // useEffect(() => {
-    // }, [choosenFont]);
-    
     
     return (
         // side design choosing section
@@ -124,7 +104,7 @@ export default function Designs() {
                 {open && <section id="choose-deign" className="h-3/4 overflow-auto rounded-md">
                     {isProtected && <p>Fetching codes</p>}
                     {error && <p className="text-white">server error please wait we are fixing it.</p>}
-                    {codes.data.message.selectDataQuery && codes.data.message.selectDataQuery.map((code, i) => (
+                    {codes && codes.map((code, i) => (
                         <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded" >
                             <div className="">
                                 <img src={`http://localhost:8000/desktop/${code.desktopView}`} alt="image_cannot_be_shown"/>
@@ -155,7 +135,12 @@ export default function Designs() {
                                     <button 
                                         className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                         onClick={() => {
-                                            StoreCodeToState(code.name, code.htmlCode, code.cssCode, code.slug)
+                                            // StoreCodeToState(code.name, code.htmlCode, code.cssCode, code.slug)
+                                            const obj = {
+                                                name: code.name, html: code.htmlCode, css: code.cssCode, slug: code.slug
+                                            }
+                                            // send the object to the redux config
+                                            dispatch(storeCodes({name: code.name, html: code.htmlCode, css: code.cssCode, slug: code.slug}));
                                         }} // to add for deleting purpose  
                                     >
                                         Use
@@ -189,7 +174,7 @@ export default function Designs() {
                 </section>} 
             </aside>
 
-            <section id="extract-code" className="h-screen">
+            <section id="extract-code" className="h-screen" >
                 <html lang="en">    
                     <head>
                         <meta charset="UTF-8" />
@@ -199,8 +184,8 @@ export default function Designs() {
                         <link href={`https://fonts.googleapis.com/css2?family=${choosenFont}`} rel="stylesheet" />
                     </head>
                     <body id="edit-space">
-                        {storedCode && Array.from(storedCode).map(([key, value]) => (
-                            <section key={key} id={key}>
+                        {selectedCodes && selectedCodes.map((code, id) => (
+                            <section key={code.id} id={code.id}>
                                 <div className="control-buttons flex flex-row w-full  items-center justify-center absolute z-50">
                                     <div className="control-buttons py-1 px-6 bg-blue-500 flex items-center justify-center space-x-4">
                                         <button className="control-buttons">
@@ -208,8 +193,9 @@ export default function Designs() {
                                         </button>
                                         
                                         <button className="control-buttons" onClick={el => {
-                                            deleteCode(key)
+                                            // deleteCode(code.id)
                                             setOpenEditPanel(false);
+                                            dispatch(removeCode(code.id))
                                         }}>
                                             <VscChromeClose className="control-buttons text-black"  />
                                         </button>
@@ -261,9 +247,9 @@ export default function Designs() {
                                             });
                                         }}
 
-                                        dangerouslySetInnerHTML={{ __html: value.html }}
+                                        dangerouslySetInnerHTML={{ __html: code.codeParams.html }}
                                     ></div>
-                                    <style dangerouslySetInnerHTML={ { __html: value.css } }></style>
+                                    <style dangerouslySetInnerHTML={ { __html: code.codeParams.css } }></style>
                                 </div>
                             </section>
                         ))}
@@ -271,7 +257,7 @@ export default function Designs() {
                 </html>
             </section>
 
-            {openEditPanel && <aside className={`l-0 overflow-auto max-h-full h-screen  ${openEditPanel ? "w-1/6 bg-zinc-900" : " w-0 bg-transparent" } duration-700 bg-zinc-900 px-3 py-4 shadow-zinc-950 fixed top-0 right-0 z-1`}>
+            {openEditPanel && <aside className={`l-0 overflow-auto max-h-full h-screen  ${openEditPanel ? "w-1/6 bg-zinc-900" : " w-0 bg-transparent" } duration-300 bg-zinc-900 px-3 py-4 shadow-zinc-950 fixed top-0 right-0 z-1`}>
                 <div>
                     <section className="">
                         <div>
