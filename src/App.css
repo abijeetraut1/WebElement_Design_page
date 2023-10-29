@@ -1,4 +1,4 @@
-*{
+* {
   margin: 0;
   padding: 0;
 }
@@ -7,6 +7,6 @@ aside::-webkit-scrollbar {
   width: 0px;
 }
 
-#choose-deign::-webkit-scrollbar{
+#choose-deign::-webkit-scrollbar {
   width: 1px;
 }

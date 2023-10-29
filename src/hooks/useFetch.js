@@ -40,7 +40,7 @@ export const useFetch = (url, method, purpose) => {
             controller.abort()
         }
 
-    }, [url, method])
+    }, [url, method, purpose])
 
     return {
         data,

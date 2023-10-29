@@ -4,7 +4,6 @@ import Designs from './Designs/Designs/Designs';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Exports from './Designs/Exports/Exports';
 
-
 function App() {
 
   return (
@@ -15,7 +14,6 @@ function App() {
               <Route path='/export'  element={<Exports />} />
             </Routes>
         </BrowserRouter>
-       
     </div>
   );
 }

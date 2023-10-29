@@ -3,7 +3,8 @@ import { createSlice, nanoid } from "@reduxjs/toolkit";
 const slices = createSlice({
     name: "codes",
     initialState: {
-        codes: []
+        codes: [],
+        update: []
     },
     reducers: {
         storeCodes: (state, action) => {
@@ -21,9 +22,12 @@ const slices = createSlice({
         },
         removeCode: (state, action) => {
             state.codes = state.codes.filter(code => code.id !== action.payload );
-        }
+        },
+        updateCode: (state, action) => {
+            state.update.push(action.payload.html);
+        },
     }
 });
 
-export const {storeCodes, removeCode} = slices.actions;
+export const {storeCodes, removeCode, updateCode} = slices.actions;
 export default slices.reducer; 

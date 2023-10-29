@@ -1,4 +1,4 @@
-import { useState,useEffect  } from "react";
+import { useState} from "react";
 import React from 'react'
 import { FiSidebar } from "react-icons/fi";
 import { VscFilterFilled, VscChromeClose, VscGripper, /*VscLink*/} from "react-icons/vsc";
@@ -7,7 +7,7 @@ import testProfile from "../test-image/test-profile.jpeg";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 
-import { storeCodes, removeCode } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
+import { storeCodes, removeCode, updateCode } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
 
 
 
@@ -67,9 +67,13 @@ export default function Designs() {
 
                         {open && 
                             <div>
-                                <Link to="/export">
+                                <Link to="/export" >
                                     <button
-                                        className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                        className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" 
+                                        onClick={() => {
+                                            const html = document.getElementById("extract-code").innerHTML;
+                                            dispatch(updateCode({html}));  
+                                        }}
                                     >
                                         Export
                                     </button>
@@ -135,13 +139,9 @@ export default function Designs() {
                                     <button 
                                         className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                         onClick={() => {
-                                            // StoreCodeToState(code.name, code.htmlCode, code.cssCode, code.slug)
-                                            const obj = {
-                                                name: code.name, html: code.htmlCode, css: code.cssCode, slug: code.slug
-                                            }
                                             // send the object to the redux config
                                             dispatch(storeCodes({name: code.name, html: code.htmlCode, css: code.cssCode, slug: code.slug}));
-                                        }} // to add for deleting purpose  
+                                        }}
                                     >
                                         Use
                                     </button>
@@ -240,6 +240,9 @@ export default function Designs() {
                                                     // store the clicked element data to dispaly the text content in input field
                                                     setclickedHTMLElement(event.target);
                                                     setPreviousClickedElement(event.target);
+
+                                                    // update the state
+                                                    // dispatch(updateCode({id: code.id, setclickedHTMLElement}));
                                                 }else{
                                                     setOpenEditPanel(false);
                                                     setclickedHTMLElement(null);
