@@ -11,6 +11,7 @@ export default function Exports() {
 
   const headersTags = ` <!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /></head><body>`
   const bottomTags = `</body></html>`;
+  const cssHeadTag = `*{margin: 0;padding: 0;}`
 
   useEffect(() => {
     const html = selectedCode.map(code => code.codeParams.html).join('');
@@ -47,7 +48,7 @@ export default function Exports() {
             width="40vw"
             theme="vs-dark"
             defaultLanguage="css"
-            defaultValue={cssCodes}
+            defaultValue={cssHeadTag + cssCodes}
             onMount={(editor) => {
               setTimeout(() => {
                 editor.trigger('editor', 'editor.action.formatDocument');

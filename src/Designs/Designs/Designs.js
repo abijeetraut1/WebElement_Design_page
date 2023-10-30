@@ -63,8 +63,8 @@ export default function Designs() {
                         </div>
 
                         {open && 
-                            <div>
-                                <Link to="/export">
+                            <div className="flex space-x-1">
+                                <div>
                                     <button
                                         className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" 
                                         onClick={() => {
@@ -77,14 +77,21 @@ export default function Designs() {
                                                     if(clickedHTMLElement.style.transitionDuration){
                                                         clickedHTMLElement.style.transitionDuration = "";
                                                     }
+                                                    const htmlChangedCodes = document.getElementById(`${code.id}`).innerHTML;
+                                                    dispatch(updateCode({id: code.id, html: htmlChangedCodes}))
+
                                                 } catch(err){
                                                     return;
                                                 }
-
-                                                const htmlChangedCodes = document.getElementById(`${code.id}`).innerHTML;
-                                                dispatch(updateCode({id: code.id, html: htmlChangedCodes}))
                                             })
                                         }}
+                                    >
+                                        Save
+                                    </button>
+                                </div>
+                                <Link to="/export">
+                                    <button
+                                        className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" 
                                     >
                                         Export
                                     </button>
@@ -220,6 +227,9 @@ export default function Designs() {
                                             
                                             editSpace.addEventListener('click', function(event) {
                                                 const RegExp = /\n/;
+                                                
+                                                // const htmlChangedCodes = document.getElementById(`${code.id}`).innerHTML;
+                                                // dispatch(updateCode({id: code.id, html: htmlChangedCodes}))
 
                                                 if(previousClickedElement){
                                                     previousClickedElement.style.border = "";
@@ -251,12 +261,7 @@ export default function Designs() {
                                                     setclickedHTMLElement(event.target);
                                                     setPreviousClickedElement(event.target);
 
-                                                    // // store the click Element id
-                                                    // setClickedElementId(code.id);
-
-                                                    // // update the state
-                                                    // const htmlElement = document.getElementById(code.id).innerHTML;
-                                                    // dispatch(updateCode({id: code.id, html: htmlElement}));
+                                                    
                                                     
                                                 }else{
                                                     setOpenEditPanel(false);
