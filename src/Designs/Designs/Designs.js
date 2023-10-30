@@ -16,14 +16,11 @@ export default function Designs() {
     // redux
     const dispatch = useDispatch();
     const selectedCodes = useSelector(state => state.codes);
-    // selectedCodes.forEach(el => {
-    //     console.log(el.id);
-    // });
 
     const [clicked, SetClicked] = useState("navigation");
     const {data:codes, isProtected, error} = useFetch(`http://localhost:8000/api/v1/codes/extractCode?section=${clicked.toLowerCase()}`, "GET", "codes");
     const [choosenFont, setChoosenFont] = useState("Roboto");
-
+    const [clickElementId, setClickedElementId] = useState();
 
     // for fonts
     const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useFetch("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&sort=popularity", "GET", "fonts");
@@ -67,12 +64,26 @@ export default function Designs() {
 
                         {open && 
                             <div>
-                                <Link to="/export" >
+                                <Link to="/export">
                                     <button
                                         className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" 
                                         onClick={() => {
-                                            const html = document.getElementById("edit-space").innerHTML;
-                                            dispatch(updateCode({html}));  
+                                            selectedCodes.forEach(code => {
+                                                try{
+                                                    if(clickedHTMLElement.style.border){
+                                                        clickedHTMLElement.style.border = "";
+                                                    } 
+
+                                                    if(clickedHTMLElement.style.transitionDuration){
+                                                        clickedHTMLElement.style.transitionDuration = "";
+                                                    }
+                                                } catch(err){
+                                                    return;
+                                                }
+
+                                                const htmlChangedCodes = document.getElementById(`${code.id}`).innerHTML;
+                                                dispatch(updateCode({id: code.id, html: htmlChangedCodes}))
+                                            })
                                         }}
                                     >
                                         Export
@@ -185,7 +196,7 @@ export default function Designs() {
                     </head>
                     <body id="edit-space">
                         {selectedCodes && selectedCodes.map((code, id) => (
-                            <section key={code.id} id={code.id}>
+                            <section key={code.id}>
                                 <div className="control-buttons flex flex-row w-full  items-center justify-center absolute z-50">
                                     <div className="control-buttons py-1 px-6 bg-blue-500 flex items-center justify-center space-x-4">
                                         <button className="control-buttons">
@@ -203,7 +214,7 @@ export default function Designs() {
                                 </div>
 
                                 <div>
-                                    <div
+                                    <div id={code.id}
                                         onClick={() => {
                                             const editSpace = document.getElementById("edit-space");
                                             
@@ -211,14 +222,13 @@ export default function Designs() {
                                                 const RegExp = /\n/;
 
                                                 if(previousClickedElement){
-                                                    previousClickedElement.style.border = "none"
+                                                    previousClickedElement.style.border = "";
+                                                    previousClickedElement.style.transitionDuration = "";
                                                 }
 
                                                 // const classList = event.target.classList("control-buttons");
                                                 if(event.target instanceof HTMLElement){
-                                                    if(event.target.classList.contains("control-buttons")){
-                                                        return;
-                                                    }
+                                                    if(event.target.classList.contains("control-buttons")) return;
                                                 }
 
                                                 // shows the clicked element doesnot contain \n tag
@@ -241,8 +251,13 @@ export default function Designs() {
                                                     setclickedHTMLElement(event.target);
                                                     setPreviousClickedElement(event.target);
 
-                                                    // update the state
-                                                    // dispatch(updateCode({id: code.id, setclickedHTMLElement}));
+                                                    // // store the click Element id
+                                                    // setClickedElementId(code.id);
+
+                                                    // // update the state
+                                                    // const htmlElement = document.getElementById(code.id).innerHTML;
+                                                    // dispatch(updateCode({id: code.id, html: htmlElement}));
+                                                    
                                                 }else{
                                                     setOpenEditPanel(false);
                                                     setclickedHTMLElement(null);
@@ -264,9 +279,6 @@ export default function Designs() {
                 <div>
                     <section className="">
                         <div>
-                            <div className="py-3">
-                                
-                            </div>
                             <hr className="my-3" />
                             <div>
                                 <div>

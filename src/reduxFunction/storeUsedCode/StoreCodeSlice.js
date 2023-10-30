@@ -4,7 +4,6 @@ const slices = createSlice({
     name: "codes",
     initialState: {
         codes: [],
-        update: []
     },
     reducers: {
         storeCodes: (state, action) => {
@@ -24,7 +23,7 @@ const slices = createSlice({
             state.codes = state.codes.filter(code => code.id !== action.payload );
         },
         updateCode: (state, action) => {
-            state.update.push(action.payload.html);
+            state.codes = state.codes.filter(code => code.id === action.payload.id ? code.codeParams.html = action.payload.html : code.codeParams.html );
         },
     }
 });
