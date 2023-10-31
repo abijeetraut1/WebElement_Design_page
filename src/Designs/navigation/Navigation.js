@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 export default function Navigation() {
   return (
     <div>
-
         {/* navigation will shown other page expect design  */}
         <header className='h-fit flex justify-between items-center bg-zinc-900 p-2 text-white pl-4 pr-4'>
             <div>
