@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import { VscChevronDown } from "react-icons/vsc";
 
 export default function DrawAWebSite() {
-    const [open, setOpen] = useState(false);
     const [isDrawing, setIsDrawing] = useState(false);
 
     const [x, setX] = useState(0);
@@ -49,6 +47,7 @@ export default function DrawAWebSite() {
         let div = document.createElement("div");
         div.classList.add("drawnElement");
         div.style.position = "absolute";
+        
         div.style.top = storeTemp.y + "px";
         div.style.left = storeTemp.x + "px";
         div.style.height = storeTemp.height - storeTemp.y + "px";
@@ -134,7 +133,15 @@ export default function DrawAWebSite() {
     }
 
     function resize(element) {
-        
+        showAnchor();
+        let resizeBtns = document.querySelectorAll("button");
+        resizeBtns.forEach(resizeBtn => {
+            resizeBtn.addEventListener("click", () => {
+                if(resizeBtn.getAttribute("bottom-right")){
+                    startDrawing(element)
+                }
+            })
+        });
     }
 
   return (
@@ -150,6 +157,7 @@ export default function DrawAWebSite() {
             onClick={() => {
                 clickedItem()
                 showAnchor();
+                resize();
             }}
         ></canvas>
         
