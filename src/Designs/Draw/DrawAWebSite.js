@@ -43,6 +43,8 @@ export default function DrawAWebSite() {
         setHeight(0);
         setWidth(0);
 
+        if(!(storeTemp.height > 0) || !(storeTemp.height > 0)) return;
+        
         // create div based on the drawn design
         let div = document.createElement("div");
         div.classList.add("drawnElement");
