@@ -1,17 +1,15 @@
-import React, {useEffect, useState} from 'react'
-import { FiSidebar } from "react-icons/fi";
-import { Link } from 'react-router-dom';
-import testProfile from "../test-image/test-profile.jpeg"
+import React, {useEffect, useState} from 'react';
+import { VscChevronDown } from "react-icons/vsc";
 
 export default function DrawAWebSite() {
     const [open, setOpen] = useState(false);
     const [isDrawing, setIsDrawing] = useState(false);
-    const [create, setCreate] = useState(false);
 
     const [x, setX] = useState(0);
     const [y, setY] = useState(0);
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
+    const [storeCurrentClick, setStoreCurrentClick] = useState();
  
     const [store, setStore] = useState([]);
 
@@ -22,6 +20,10 @@ export default function DrawAWebSite() {
         setCanvas(document.getElementById("canvas"));
         setCtx(document.getElementById("canvas").getContext("2d"));
     }, [canvas, ctx]);
+
+    useEffect(() => {
+        console.log(storeCurrentClick);
+    }, [storeCurrentClick]);
 
     function setPosition(e) {
         canvas.style.zIndex = 1;
@@ -45,6 +47,7 @@ export default function DrawAWebSite() {
 
         // create div based on the drawn design
         let div = document.createElement("div");
+        div.classList.add("drawnElement");
         div.style.position = "absolute";
         div.style.top = storeTemp.y + "px";
         div.style.left = storeTemp.x + "px";
@@ -73,7 +76,12 @@ export default function DrawAWebSite() {
 
         divs.forEach(element => {
             element.addEventListener("click", () => {
-                move(element)
+                if(!element.classList.contains("drawnElement")) return;
+                
+                setStoreCurrentClick(element);
+                move(element);
+                showAnchor(element);
+
             })
         });
     }
@@ -95,6 +103,7 @@ export default function DrawAWebSite() {
                     const newY = e.clientY - offsetY;
                     element.style.left = newX + "px";
                     element.style.top = newY + "px";
+                    showAnchor(element)
                 }
             });
 
@@ -104,70 +113,44 @@ export default function DrawAWebSite() {
         });
     }
 
+    function showAnchor(element) {
+        if(!element) return;
+        let resizeBtns = document.querySelectorAll("button");
+        resizeBtns[0].style.top = element.style.top.replace("px", " ") * 1 - 8 + "px"; 
+        resizeBtns[0].style.left = element.style.left.replace("px", " ") * 1 - 8 + "px"; 
+        resizeBtns[0].style.zIndex = 1;
+        
+        resizeBtns[1].style.top = element.style.top.replace("px", " ") - 8 + "px"; 
+        resizeBtns[1].style.left = (element.style.left.replace("px", " ") * 1 + element.style.width.replace("px", " ") * 1 )+ "px" ; 
+        resizeBtns[1].style.zIndex = 1;
+
+        resizeBtns[2].style.top = (element.style.top.replace("px", " ") * 1 + element.style.height.replace("px", " ") * 1) + "px"; 
+        resizeBtns[2].style.left = (element.style.left.replace("px", " ") * 1 + element.style.width.replace("px", " ") * 1 )+ "px"; 
+        resizeBtns[2].style.zIndex = 1;
+
+        resizeBtns[3].style.top = (element.style.top.replace("px", " ") * 1 + element.style.height.replace("px", " ") * 1) + "px"; 
+        resizeBtns[3].style.left = element.style.left.replace("px", " ") - 8 + "px"; 
+        resizeBtns[3].style.zIndex = 1;
+    }
+
     function resize(element) {
         
     }
 
   return (
     <section>
-        <aside className={`fixed top-0 left-0 ${open ? "w-1/5 bg-zinc-900" : "w-0 bg-transparent" } duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100 `} >
-            <div className="sm:col-span-3 inset-0 backdrop-blur-md">
-                <div className='flex items-center justify-between space-x-2'>
-                    <div className="flex items-center justify-between space-x-2">
-                        <button
-                            className='border:solid border border-white bg-zinc-900 p-2 rounded-md'
-                            onClick={() => setOpen(open ? false : true)}
-                        >
-                            {<FiSidebar className= 'text-white text-xl ' />}
-                        </button>
-                        {open && 
-                            <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
-                                Test  Website
-                            </div>
-                        } 
-                    </div>
-                    {open && 
-                        <div className="flex space-x-1">
-                            <div>
-                                <button
-                                    className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" 
-                                >
-                                    Save
-                                </button>
-                            </div>
-                            <Link to="/export">
-                                <button
-                                    className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" 
-                                >
-                                    Export
-                                </button>
-                            </Link>
-                        </div>
-                    }
-                </div>
-            </div>
-            
-            {open && <section className="py-3 fiexed bottom-0">
-                <div className="flex items-center space-x-2 justify-between">
-                    <div className="flex items-center space-x-3">
-                        <div>
-                            <button>
-                                <img src={testProfile} className='outline-white h-10 w-10 rounded-full outline' alt="cannot display profile" />
-                            </button>
-                        </div>
-                        <div>
-                            <span className="text-white cursor-pointer">Abijeet Raut</span>
-                        </div>
-                    </div>
-                </div>
-            </section>} 
-        </aside>
-
+        <button className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize' data-attribute="top-left"></button>
+        <button className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize' data-attribute="top-right"></button>
+        <button className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize' data-attribute="bottom-left"></button>
+        <button className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize' data-attribute="bottom-right"></button>
         <canvas id='canvas' height="1080" width="1920" className=" border-4 border-black"
             onMouseDown={el => setPosition(el)}
             onMouseUp={() => stopDrawing()}
             onMouseMove={(el) => startDrawing(el)}
-            onClick={() => clickedItem()}
+            onClick={() => {
+                clickedItem()
+                showAnchor();
+            }}
         ></canvas>
         
     </section>
