@@ -52,6 +52,7 @@ export default function DrawAWebSite() {
         div.style.left = storeTemp.x + "px";
         div.style.height = storeTemp.height - storeTemp.y + "px";
         div.style.width = storeTemp.width  - storeTemp.x + "px";
+        
         div.style.backgroundColor = "orange";
         
         document.body.appendChild(div);
@@ -80,7 +81,6 @@ export default function DrawAWebSite() {
                 setStoreCurrentClick(element);
                 move(element);
                 showAnchor(element);
-
             })
         });
     }
@@ -115,33 +115,27 @@ export default function DrawAWebSite() {
     function showAnchor(element) {
         if(!element) return;
         let resizeBtns = document.querySelectorAll("button");
-        resizeBtns[0].style.top = element.style.top.replace("px", " ") * 1 - 8 + "px"; 
-        resizeBtns[0].style.left = element.style.left.replace("px", " ") * 1 - 8 + "px"; 
+
+        resizeBtns[0].style.top = element.style.top.replace("px", " ") * 1 + "px"; 
+        resizeBtns[0].style.left = element.style.left.replace("px", " ") * 1 + "px"; 
         resizeBtns[0].style.zIndex = 1;
         
-        resizeBtns[1].style.top = element.style.top.replace("px", " ") - 8 + "px"; 
-        resizeBtns[1].style.left = (element.style.left.replace("px", " ") * 1 + element.style.width.replace("px", " ") * 1 )+ "px" ; 
+        resizeBtns[1].style.top = element.style.top; 
+        resizeBtns[1].style.left = (element.style.left.replace("px", " ") * 1 + element.style.width.replace("px", " ") * 1  - 8) + "px" ; 
         resizeBtns[1].style.zIndex = 1;
 
-        resizeBtns[2].style.top = (element.style.top.replace("px", " ") * 1 + element.style.height.replace("px", " ") * 1) + "px"; 
-        resizeBtns[2].style.left = (element.style.left.replace("px", " ") * 1 + element.style.width.replace("px", " ") * 1 )+ "px"; 
+        resizeBtns[2].style.top = (element.style.top.replace("px", " ") * 1 + element.style.height.replace("px", " ") * 1 - 8) + "px"; 
+        resizeBtns[2].style.left = (element.style.left.replace("px", " ") * 1 + element.style.width.replace("px", " ") * 1 - 8)+ "px"; 
         resizeBtns[2].style.zIndex = 1;
 
-        resizeBtns[3].style.top = (element.style.top.replace("px", " ") * 1 + element.style.height.replace("px", " ") * 1) + "px"; 
-        resizeBtns[3].style.left = element.style.left.replace("px", " ") - 8 + "px"; 
+        resizeBtns[3].style.top = (element.style.top.replace("px", " ") * 1 + element.style.height.replace("px", " ") * 1 - 8) + "px"; 
+        resizeBtns[3].style.left = element.style.left; 
         resizeBtns[3].style.zIndex = 1;
     }
 
     function resize(element) {
         showAnchor();
-        let resizeBtns = document.querySelectorAll("button");
-        resizeBtns.forEach(resizeBtn => {
-            resizeBtn.addEventListener("click", () => {
-                if(resizeBtn.getAttribute("bottom-right")){
-                    startDrawing(element)
-                }
-            })
-        });
+        
     }
 
   return (
