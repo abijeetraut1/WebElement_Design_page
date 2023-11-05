@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
+import { resizeFunction } from './Functions/resize';
 
 export default function DrawAWebSite() {
     const [isDrawing, setIsDrawing] = useState(false);
-
     const [x, setX] = useState(0);
     const [y, setY] = useState(0);
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
-    const [storeCurrentClick, setStoreCurrentClick] = useState();
+    const [clickItem, setClickItem] = useState();
  
     const [store, setStore] = useState([]);
 
@@ -19,12 +19,14 @@ export default function DrawAWebSite() {
         setCtx(document.getElementById("canvas").getContext("2d"));
     }, [canvas, ctx]);
 
-    useEffect(() => {
-        console.log(storeCurrentClick);
-    }, [storeCurrentClick]);
+    // useEffect(() => {
+    //     console.log(clickItem);
+    // }, [clickItem]);
 
     function setPosition(e) {
-        canvas.style.zIndex = 1;
+        if(canvas){
+            canvas.style.zIndex = 1;
+        }
         setIsDrawing(true);
         setX(e.clientX - canvas.getBoundingClientRect().left);
         setY(e.clientY - canvas.getBoundingClientRect().top);
@@ -44,7 +46,7 @@ export default function DrawAWebSite() {
         setWidth(0);
 
         if(!(storeTemp.height > 0) || !(storeTemp.height > 0)) return;
-        
+
         // create div based on the drawn design
         let div = document.createElement("div");
         div.classList.add("drawnElement");
@@ -62,6 +64,7 @@ export default function DrawAWebSite() {
 
     function startDrawing(e) {
         if (!isDrawing) return;
+        setClickItem(null);
 
         setWidth(e.clientX - canvas.getBoundingClientRect().left);
         setHeight(e.clientY - canvas.getBoundingClientRect().top);
@@ -73,19 +76,20 @@ export default function DrawAWebSite() {
     }
 
     
-    function clickedItem() {
+    function clickedItemFunc() {
         const divs = document.querySelectorAll("div");
 
         divs.forEach(element => {
             element.addEventListener("click", () => {
                 if(!element.classList.contains("drawnElement")) return;
                 
-                setStoreCurrentClick(element);
+                setClickItem(element);
                 move(element);
                 showAnchor(element);
             })
         });
     }
+
 
     function move(element) {
         let isDragging = false;
@@ -104,7 +108,7 @@ export default function DrawAWebSite() {
                     const newY = e.clientY - offsetY;
                     element.style.left = newX + "px";
                     element.style.top = newY + "px";
-                    showAnchor(element)
+                    showAnchor(element);
                 }
             });
 
@@ -135,25 +139,26 @@ export default function DrawAWebSite() {
         resizeBtns[3].style.zIndex = 1;
     }
 
-    function resize(element) {
-        showAnchor();
-        
-    }
 
   return (
     <section>
         <button className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize' data-attribute="top-left"></button>
         <button className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize' data-attribute="top-right"></button>
-        <button className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize' data-attribute="bottom-left"></button>
+        
+        <button
+            className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize'
+            data-attribute="bottom-left"
+            onMouseMove={(element) => resizeFunction(element, clickItem, canvas)}
+        ></button>
+
+
         <button className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize' data-attribute="bottom-right"></button>
         <canvas id='canvas' height="1080" width="1920" className=" border-4 border-black"
             onMouseDown={el => setPosition(el)}
             onMouseUp={() => stopDrawing()}
             onMouseMove={(el) => startDrawing(el)}
             onClick={() => {
-                clickedItem()
-                showAnchor();
-                resize();
+                clickedItemFunc();
             }}
         ></canvas>
         
