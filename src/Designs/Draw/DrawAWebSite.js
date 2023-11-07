@@ -1,14 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import { resizeFunction } from './Functions/Resize';
 import { DeleteNodes } from './Functions/DeleteNode';
+import { nanoid } from '@reduxjs/toolkit';
+import { signal } from "@preact/signals";
 
+const clickItem = signal(null);
 export default function DrawAWebSite() {
     const [isDrawing, setIsDrawing] = useState(false);
     const [x, setX] = useState(0);
     const [y, setY] = useState(0);
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
-    const [clickItem, setClickItem] = useState(null);
+    // const [clickItem, setClickItem] = useState(null);
  
     const [store, setStore] = useState([]);
 
@@ -44,9 +47,11 @@ export default function DrawAWebSite() {
 
         if(!(storeTemp.height > 0) || !(storeTemp.height > 0)) return;
 
+        const parentElement = document.querySelector("#drawSection"); 
         // create div based on the drawn design
         let div = document.createElement("div");
         div.classList.add("drawnElement");
+        div.classList.add(`${nanoid()}`);
         div.style.position = "absolute";
         
         div.style.top = storeTemp.y + "px";
@@ -56,12 +61,12 @@ export default function DrawAWebSite() {
         
         div.style.backgroundColor = "orange";
         
-        document.body.appendChild(div);
+        parentElement.appendChild(div);
     }
 
     function startDrawing(e) {
         if (!isDrawing) return;
-        setClickItem(null);
+        // setClickItem(null);
 
         setWidth(e.clientX - canvas.getBoundingClientRect().left);
         setHeight(e.clientY - canvas.getBoundingClientRect().top);
@@ -80,11 +85,10 @@ export default function DrawAWebSite() {
             element.addEventListener("click", () => {
                 if(!element.classList.contains("drawnElement")) return;
                 
-                setClickItem(null);
-                setClickItem(element);
-                DeleteNodes(element);
+                clickItem.value = element.classList[1];
                 move(element);
                 showAnchor(element);
+                DeleteNodes(clickItem.value);
             })
         });
     }
@@ -144,22 +148,22 @@ export default function DrawAWebSite() {
         <button 
             className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize'
             data-attribute="top-left"
-            onMouseMove={(element) => resizeFunction(element, clickItem, canvas)}
+            onMouseMove={(element) => resizeFunction(element, clickItem.value, canvas)}
         ></button>
         <button 
             className='absolute bg-black h-2 w-2 cursor-n-resize' 
             data-attribute="top-right"
-            onMouseMove={(element) => resizeFunction(element, clickItem, canvas)}
+            onMouseMove={(element) => resizeFunction(element, clickItem.value, canvas)}
         ></button>
         <button
             className='absolute bg-slate-800 h-2 w-2 cursor-n-resize'
             data-attribute="bottom-left"
-            onMouseMove={(element) => resizeFunction(element, clickItem, canvas)}
+            onMouseMove={(element) => resizeFunction(element, clickItem.value, canvas)}
         ></button>
         <button 
             className='absolute bg-slate-800 h-2 w-2 cursor-n-resize' 
             data-attribute="bottom-right"
-            onMouseMove={(element) => resizeFunction(element, clickItem, canvas)}
+            onMouseMove={(element) => resizeFunction(element, clickItem.value, canvas)}
         ></button>
 
         <canvas id='canvas' height="1080" width="1920" className=" border-4 border-black"
@@ -170,6 +174,10 @@ export default function DrawAWebSite() {
                 clickedItemFunc();
             }}
         ></canvas>
+
+        <section id='drawSection'>
+            
+        </section>
         
     </section>
   )

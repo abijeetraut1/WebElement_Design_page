@@ -1,6 +1,9 @@
-export function resizeFunction(element, clickItem, canvas) {
+export function resizeFunction(element, clickClass, canvas) {
     let resizeBtns = document.querySelectorAll("button");
     let newResizeBool = false;
+    
+    let clickItem = document.querySelector(`.${clickClass}`);
+    console.log(clickItem);
     if (element.target.getAttribute("data-attribute") === "top-left") {
         element.target.addEventListener("mousedown", (el) => {
             newResizeBool = true;
@@ -104,7 +107,6 @@ export function resizeFunction(element, clickItem, canvas) {
             clickItem.style.left = el.clientX + "px";
             clickItem.style.height = newHeight + "px";
             clickItem.style.width = newWidth + "px";
-
         })
         document.addEventListener("mouseup", (el) => {
             newResizeBool = false;
