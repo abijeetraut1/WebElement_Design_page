@@ -7,7 +7,7 @@ export default function DrawAWebSite() {
     const [y, setY] = useState(0);
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
-    const [clickItem, setClickItem] = useState();
+    const [clickItem, setClickItem] = useState(null);
  
     const [store, setStore] = useState([]);
 
@@ -83,6 +83,7 @@ export default function DrawAWebSite() {
             element.addEventListener("click", () => {
                 if(!element.classList.contains("drawnElement")) return;
                 
+                setClickItem(null);
                 setClickItem(element);
                 move(element);
                 showAnchor(element);
@@ -142,8 +143,12 @@ export default function DrawAWebSite() {
 
   return (
     <section>
-        <button className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize' data-attribute="top-left"></button>
-        <button className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize' data-attribute="top-right"></button>
+        <button className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize' data-attribute="top-left"
+            onMouseMove={(element) => resizeFunction(element, clickItem, canvas)}
+        ></button>
+        <button className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize' data-attribute="top-right"
+            onMouseMove={(element) => resizeFunction(element, clickItem, canvas)}
+        ></button>
         
         <button
             className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize'
@@ -152,7 +157,9 @@ export default function DrawAWebSite() {
         ></button>
 
 
-        <button className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize' data-attribute="bottom-right"></button>
+        <button className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize' data-attribute="bottom-right"
+            onMouseMove={(element) => resizeFunction(element, clickItem, canvas)}
+        ></button>
         <canvas id='canvas' height="1080" width="1920" className=" border-4 border-black"
             onMouseDown={el => setPosition(el)}
             onMouseUp={() => stopDrawing()}
