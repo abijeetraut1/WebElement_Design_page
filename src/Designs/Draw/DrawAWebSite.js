@@ -143,23 +143,27 @@ export default function DrawAWebSite() {
 
   return (
     <section>
-        <button className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize' data-attribute="top-left"
-            onMouseMove={(element) => resizeFunction(element, clickItem, canvas)}
-        ></button>
-        <button className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize' data-attribute="top-right"
-            onMouseMove={(element) => resizeFunction(element, clickItem, canvas)}
-        ></button>
-        
-        <button
+        <button 
             className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize'
+            data-attribute="top-left"
+            onMouseMove={(element) => resizeFunction(element, clickItem, canvas)}
+        ></button>
+        <button 
+            className='absolute bg-black h-2 w-2 cursor-n-resize' 
+            data-attribute="top-right"
+            onMouseMove={(element) => resizeFunction(element, clickItem, canvas)}
+        ></button>
+        <button
+            className='absolute bg-slate-800 h-2 w-2 cursor-n-resize'
             data-attribute="bottom-left"
             onMouseMove={(element) => resizeFunction(element, clickItem, canvas)}
         ></button>
-
-
-        <button className='absolute bg-indigo-900 h-2 w-2 cursor-n-resize' data-attribute="bottom-right"
+        <button 
+            className='absolute bg-slate-800 h-2 w-2 cursor-n-resize' 
+            data-attribute="bottom-right"
             onMouseMove={(element) => resizeFunction(element, clickItem, canvas)}
         ></button>
+
         <canvas id='canvas' height="1080" width="1920" className=" border-4 border-black"
             onMouseDown={el => setPosition(el)}
             onMouseUp={() => stopDrawing()}
