@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import { resizeFunction, DeleteNodes } from './Functions/resize';
+import { resizeFunction } from './Functions/Resize';
+import { DeleteNodes } from './Functions/DeleteNode';
 
 export default function DrawAWebSite() {
     const [isDrawing, setIsDrawing] = useState(false);
@@ -18,10 +19,6 @@ export default function DrawAWebSite() {
         setCanvas(document.getElementById("canvas"));
         setCtx(document.getElementById("canvas").getContext("2d"));
     }, [canvas, ctx]);
-
-    // useEffect(() => {
-    //     console.log(clickItem);
-    // }, [clickItem]);
 
     function setPosition(e) {
         if(canvas){

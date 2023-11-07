@@ -19,7 +19,7 @@ export function resizeFunction(element, clickItem, canvas) {
             clickItem.style.left = el.clientX + "px";
             const newHeight = (resizeBtns[3].style.top.replace("px", "") * 1) - (resizeBtns[0].style.top.replace("px", "") * 1);
             const newWidth = (resizeBtns[2].style.left.replace("px", "") * 1) - (resizeBtns[3].style.left.replace("px", "") * 1)
-            console.log(newWidth);
+            
             clickItem.style.height = newHeight + "px";
             clickItem.style.width = newWidth + "px";
         })
@@ -112,18 +112,3 @@ export function resizeFunction(element, clickItem, canvas) {
     }
 }
 
-export function DeleteNodes(clickItem) {
-    if (!clickItem) return;
-    let resizeBtns = document.querySelectorAll("button");
-    document.addEventListener("keydown", event => {
-        if (event.key === "Delete" || event.keyCode === 46) {
-            clickItem.remove();
-            if(!resizeBtns) return;
-            resizeBtns.forEach(resizeBtn => {
-                resizeBtn.style.top = 0 + "px";
-                resizeBtn.style.left = 0 + "px";
-            });
-        }
-    });
-
-}
