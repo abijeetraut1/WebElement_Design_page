@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { resizeFunction } from './Functions/resize';
+import { resizeFunction, DeleteNodes } from './Functions/resize';
 
 export default function DrawAWebSite() {
     const [isDrawing, setIsDrawing] = useState(false);
@@ -85,6 +85,7 @@ export default function DrawAWebSite() {
                 
                 setClickItem(null);
                 setClickItem(element);
+                DeleteNodes(element);
                 move(element);
                 showAnchor(element);
             })

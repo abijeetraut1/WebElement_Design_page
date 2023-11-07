@@ -26,7 +26,7 @@ export function resizeFunction(element, clickItem, canvas) {
         document.addEventListener("mouseup", (el) => {
             newResizeBool = false;
         })
-    }else if (element.target.getAttribute("data-attribute") === "top-right") {
+    } else if (element.target.getAttribute("data-attribute") === "top-right") {
         element.target.addEventListener("mousedown", (el) => {
             newResizeBool = true;
         })
@@ -53,7 +53,7 @@ export function resizeFunction(element, clickItem, canvas) {
         document.addEventListener("mouseup", (el) => {
             newResizeBool = false;
         })
-    }else if (element.target.getAttribute("data-attribute") === "bottom-left") {
+    } else if (element.target.getAttribute("data-attribute") === "bottom-left") {
         element.target.addEventListener("mousedown", (el) => {
             newResizeBool = true;
         })
@@ -84,7 +84,7 @@ export function resizeFunction(element, clickItem, canvas) {
         document.addEventListener("mouseup", (el) => {
             newResizeBool = false;
         })
-    }else if (element.target.getAttribute("data-attribute") === "bottom-right") {
+    } else if (element.target.getAttribute("data-attribute") === "bottom-right") {
         element.target.addEventListener("mousedown", (el) => {
             newResizeBool = true;
         })
@@ -110,4 +110,20 @@ export function resizeFunction(element, clickItem, canvas) {
             newResizeBool = false;
         })
     }
+}
+
+export function DeleteNodes(clickItem) {
+    if (!clickItem) return;
+    let resizeBtns = document.querySelectorAll("button");
+    document.addEventListener("keydown", event => {
+        if (event.key === "Delete" || event.keyCode === 46) {
+            clickItem.remove();
+            if(!resizeBtns) return;
+            resizeBtns.forEach(resizeBtn => {
+                resizeBtn.style.top = 0 + "px";
+                resizeBtn.style.left = 0 + "px";
+            });
+        }
+    });
+
 }
