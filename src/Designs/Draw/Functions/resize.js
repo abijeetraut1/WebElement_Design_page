@@ -75,16 +75,16 @@ export function resizeFunction(element, clickItem, canvas) {
             resizeBtns[0].style.top = el.clientY + "px";
             resizeBtns[2].style.left = el.clientX - 8 + "px";
 
-            clickItem.style.top = el.clientY  + "px";
+            clickItem.style.top = el.clientY + "px";
             clickItem.style.width = newWidth + "px";
 
-            const newHeight = (resizeBtns[2].style.top.replace("px", "") * 1) - (resizeBtns[1].style.top.replace("px", "") * 1); 
+            const newHeight = (resizeBtns[2].style.top.replace("px", "") * 1) - (resizeBtns[1].style.top.replace("px", "") * 1);
             clickItem.style.height = newHeight + "px";
         })
         document.addEventListener("mouseup", (el) => {
             newResizeBool = false;
         })
-    }else if (element.target.getAttribute("data-attribute") === "top-left"){
+    } else if (element.target.getAttribute("data-attribute") === "top-left") {
         element.target.addEventListener("mousedown", (el) => {
             newResizeBool = true;
         })
@@ -93,7 +93,18 @@ export function resizeFunction(element, clickItem, canvas) {
             if (!newResizeBool) return;
             if (!clickItem) return;
 
-                        
+            resizeBtns[0].style.top = el.clientY + "px";
+            resizeBtns[0].style.left = el.clientX + "px";
+            resizeBtns[1].style.top = el.clientY + "px";
+            resizeBtns[3].style.left = el.clientX + "px";
+
+            clickItem.style.top = el.clientY + "px";
+            clickItem.style.left = el.clientX + "px";
+            const newHeight = (resizeBtns[3].style.top.replace("px", "") * 1) - (resizeBtns[0].style.top.replace("px", "") * 1);
+            const newWidth = (resizeBtns[2].style.left.replace("px", "") * 1) - (resizeBtns[3].style.left.replace("px", "") * 1)
+            console.log(newWidth);
+            clickItem.style.height = newHeight + "px";
+            clickItem.style.width = newWidth + "px";
         })
         document.addEventListener("mouseup", (el) => {
             newResizeBool = false;
