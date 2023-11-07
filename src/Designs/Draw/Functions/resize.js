@@ -1,15 +1,16 @@
-export function resizeFunction(element, clickClass, canvas) {
+export function resizeFunction(element, clickItem, canvas) {
     let resizeBtns = document.querySelectorAll("button");
+    let drawSection = document.getElementById("drawSection");
     let newResizeBool = false;
-    
-    let clickItem = document.querySelector(`.${clickClass}`);
-    console.log(clickItem);
+
+    if (!drawSection) return;
     if (element.target.getAttribute("data-attribute") === "top-left") {
         element.target.addEventListener("mousedown", (el) => {
             newResizeBool = true;
         })
 
         document.addEventListener("mousemove", (el) => {
+            console.log(clickItem);
             if (!newResizeBool) return;
             if (!clickItem) return;
 
@@ -22,7 +23,7 @@ export function resizeFunction(element, clickClass, canvas) {
             clickItem.style.left = el.clientX + "px";
             const newHeight = (resizeBtns[3].style.top.replace("px", "") * 1) - (resizeBtns[0].style.top.replace("px", "") * 1);
             const newWidth = (resizeBtns[2].style.left.replace("px", "") * 1) - (resizeBtns[3].style.left.replace("px", "") * 1)
-            
+
             clickItem.style.height = newHeight + "px";
             clickItem.style.width = newWidth + "px";
         })
@@ -113,4 +114,3 @@ export function resizeFunction(element, clickClass, canvas) {
         })
     }
 }
-

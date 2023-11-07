@@ -8,7 +8,7 @@ import DrawAWebSite from './Designs/Draw/DrawAWebSite';
 function App() {
 
   return (
-    <div className="App">
+    <section className="App">
         <BrowserRouter> 
             <Routes>
               <Route path='/design'  element={<Designs />} />
@@ -16,7 +16,7 @@ function App() {
               <Route path='/draw'  element={<DrawAWebSite />} />
             </Routes>
         </BrowserRouter>
-    </div>
+    </section>
   );
 }
 

@@ -3,6 +3,7 @@ import { resizeFunction } from './Functions/Resize';
 import { DeleteNodes } from './Functions/DeleteNode';
 import { nanoid } from '@reduxjs/toolkit';
 import { signal } from "@preact/signals";
+import { cloneNode } from './Functions/CloneNode';
 
 const clickItem = signal(null);
 export default function DrawAWebSite() {
@@ -35,6 +36,14 @@ export default function DrawAWebSite() {
     function stopDrawing() {
         // constantly change the button position
         canvas.style.zIndex = -1;
+        try {
+            const divs = document.querySelectorAll("div");
+            divs.forEach((div) => {
+                div.style.zIndex = 1;
+            })
+        } catch (error) {
+            console.log(error);
+        }
         setIsDrawing(false);
 
         let storeTemp = { x, y, height, width };
@@ -51,7 +60,7 @@ export default function DrawAWebSite() {
         // create div based on the drawn design
         let div = document.createElement("div");
         div.classList.add("drawnElement");
-        div.classList.add(`${nanoid()}`);
+        div.id = nanoid();
         div.style.position = "absolute";
         
         div.style.top = storeTemp.y + "px";
@@ -82,13 +91,14 @@ export default function DrawAWebSite() {
         const divs = document.querySelectorAll("div");
 
         divs.forEach(element => {
+            console.log(element);
             element.addEventListener("click", () => {
                 if(!element.classList.contains("drawnElement")) return;
-                
-                clickItem.value = element.classList[1];
-                move(element);
                 showAnchor(element);
-                DeleteNodes(clickItem.value);
+                clickItem.value = element;
+                move(element);
+                cloneNode(element)
+                DeleteNodes(clickItem.value.id);
             })
         });
     }
@@ -127,19 +137,19 @@ export default function DrawAWebSite() {
 
         resizeBtns[0].style.top = element.style.top.replace("px", " ") * 1 + "px"; 
         resizeBtns[0].style.left = element.style.left.replace("px", " ") * 1 + "px"; 
-        resizeBtns[0].style.zIndex = 1;
+        resizeBtns[0].style.zIndex = 9;
         
         resizeBtns[1].style.top = element.style.top; 
         resizeBtns[1].style.left = (element.style.left.replace("px", " ") * 1 + element.style.width.replace("px", " ") * 1  - 8) + "px" ; 
-        resizeBtns[1].style.zIndex = 1;
+        resizeBtns[1].style.zIndex = 9;
 
         resizeBtns[2].style.top = (element.style.top.replace("px", " ") * 1 + element.style.height.replace("px", " ") * 1 - 8) + "px"; 
         resizeBtns[2].style.left = (element.style.left.replace("px", " ") * 1 + element.style.width.replace("px", " ") * 1 - 8)+ "px"; 
-        resizeBtns[2].style.zIndex = 1;
+        resizeBtns[2].style.zIndex = 9;
 
         resizeBtns[3].style.top = (element.style.top.replace("px", " ") * 1 + element.style.height.replace("px", " ") * 1 - 8) + "px"; 
         resizeBtns[3].style.left = element.style.left; 
-        resizeBtns[3].style.zIndex = 1;
+        resizeBtns[3].style.zIndex = 9;
     }
 
 
