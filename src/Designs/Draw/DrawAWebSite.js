@@ -98,9 +98,14 @@ export default function DrawAWebSite() {
                 clickItem.value = element;
                 move(element);
                 cloneNode(element)
-                ShowAnchor(element)
+                ShowAnchor(element, canvas)
                 DeleteNodes(clickItem.value.id);
             })
+            element.addEventListener("mousemove", () => {
+                if(!element.classList.contains("drawnElement")) return;
+                ShowAnchor(element, canvas)
+            })
+            
         });
     }
 
