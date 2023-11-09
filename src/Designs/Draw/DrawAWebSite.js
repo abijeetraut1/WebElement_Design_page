@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
-// import { resizeFunction } from './Functions/Resize';
+import { resizeFunction } from './Functions/Resize';
 import { DeleteNodes } from './Functions/DeleteNode';
 import { nanoid } from '@reduxjs/toolkit';
-import { signal } from "@preact/signals";
+// import { signal } from "@preact/signals";
 import { cloneNode } from './Functions/CloneNode';
-import { ShowAnchor } from './Functions/ShowAnchor';
+import { /*ShowAnchor,*/ createAnchor, moveAnchor } from './Functions/ShowAnchor';
 
-const clickItem = signal(null);
+
+// const clickItem = signal(null);
 export default function DrawAWebSite() {
     const [isDrawing, setIsDrawing] = useState(false);
     const [x, setX] = useState(0);
@@ -57,7 +58,9 @@ export default function DrawAWebSite() {
 
         if(!(storeTemp.height > 0) || !(storeTemp.height > 0)) return;
 
-        const parentElement = document.querySelector("#drawSection"); 
+        const parentElement = document.querySelector("#drawSection");
+        const wrapper = document.createElement("wrapper");
+        parentElement.appendChild(wrapper); 
         // create div based on the drawn design
         let div = document.createElement("div");
         div.classList.add("drawnElement");
@@ -71,7 +74,8 @@ export default function DrawAWebSite() {
         
         div.style.backgroundColor = "orange";
         
-        parentElement.appendChild(div);
+        wrapper.appendChild(div);
+        createAnchor(div, wrapper);
     }
 
     function startDrawing(e) {
@@ -88,24 +92,24 @@ export default function DrawAWebSite() {
     }
 
     
-    function clickedItemFunc() {
+    function clickedItemFunction() {
         const divs = document.querySelectorAll("div");
 
         divs.forEach(element => {
-            console.log(element);
-            element.addEventListener("click", () => {
-                if(!element.classList.contains("drawnElement")) return;
-                clickItem.value = element;
+            element.addEventListener("click", (event) => {
+                if (!element.classList.contains("drawnElement")) return;
+        
                 move(element);
-                cloneNode(element)
-                ShowAnchor(element, canvas)
-                DeleteNodes(clickItem.value.id);
-            })
-            element.addEventListener("mousemove", () => {
-                if(!element.classList.contains("drawnElement")) return;
-                ShowAnchor(element, canvas)
-            })
-            
+                cloneNode(element);
+                // ShowAnchor(element, event, "click");
+                DeleteNodes(element.id);
+                resizeFunction(event, canvas);
+            });
+        
+            // element.addEventListener("mousemove", (event) => {
+            //     // if (!element.classList.contains("drawnElement")) return;
+            //     ShowAnchor(element, canvas, "move");
+            // });
         });
     }
 
@@ -127,6 +131,7 @@ export default function DrawAWebSite() {
                     const newY = e.clientY - offsetY;
                     element.style.left = newX + "px";
                     element.style.top = newY + "px";
+                    moveAnchor(element, e);
                 }
             });
 
@@ -140,14 +145,16 @@ export default function DrawAWebSite() {
 
   return (
     <section>
-        <canvas id='canvas' height="1080" width="1920" className=" border-4 border-black"
-            onMouseDown={el => setPosition(el)}
-            onMouseUp={() => stopDrawing()}
-            onMouseMove={(el) => startDrawing(el)}
-            onClick={() => {
-                clickedItemFunc();
-            }}
-        ></canvas>
+        <section id="drawing-section">
+            <canvas id='canvas' height="1080" width="1920" className=" border-4 border-black"
+                onMouseDown={el => setPosition(el)}
+                onMouseUp={() => stopDrawing()}
+                onMouseMove={(el) => startDrawing(el)}
+                onClick={() => {
+                    clickedItemFunction()
+                }}
+            ></canvas>
+        </section>
 
         <section id='drawSection'>
             
