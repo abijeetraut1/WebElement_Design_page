@@ -1,4 +1,4 @@
-import { resizeTopLeft } from "./Resize";
+import { resize } from "./Resize";
 
 export function createAnchor(element, wrapper) {
     const resizer = document.createElement("resizer");
@@ -15,10 +15,10 @@ export function createAnchor(element, wrapper) {
         button.id = `button-${element.id}`
         button.setAttribute("drawn-attribute", element.id);
         button.classList.add("absolute", "bg-slate-800", "w-2", "h-2", "cursor-n-resize", "z-10");
+        button.onmousedown = (el) => resize(el, button, element);
 
         if (i === 0) {
             button.setAttribute("data-attribute", "top-left");
-            button.onmousedown = (el) => resizeTopLeft(el, button, element);
             button.style.top = top + "px";
             button.style.left = left + "px";
         } else
