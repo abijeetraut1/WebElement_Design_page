@@ -1,3 +1,5 @@
+import { resizeTopLeft } from "./Resize";
+
 export function createAnchor(element, wrapper) {
     const resizer = document.createElement("resizer");
     wrapper.appendChild(resizer);
@@ -13,9 +15,10 @@ export function createAnchor(element, wrapper) {
         button.id = `button-${element.id}`
         button.setAttribute("drawn-attribute", element.id);
         button.classList.add("absolute", "bg-slate-800", "w-2", "h-2", "cursor-n-resize", "z-10");
-        
+
         if (i === 0) {
             button.setAttribute("data-attribute", "top-left");
+            button.onmousedown = (el) => resizeTopLeft(el, button, element);
             button.style.top = top + "px";
             button.style.left = left + "px";
         } else
@@ -38,15 +41,15 @@ export function createAnchor(element, wrapper) {
     }
 }
 
-export function moveAnchor(element){
-    if(!element) return;
+export function moveAnchor(element) {
+    if (!element) return;
     const height = element.style.height.replace("px", "") * 1;
     const width = element.style.width.replace("px", "") * 1;
     let top = element.style.top.replace("px", " ") * 1;
     let left = element.style.left.replace("px", " ") * 1;
 
     const buttons = document.querySelectorAll(`#button-${element.id}`);
-    if(!buttons) return;
+    if (!buttons) return;
 
     buttons.forEach(button => {
         if (button.getAttribute("data-attribute") === "top-left") {
@@ -66,4 +69,9 @@ export function moveAnchor(element){
             button.style.left = left + "px";
         }
     });
+}
+
+// this function shows the achor to only the click element
+export function displayAnchor(element) {
+
 }

@@ -4,7 +4,7 @@ import { DeleteNodes } from './Functions/DeleteNode';
 import { nanoid } from '@reduxjs/toolkit';
 // import { signal } from "@preact/signals";
 import { cloneNode } from './Functions/CloneNode';
-import { /*ShowAnchor,*/ createAnchor, moveAnchor } from './Functions/ShowAnchor';
+import {  createAnchor, moveAnchor } from './Functions/ShowAnchor';
 
 
 // const clickItem = signal(null);
@@ -101,15 +101,9 @@ export default function DrawAWebSite() {
         
                 move(element);
                 cloneNode(element);
-                // ShowAnchor(element, event, "click");
                 DeleteNodes(element.id);
                 resizeFunction(event, canvas);
             });
-        
-            // element.addEventListener("mousemove", (event) => {
-            //     // if (!element.classList.contains("drawnElement")) return;
-            //     ShowAnchor(element, canvas, "move");
-            // });
         });
     }
 
