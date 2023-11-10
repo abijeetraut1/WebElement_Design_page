@@ -1,6 +1,4 @@
-import {
-    resize
-} from "./ResizeNode";
+import {resize} from "./ResizeNode";
 
 export function createAnchor(element, wrapper) {
     const resizer = document.createElement("resizer");
@@ -72,7 +70,12 @@ export function moveAnchor(element) {
     });
 }
 
-// this function shows the achor to only the click element
-export function displayAnchor(element) {
-
+export function ShowAnchors(element){
+    if(!element) return;
+    console.log(element)
+    const buttons = document.querySelectorAll('#button-' + element.id);
+    buttons.forEach(button => {
+        button.classList.add("w-2");
+        button.classList.add("h-2");
+    })
 }

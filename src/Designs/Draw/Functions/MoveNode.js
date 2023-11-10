@@ -3,7 +3,7 @@ import { moveAnchor } from "./ShowAnchor";
 export function move(element) {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
-    ShowAnchors(element);
+
     let isDragging = false;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -30,15 +30,3 @@ export function move(element) {
     });
 }
 
-function ShowAnchors(element){
-    if(!element) return;
-    const buttons = document.querySelectorAll('#button-' + element.id);
-    buttons.forEach(button => {
-        button.classList.toggle("w-2");
-        button.classList.toggle("h-2");
-    })
-}
-
-function HideAnchors(element) {
-    
-}

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { DeleteNodes } from './Functions/DeleteNode';
 import { nanoid } from '@reduxjs/toolkit';
 import { cloneNode } from './Functions/CloneNode';
-import {  createAnchor } from './Functions/ShowAnchor';
+import {  createAnchor, ShowAnchors } from './Functions/ShowAnchor';
 import { move } from './Functions/MoveNode';
 
 
@@ -56,14 +56,15 @@ export default function DrawAWebSite() {
         setWidth(0);
 
         if(!(storeTemp.height > 0) || !(storeTemp.height > 0)) return;
-
+        const id = nanoid(); 
         const parentElement = document.querySelector("#drawSection");
         const wrapper = document.createElement("wrapper");
+        wrapper.id = "wrapper-" + id;
         parentElement.appendChild(wrapper); 
         // create div based on the drawn design
         let div = document.createElement("div");
         div.classList.add("drawnElement");
-        div.id = nanoid();
+        div.id = id;
         div.style.position = "absolute";
         
         div.style.top = storeTemp.y + "px";
@@ -73,18 +74,17 @@ export default function DrawAWebSite() {
         
         div.style.backgroundColor = "orange";
         div.onclick = (element) => {
+            ShowAnchors(element.target);
             move(element.target);
             cloneNode(element);
-            DeleteNodes(element.id);
+            DeleteNodes(element);
         }
-        
         wrapper.appendChild(div);
         createAnchor(div, wrapper);
     }
 
     function startDrawing(e) {
         if (!isDrawing) return;
-        // setClickItem(null);
 
         setWidth(e.clientX - canvas.getBoundingClientRect().left);
         setHeight(e.clientY - canvas.getBoundingClientRect().top);
@@ -94,7 +94,6 @@ export default function DrawAWebSite() {
         ctx.rect(x, y, width - x , height - y);
         ctx.stroke();
     }
-
 
   return (
     <section>

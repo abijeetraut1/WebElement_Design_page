@@ -1,19 +1,11 @@
 export function DeleteNodes(clickItem) {
     if (!clickItem) return;
-    let resizeBtns = document.querySelectorAll("button");
+    let wrapper = document.querySelector("#wrapper-" + clickItem.target.id);
+    
     document.addEventListener("keydown", event => {
         if (event.key === "Delete" || event.keyCode === 46) {
             try {
-                let deleteBtn = document.querySelector(`#${clickItem}`);
-
-                deleteBtn.remove();
-                console.log(clickItem);
-
-                if (!resizeBtns) return;
-                resizeBtns.forEach(resizeBtn => {
-                    resizeBtn.style.top = 0 + "px";
-                    resizeBtn.style.left = 0 + "px";
-                });
+                wrapper.remove();
             } catch (err) {
                 if (err.name === "TypeError") return;
             }
