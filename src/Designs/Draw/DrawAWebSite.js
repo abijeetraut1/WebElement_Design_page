@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { DeleteNodes } from './Functions/DeleteNode';
 import { nanoid } from '@reduxjs/toolkit';
 import { cloneNode } from './Functions/CloneNode';
-import {  createAnchor, moveAnchor } from './Functions/ShowAnchor';
+import {  createAnchor } from './Functions/ShowAnchor';
+import { move } from './Functions/MoveNode';
 
 
 // const clickItem = signal(null);
@@ -71,6 +72,11 @@ export default function DrawAWebSite() {
         div.style.width = storeTemp.width  - storeTemp.x + "px";
         
         div.style.backgroundColor = "orange";
+        div.onclick = (element) => {
+            move(element.target);
+            cloneNode(element);
+            DeleteNodes(element.id);
+        }
         
         wrapper.appendChild(div);
         createAnchor(div, wrapper);
@@ -89,49 +95,6 @@ export default function DrawAWebSite() {
         ctx.stroke();
     }
 
-    
-    function clickedItemFunction() {
-        const divs = document.querySelectorAll("div");
-
-        divs.forEach(element => {
-            element.addEventListener("click", (event) => {
-                if (!element.classList.contains("drawnElement")) return;
-                move(element);
-                cloneNode(element);
-                DeleteNodes(element.id);
-            });
-        });
-    }
-
-
-    function move(element) {
-        let isDragging = false;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        element.addEventListener("mousedown", (e) => {
-            isDragging = true;
-            const initialLeft = parseFloat(getComputedStyle(element).left);
-            const initialTop = parseFloat(getComputedStyle(element).top);
-            const offsetX = e.clientX - initialLeft;
-            const offsetY = e.clientY - initialTop;
-
-            document.addEventListener("mousemove", (e) => {
-                if (isDragging) {
-                    const newX = e.clientX - offsetX;
-                    const newY = e.clientY - offsetY;
-                    element.style.left = newX + "px";
-                    element.style.top = newY + "px";
-                    moveAnchor(element, e);
-                }
-            });
-
-            document.addEventListener("mouseup", () => {
-                isDragging = false;
-            });
-        });
-    }
-
-
 
   return (
     <section>
@@ -140,9 +103,6 @@ export default function DrawAWebSite() {
                 onMouseDown={el => setPosition(el)}
                 onMouseUp={() => stopDrawing()}
                 onMouseMove={(el) => startDrawing(el)}
-                onClick={() => {
-                    clickedItemFunction()
-                }}
             ></canvas>
         </section>
 
