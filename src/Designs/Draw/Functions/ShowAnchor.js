@@ -15,7 +15,7 @@ export function createAnchor(element, wrapper) {
         const button = document.createElement("buttons");
         button.id = `button-${element.id}`
         button.setAttribute("drawn-attribute", element.id);
-        button.classList.add("absolute", "bg-slate-800", "w-2", "h-2", "cursor-n-resize", "z-10");
+        button.classList.add("absolute", "bg-slate-800", "cursor-n-resize", "z-10");
 
         if (i === 0) {
             button.setAttribute("data-attribute", "top-left");
