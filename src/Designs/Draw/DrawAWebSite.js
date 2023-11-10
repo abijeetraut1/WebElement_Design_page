@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import { resize, resizeFunction } from './Functions/Resize';
 import { DeleteNodes } from './Functions/DeleteNode';
 import { nanoid } from '@reduxjs/toolkit';
-// import { signal } from "@preact/signals";
 import { cloneNode } from './Functions/CloneNode';
 import {  createAnchor, moveAnchor } from './Functions/ShowAnchor';
 
@@ -98,11 +96,9 @@ export default function DrawAWebSite() {
         divs.forEach(element => {
             element.addEventListener("click", (event) => {
                 if (!element.classList.contains("drawnElement")) return;
-        
                 move(element);
                 cloneNode(element);
                 DeleteNodes(element.id);
-                resizeFunction(event, canvas);
             });
         });
     }

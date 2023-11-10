@@ -17,10 +17,8 @@ export function createAnchor(element, wrapper) {
         button.setAttribute("drawn-attribute", element.id);
         button.classList.add("absolute", "bg-slate-800", "w-2", "h-2", "cursor-n-resize", "z-10");
 
-
         if (i === 0) {
             button.setAttribute("data-attribute", "top-left");
-            button.onmouseenter = event => resize(event, element);
             button.style.top = top + "px";
             button.style.left = left + "px";
         } else
@@ -39,6 +37,7 @@ export function createAnchor(element, wrapper) {
             button.style.top = top + height - 8 + "px";
             button.style.left = left + "px";
         }
+        button.onmouseenter = event => resize(event, element);
         resizer.appendChild(button);
     }
 }
