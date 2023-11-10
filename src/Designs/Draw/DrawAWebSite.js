@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { resizeFunction } from './Functions/Resize';
+import { resize, resizeFunction } from './Functions/Resize';
 import { DeleteNodes } from './Functions/DeleteNode';
 import { nanoid } from '@reduxjs/toolkit';
 // import { signal } from "@preact/signals";
