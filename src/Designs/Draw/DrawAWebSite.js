@@ -2,11 +2,10 @@ import React, {useEffect, useState} from 'react';
 import { DeleteNodes } from './Functions/DeleteNode';
 import { nanoid } from '@reduxjs/toolkit';
 import { cloneNode } from './Functions/CloneNode';
-import {  createAnchor, ShowAnchors } from './Functions/ShowAnchor';
+import {  createAnchor, shiftAnchors } from './Functions/ShowAnchor';
 import { move } from './Functions/MoveNode';
 
 
-// const clickItem = signal(null);
 export default function DrawAWebSite() {
     const [isDrawing, setIsDrawing] = useState(false);
     const [x, setX] = useState(0);
@@ -74,13 +73,25 @@ export default function DrawAWebSite() {
         
         div.style.backgroundColor = "orange";
         div.onclick = (element) => {
-            ShowAnchors(element.target);
             move(element.target);
             cloneNode(element);
-            DeleteNodes(element);
+            shiftAnchors(div)
+
+            // DeleteNodes(element);
+            document.addEventListener("keydown", event => {
+                if (event.key === "Delete" || event.keyCode === 46) {
+                    try {
+                        console.log(element.target)
+                        element.target.parentElement.remove(); // Delete the specified element
+                    } catch (err) {
+                        if (err.name === "TypeError") return;
+                    }
+                }
+            });
         }
         wrapper.appendChild(div);
         createAnchor(div, wrapper);
+        shiftAnchors(div)
     }
 
     function startDrawing(e) {

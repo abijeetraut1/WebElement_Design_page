@@ -1,8 +1,14 @@
-import {resize} from "./ResizeNode";
+import {
+    resize
+} from "./ResizeNode";
 
 export function createAnchor(element, wrapper) {
+    
     const resizer = document.createElement("resizer");
+    resizer.classList.add("resize-container");
+    resizer.id = "resize-" + element.id;
     wrapper.appendChild(resizer);
+
     // Extracting the height and width from the click item
     let top = element.style.top.replace("px", " ") * 1;
     let left = element.style.left.replace("px", " ") * 1;
@@ -13,7 +19,7 @@ export function createAnchor(element, wrapper) {
         const button = document.createElement("buttons");
         button.id = `button-${element.id}`
         button.setAttribute("drawn-attribute", element.id);
-        button.classList.add("absolute", "bg-slate-800", "cursor-n-resize", "z-10");
+        button.classList.add("absolute", "bg-slate-800", "cursor-n-resize", "z-10", "h-2", "w-2");
 
         if (i === 0) {
             button.setAttribute("data-attribute", "top-left");
@@ -70,12 +76,15 @@ export function moveAnchor(element) {
     });
 }
 
-export function ShowAnchors(element){
-    if(!element) return;
-    console.log(element)
-    const buttons = document.querySelectorAll('#button-' + element.id);
-    buttons.forEach(button => {
-        button.classList.add("w-2");
-        button.classList.add("h-2");
+export function shiftAnchors(element) {
+    if (!element) return;
+    const resizers = document.querySelectorAll(".resize-container");
+
+    resizers.forEach(resizer => {
+        resizer.classList.remove("block");
+        resizer.classList.add("hidden");
     })
+    const clickElement = document.getElementById("resize-" + element.id);
+    clickElement.classList.remove("hidden");
+    clickElement.classList.add("block");
 }
