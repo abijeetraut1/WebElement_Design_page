@@ -1,3 +1,6 @@
+import { move } from "./MoveNode";
+import { shiftAnchors } from "./ShowAnchor";
+
 export function NodeChange(element) {
     if (!element.target) return;
     if(element.target.tagName === "p") return;
@@ -5,6 +8,18 @@ export function NodeChange(element) {
     const parentElement = document.getElementById("wrapper-" + element.target.id);
     const changeText = document.createElement("p");
     changeText.type = "text";
+    changeText.onclick = (element) => {
+        move(element.target);
+        // cloneNode(element);
+        shiftAnchors(changeText)
+    };
+
+    changeText.addEventListener("focusout", (event) => {
+        if(event.target.textContent === "" || event.target.textContent === " "){
+            const deleteNode = document.getElementById("wrapper-" + event.target.id);
+            deleteNode.remove();
+        }
+    })
 
     changeText.setAttribute("contenteditable", true);
 

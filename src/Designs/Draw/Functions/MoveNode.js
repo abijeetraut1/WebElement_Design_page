@@ -20,11 +20,13 @@ export function move(element) {
                 const newY = e.clientY - offsetY;
                 element.style.left = newX + "px";
                 element.style.top = newY + "px";
+                element.style.cursor = "move";
                 moveAnchor(element, e);
             }
         });
 
         document.addEventListener("mouseup", () => {
+            element.style.cursor = "auto";
             isDragging = false;
         });
     });

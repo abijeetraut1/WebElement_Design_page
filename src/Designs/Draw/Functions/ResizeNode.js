@@ -49,7 +49,6 @@ export function resize(element, node) {
         })
         document.addEventListener("mousemove", (el) => {
             if (isResizeBool === false) return;
-
             buttons[2].style.top = el.clientY + "px";
             buttons[2].style.left = el.clientX + "px";
             buttons[3].style.top = el.clientY + "px";

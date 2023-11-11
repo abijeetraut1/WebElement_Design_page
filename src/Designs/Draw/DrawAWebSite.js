@@ -13,7 +13,6 @@ export default function DrawAWebSite() {
     const [y, setY] = useState(0);
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
-    // const [clickItem, setClickItem] = useState(null);
  
     const [store, setStore] = useState([]);
 
@@ -60,6 +59,7 @@ export default function DrawAWebSite() {
         const parentElement = document.querySelector("#drawSection");
         const wrapper = document.createElement("wrapper");
         wrapper.id = "wrapper-" + id;
+
         parentElement.appendChild(wrapper); 
         // create div based on the drawn design
         let div = document.createElement("div");
@@ -72,6 +72,12 @@ export default function DrawAWebSite() {
         div.style.height = storeTemp.height - storeTemp.y + "px";
         div.style.width = storeTemp.width  - storeTemp.x + "px";
         
+        if(div.style.height === "1px" || div.style.width === "0px" || !div.style.width || !div.style.height){
+            wrapper.remove();
+            return;
+        }
+
+        if(!div) return;
         div.style.backgroundColor = "orange";
         div.onclick = (element) => {
             move(element.target);

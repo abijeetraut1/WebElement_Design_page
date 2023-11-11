@@ -3,7 +3,6 @@ import {
 } from "./ResizeNode";
 
 export function createAnchor(element, wrapper) {
-    
     const resizer = document.createElement("resizer");
     resizer.classList.add("resize-container");
     resizer.id = "resize-" + element.id;
@@ -41,6 +40,8 @@ export function createAnchor(element, wrapper) {
             button.style.top = top + height - 8 + "px";
             button.style.left = left + "px";
         }
+
+        // resize the clicked element
         button.onmouseenter = event => resize(event, element);
         resizer.appendChild(button);
     }
