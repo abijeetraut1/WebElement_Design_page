@@ -4,6 +4,7 @@ import { nanoid } from '@reduxjs/toolkit';
 import { cloneNode } from './Functions/CloneNode';
 import {  createAnchor, shiftAnchors } from './Functions/ShowAnchor';
 import { move } from './Functions/MoveNode';
+import { NodeChange } from './Functions/TextNode';
 
 
 export default function DrawAWebSite() {
@@ -74,21 +75,10 @@ export default function DrawAWebSite() {
         div.style.backgroundColor = "orange";
         div.onclick = (element) => {
             move(element.target);
-            cloneNode(element);
+            // cloneNode(element);
             shiftAnchors(div)
-
-            // DeleteNodes(element);
-            document.addEventListener("keydown", event => {
-                if (event.key === "Delete" || event.keyCode === 46) {
-                    try {
-                        console.log(element.target)
-                        element.target.parentElement.remove(); // Delete the specified element
-                    } catch (err) {
-                        if (err.name === "TypeError") return;
-                    }
-                }
-            });
-        }
+        };
+        div.ondblclick = (element) => NodeChange(element);
         wrapper.appendChild(div);
         createAnchor(div, wrapper);
         shiftAnchors(div)
