@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import { DeleteNodes } from './Functions/DeleteNode';
-import { cloneNode } from './Functions/CloneNode';
+// import { DeleteNodes } from './Functions/DeleteNode';
+// import { cloneNode } from './Functions/CloneNode';
 import { nanoid } from '@reduxjs/toolkit';
 import {  createAnchor, shiftAnchors } from './Functions/ShowAnchor';
 import { move } from './Functions/MoveNode';
@@ -13,7 +13,7 @@ export default function DrawAWebSite() {
     const [y, setY] = useState(0);
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
- 
+
     const [store, setStore] = useState([]);
 
     const [ctx, setCtx] = useState(); 
@@ -89,7 +89,9 @@ export default function DrawAWebSite() {
             // cloneNode(element);
             shiftAnchors(div)
         };
-        div.ondblclick = (element) => NodeChange(element);
+        div.ondblclick = (element) => {
+            NodeChange(element)
+        };
         wrapper.appendChild(div);
         createAnchor(div, wrapper);
         shiftAnchors(div)

@@ -44,4 +44,6 @@ export function NodeChange(element) {
 
     // render the newly created element 
     parentElement.append(changeText);
+    
+
 }
