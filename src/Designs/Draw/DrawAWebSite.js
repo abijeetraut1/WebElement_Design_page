@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { DeleteNodes } from './Functions/DeleteNode';
-import { nanoid } from '@reduxjs/toolkit';
 import { cloneNode } from './Functions/CloneNode';
+import { nanoid } from '@reduxjs/toolkit';
 import {  createAnchor, shiftAnchors } from './Functions/ShowAnchor';
 import { move } from './Functions/MoveNode';
 import { NodeChange } from './Functions/TextNode';
@@ -29,20 +29,25 @@ export default function DrawAWebSite() {
             canvas.style.zIndex = 1;
         }
         setIsDrawing(true);
-        setX(e.clientX - canvas.getBoundingClientRect().left);
-        setY(e.clientY - canvas.getBoundingClientRect().top);
+        try{
+            setX(e.clientX - canvas.getBoundingClientRect().left);
+            setY(e.clientY - canvas.getBoundingClientRect().top);
+        } catch(err){
+            if(err.name === "TypeError") return;
+        }
     }
 
     function stopDrawing() {
         // constantly change the button position
-        canvas.style.zIndex = -1;
-        try {
+        try{
+            
+            canvas.style.zIndex = -1;
             const divs = document.querySelectorAll("div");
             divs.forEach((div) => {
                 div.style.zIndex = 1;
             })
         } catch (error) {
-            console.log(error);
+            if(error.name === "TypeError") return;
         }
         setIsDrawing(false);
 
@@ -92,14 +97,17 @@ export default function DrawAWebSite() {
 
     function startDrawing(e) {
         if (!isDrawing) return;
-
-        setWidth(e.clientX - canvas.getBoundingClientRect().left);
-        setHeight(e.clientY - canvas.getBoundingClientRect().top);
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.beginPath();
-        ctx.rect(x, y, width - x , height - y);
-        ctx.stroke();
+        try{   
+            setWidth(e.clientX - canvas.getBoundingClientRect().left);
+            setHeight(e.clientY - canvas.getBoundingClientRect().top);
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.rect(x, y, width - x , height - y);
+            ctx.stroke();
+        } catch(err){
+            if(err.name === "TypeError") return;
+        }
     }
 
   return (
