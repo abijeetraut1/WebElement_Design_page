@@ -1,9 +1,5 @@
-import {
-    nanoid
-} from "@reduxjs/toolkit";
-import {
-    createAnchor, shiftAnchors
-} from "../Anchor/ShowAnchor";
+import { nanoid } from "@reduxjs/toolkit";
+import {/*createAnchor,*/ shiftAnchors } from "../Anchor/ShowAnchor";
 import { move } from "../moveNode/MoveNode";
 import { arrowFunction } from "../shortCuts/arrowPosition/ArrowFunctions";
 import { increaseFontSize } from "../shortCuts/increaseFontSize/increaseFontSize";
@@ -42,5 +38,5 @@ export function createElementOnDblClick(el) {
     };
 
     wrapper.appendChild(createTextElement);
-    createAnchor(createTextElement, wrapper);
+    // createAnchor(createTextElement, wrapper);
 }

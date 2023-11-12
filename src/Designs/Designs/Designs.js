@@ -404,7 +404,6 @@ export default function Designs() {
                                                     {fontsVarianceExtractError && <h3 className="text-white" >Server Down Please Wait😥 Devs are working on it.</h3>}
                                                     {fontsVariance && fontsVariance.data.items[0].variants.map((el) => (
                                                         <option key={el} value={el}>{el}</option>
-                                                            
                                                     ))} 
                                                 </select>
                                             </div>
