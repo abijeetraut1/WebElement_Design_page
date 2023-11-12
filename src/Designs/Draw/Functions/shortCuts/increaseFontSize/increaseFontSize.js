@@ -13,7 +13,7 @@ export function increaseFontSize(event) {
                 event.target.style.fontSize = 16 + 2 + "px";
             } else {
                 let prevFont = event.target.style.fontSize;
-                event.target.style.fontSize = prevFont.replace("px", "") * 1 + 2 + "px";
+                event.target.style.fontSize = parseInt(prevFont) + 2 + "px";
             }
         }
         // // increase font
@@ -22,7 +22,7 @@ export function increaseFontSize(event) {
                 event.target.style.fontSize = 16 - 2 + "px";
             } else {
                 let prevFont = event.target.style.fontSize;
-                event.target.style.fontSize = prevFont.replace("px", "") * 1 - 2 + "px";
+                event.target.style.fontSize = parseInt(prevFont) - 2 + "px";
             }
         }
     }
@@ -39,7 +39,7 @@ export function increaseFontSize(event) {
             event.target.style.fontSize = 16 + 2 + "px";
         } else {
             let prevFont = event.target.style.fontSize;
-            event.target.style.fontSize = prevFont.replace("px", "") * 1 + 2 + "px";
+            event.target.style.fontSize = parseInt(prevFont) + 2 + "px";
         }
     }
 
@@ -50,7 +50,7 @@ export function increaseFontSize(event) {
             event.target.style.fontSize = 16 - 2 + "px";
         } else {
             let prevFont = event.target.style.fontSize;
-            event.target.style.fontSize = prevFont.replace("px", "") * 1 - 2 + "px";
+            event.target.style.fontSize = parseInt(prevFont) - 2 + "px";
         }
     }
 

@@ -9,10 +9,10 @@ export function createAnchor(element, wrapper) {
     wrapper.appendChild(resizer);
 
     // Extracting the height and width from the click item
-    let top = element.style.top.replace("px", " ") * 1;
-    let left = element.style.left.replace("px", " ") * 1;
-    let height = element.style.height.replace("px", " ") * 1;
-    let width = element.style.width.replace("px", " ") * 1;
+    let top = parseInt(element.style.top);
+    let left = parseInt(element.style.left);
+    let height = parseInt(element.style.height);
+    let width = parseInt(element.style.width);
 
     for (let i = 0; i < 4; i++) {
         const button = document.createElement("buttons");
@@ -49,10 +49,10 @@ export function createAnchor(element, wrapper) {
 
 export function moveAnchor(element) {
     if (!element) return;
-    const height = element.style.height.replace("px", "") * 1;
-    const width = element.style.width.replace("px", "") * 1;
-    let top = element.style.top.replace("px", " ") * 1;
-    let left = element.style.left.replace("px", " ") * 1;
+    const height = parseInt(element.style.height)
+    const width = parseInt(element.style.width)
+    let top = parseInt(element.style.top)
+    let left = parseInt(element.style.left)
 
     const buttons = document.querySelectorAll(`#button-${element.id}`);
     if (!buttons) return;

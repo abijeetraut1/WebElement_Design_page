@@ -43,6 +43,4 @@ export function createElementOnDblClick(el) {
 
     wrapper.appendChild(createTextElement);
     createAnchor(createTextElement, wrapper);
-
-    console.log(createTextElement.style.height * 1)
 }

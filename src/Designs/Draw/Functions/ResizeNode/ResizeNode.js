@@ -17,8 +17,8 @@ export function resize(element, node) {
             newnode.style.top = el.clientY + "px";
             newnode.style.left = el.clientX + "px";
 
-            newnode.style.width = ((buttons[1].style.left.replace("px", "") * 1) - (buttons[0].style.left.replace("px", "") * 1)) + "px";
-            newnode.style.height = ((buttons[3].style.top.replace("px", "") * 1) - (buttons[0].style.top.replace("px", "") * 1)) + "px";
+            newnode.style.width = parseInt(buttons[1].style.left) - parseInt(buttons[0].style.left) + "px";
+            newnode.style.height = parseInt(buttons[3].style.top) - parseInt(buttons[0].style.top) + "px";
         })
         document.addEventListener("mouseup", () => {
             isResizeBool = false;
@@ -38,8 +38,8 @@ export function resize(element, node) {
 
             newnode.style.top = el.clientY + "px";
 
-            newnode.style.width = ((buttons[1].style.left.replace("px", "") * 1) - (buttons[0].style.left.replace("px", "") * 1)) + "px";
-            newnode.style.height = ((buttons[3].style.top.replace("px", "") * 1) - (buttons[0].style.top.replace("px", "") * 1)) + "px";
+            newnode.style.width = parseInt(buttons[1].style.left) - parseInt(buttons[0].style.left) + "px";
+            newnode.style.height = parseInt(buttons[3].style.top) - parseInt(buttons[0].style.top) + "px";
         })
         document.addEventListener("mouseup", () => {
             isResizeBool = false;
@@ -55,8 +55,8 @@ export function resize(element, node) {
             buttons[3].style.top = el.clientY + "px";
             buttons[1].style.left = el.clientX + "px";
 
-            newnode.style.width = ((buttons[1].style.left.replace("px", "") * 1) - (buttons[0].style.left.replace("px", "") * 1)) + "px";
-            newnode.style.height = ((buttons[3].style.top.replace("px", "") * 1) - (buttons[0].style.top.replace("px", "") * 1)) + "px";
+            newnode.style.width = parseInt(buttons[1].style.left) - parseInt(buttons[0].style.left) + "px";
+            newnode.style.height = parseInt(buttons[3].style.top) - parseInt(buttons[0].style.top) + "px";
         })
         document.addEventListener("mouseup", () => {
             isResizeBool = false;
@@ -75,8 +75,8 @@ export function resize(element, node) {
 
             newnode.style.left = el.clientX + "px";
 
-            newnode.style.width = ((buttons[1].style.left.replace("px", "") * 1) - (buttons[0].style.left.replace("px", "") * 1)) + "px";
-            newnode.style.height = ((buttons[3].style.top.replace("px", "") * 1) - (buttons[0].style.top.replace("px", "") * 1)) + "px";
+            newnode.style.width = parseInt(buttons[1].style.left) - parseInt(buttons[0].style.left) + "px";
+            newnode.style.height = parseInt(buttons[3].style.top) - parseInt(buttons[0].style.top) + "px";
         })
         document.addEventListener("mouseup", () => {
             isResizeBool = false;

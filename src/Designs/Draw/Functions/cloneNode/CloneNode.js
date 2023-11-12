@@ -7,7 +7,7 @@ export function cloneNode(element) {
             let duplicate = element.cloneNode(true);
             duplicate.id = nanoid();
             duplicate.style.backgroundColor = "pink";
-            duplicate.style.top = duplicate.style.top.replace("px", "") * 1 + duplicate.style.height.replace("px", "") * 1 + "px";
+            duplicate.style.top = parseInt(duplicate.style.top) + parseInt(duplicate.style.height) + "px";
             drawSection.appendChild(duplicate)
         }
     })
