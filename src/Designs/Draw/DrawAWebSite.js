@@ -6,6 +6,7 @@ import {  createAnchor, shiftAnchors } from './Functions/Anchor/ShowAnchor';
 import { move } from './Functions/moveNode/MoveNode';
 import { NodeChange } from './Functions/ChangeNode/TextNode';
 import { arrowFunction } from './Functions/shortCuts/arrowPosition/ArrowFunctions';
+import { createElementOnDblClick } from './Functions/DoubleClickNode/DubbleClickNode';
 
 
 export default function DrawAWebSite() {
@@ -42,7 +43,7 @@ export default function DrawAWebSite() {
         // constantly change the button position
         try{
             
-            canvas.style.zIndex = -1;
+            canvas.style.zIndex = 1;
             const divs = document.querySelectorAll("div");
             divs.forEach((div) => {
                 div.style.zIndex = 1;
@@ -122,6 +123,7 @@ export default function DrawAWebSite() {
                 onMouseDown={el => setPosition(el)}
                 onMouseUp={() => stopDrawing()}
                 onMouseMove={(el) => startDrawing(el)}
+                onDoubleClick={(el) => createElementOnDblClick(el)}
             ></canvas>
         </section>
 
