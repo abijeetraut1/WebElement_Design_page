@@ -1,10 +1,19 @@
-import { move } from "../moveNode/MoveNode";
-import { shiftAnchors } from "../Anchor/ShowAnchor";
-import { increaseFontSize } from "../shortCuts/increaseFontSize/increaseFontSize";
+import {
+    move
+} from "../moveNode/MoveNode";
+import {
+    shiftAnchors
+} from "../Anchor/ShowAnchor";
+import {
+    increaseFontSize
+} from "../shortCuts/increaseFontSize/increaseFontSize";
+import {
+    arrowFunction
+} from "../shortCuts/arrowPosition/ArrowFunctions";
 
 export function NodeChange(element) {
     if (!element.target) return;
-    if(element.target.tagName === "p") return;
+    if (element.target.tagName === "p") return;
 
     const parentElement = document.getElementById("wrapper-" + element.target.id);
     const changeText = document.createElement("p");
@@ -14,10 +23,13 @@ export function NodeChange(element) {
         // cloneNode(element);
         shiftAnchors(changeText)
     };
-    changeText.onkeydown = (event) => increaseFontSize(event);
-    
+    changeText.onkeydown = (event) => {
+        arrowFunction(event)
+        increaseFontSize(event)
+    };
+
     changeText.addEventListener("focusout", (event) => {
-        if(event.target.textContent === "" || event.target.textContent === " "){
+        if (event.target.textContent === "" || event.target.textContent === " ") {
             const deleteNode = document.getElementById("wrapper-" + event.target.id);
             deleteNode.remove();
         }
@@ -46,6 +58,4 @@ export function NodeChange(element) {
 
     // render the newly created element 
     parentElement.append(changeText);
-    
-
 }

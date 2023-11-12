@@ -5,6 +5,7 @@ import { nanoid } from '@reduxjs/toolkit';
 import {  createAnchor, shiftAnchors } from './Functions/Anchor/ShowAnchor';
 import { move } from './Functions/moveNode/MoveNode';
 import { NodeChange } from './Functions/ChangeNode/TextNode';
+import { arrowFunction } from './Functions/shortCuts/arrowPosition/ArrowFunctions';
 
 
 export default function DrawAWebSite() {
@@ -86,9 +87,11 @@ export default function DrawAWebSite() {
         div.style.backgroundColor = "orange";
         div.onclick = (element) => {
             move(element.target);
+            arrowFunction(element)
             // cloneNode(element);
             shiftAnchors(div)
         };
+        
         div.ondblclick = (element) => {
             NodeChange(element)
         };
@@ -114,7 +117,7 @@ export default function DrawAWebSite() {
 
   return (
     <section>
-        <section id="drawing-section">
+        <section id="drawing-section" >
             <canvas id='canvas' height="1080" width="1920" className=" border-4 border-black"
                 onMouseDown={el => setPosition(el)}
                 onMouseUp={() => stopDrawing()}

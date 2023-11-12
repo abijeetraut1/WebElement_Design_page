@@ -1,4 +1,5 @@
 export function increaseFontSize(event) {
+
     let shiftKeyPress = false;
     let controlKeyPress = true;
 
@@ -64,3 +65,5 @@ export function increaseFontSize(event) {
         }
     }
 }
+
+
