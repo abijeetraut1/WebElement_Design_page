@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 // import { DeleteNodes } from './Functions/DeleteNode';
 // import { cloneNode } from './Functions/CloneNode';
 import { nanoid } from '@reduxjs/toolkit';
-import {  createAnchor, shiftAnchors } from './Functions/ShowAnchor';
-import { move } from './Functions/MoveNode';
-import { NodeChange } from './Functions/TextNode';
+import {  createAnchor, shiftAnchors } from './Functions/Anchor/ShowAnchor';
+import { move } from './Functions/moveNode/MoveNode';
+import { NodeChange } from './Functions/ChangeNode/TextNode';
 
 
 export default function DrawAWebSite() {
@@ -77,10 +77,10 @@ export default function DrawAWebSite() {
         div.style.height = storeTemp.height - storeTemp.y + "px";
         div.style.width = storeTemp.width  - storeTemp.x + "px";
         
-        if(div.style.height === "1px" || div.style.width === "0px" || !div.style.width || !div.style.height){
-            wrapper.remove();
-            return;
-        }
+        // if(div.style.height === "1px" || div.style.width === "0px" || !div.style.width || !div.style.height){
+        //     wrapper.remove();
+        //     return;
+        // }
 
         if(!div) return;
         div.style.backgroundColor = "orange";
@@ -99,7 +99,7 @@ export default function DrawAWebSite() {
 
     function startDrawing(e) {
         if (!isDrawing) return;
-        try{   
+        try{ 
             setWidth(e.clientX - canvas.getBoundingClientRect().left);
             setHeight(e.clientY - canvas.getBoundingClientRect().top);
             

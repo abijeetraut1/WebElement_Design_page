@@ -1,4 +1,4 @@
-import { moveAnchor } from "./ShowAnchor";
+import { moveAnchor } from "../Anchor/ShowAnchor";
 
 export function move(element) {
     const canvas = document.getElementById("canvas");

@@ -1,5 +1,6 @@
-import { move } from "./MoveNode";
-import { shiftAnchors } from "./ShowAnchor";
+import { move } from "../moveNode/MoveNode";
+import { shiftAnchors } from "../Anchor/ShowAnchor";
+import { increaseFontSize } from "../shortCuts/increaseFontSize/increaseFontSize";
 
 export function NodeChange(element) {
     if (!element.target) return;
@@ -13,7 +14,8 @@ export function NodeChange(element) {
         // cloneNode(element);
         shiftAnchors(changeText)
     };
-
+    changeText.onkeydown = (event) => increaseFontSize(event);
+    
     changeText.addEventListener("focusout", (event) => {
         if(event.target.textContent === "" || event.target.textContent === " "){
             const deleteNode = document.getElementById("wrapper-" + event.target.id);

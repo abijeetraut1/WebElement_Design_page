@@ -1,6 +1,6 @@
 import {
     resize
-} from "./ResizeNode";
+} from "../ResizeNode/ResizeNode";
 
 export function createAnchor(element, wrapper) {
     const resizer = document.createElement("resizer");
