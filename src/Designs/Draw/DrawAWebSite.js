@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import { nanoid } from '@reduxjs/toolkit';
 import {  createAnchor, shiftAnchors } from './Functions/Anchor/ShowAnchor';
 import { move } from './Functions/moveNode/MoveNode';
-import { NodeChange } from './Functions/ChangeNode/TextNode';
+import { NodeChange } from './Functions/ChangeNode/changeNode';
 import { arrowFunction } from './Functions/shortCuts/arrowPosition/ArrowFunctions';
 import { createElementOnDblClick } from './Functions/DoubleClickNode/DubbleClickNode';
 
@@ -68,7 +68,7 @@ export default function DrawAWebSite() {
         wrapper.id = "wrapper-" + id;
 
         parentElement.appendChild(wrapper); 
-        
+
         // create div based on the drawn design
         let div = document.createElement("div");
         div.classList.add("drawnElement");

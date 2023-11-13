@@ -46,4 +46,13 @@ function moveAnchors(element) {
 
     buttons[3].style.left = element.target.style.left;
     buttons[3].style.top = (parseInt(element.target.style.top) - 8) + (parseInt(element.target.style.height)) + "px";
+
+    
 }
+
+/*
+    buttons[4] = top
+    buttons[5] = right
+    buttons[6] = left
+    buttons[7] = bottom
+*/
