@@ -7,7 +7,9 @@ import { move } from './Functions/moveNode/MoveNode';
 import { NodeChange } from './Functions/ChangeNode/changeNode';
 import { arrowFunction } from './Functions/shortCuts/arrowPosition/ArrowFunctions';
 import { createElementOnDblClick } from './Functions/DoubleClickNode/DubbleClickNode';
-
+import ListNodes from './Layouts/NodesList/NodesList';
+import Editor from './Layouts/Editor/Editor';
+import StatusBar from './Layouts/StatusBar/StatusBar';
 
 export default function DrawAWebSite() {
     const [isDrawing, setIsDrawing] = useState(false);
@@ -122,8 +124,36 @@ export default function DrawAWebSite() {
         }
     }
 
+    useEffect(() => {
+        const ele = document.querySelector("#screen-desktop");
+        
+        document.addEventListener("wheel", (event) => {
+          if(event.ctrlKey){
+            if(event.deltaY < 0){
+              event.preventDefault();
+              let previous = parseFloat(ele.style.scale) + 0.05;
+              ele.style.scale = previous;
+            }else if(event.deltaY > 0){
+              event.preventDefault();
+              let previous = parseFloat(ele.style.scale) - 0.05;
+              ele.style.scale = previous;
+            }
+          }
+        }, { passive: false })
+    
+    }, []);
+
   return (
     <section style={{overflowX:"hidden", overflowY:"hidden"}}>
+
+
+        <section>
+            <section 
+                id="screen-desktop"
+                style={{position: "absolute", backgroundColor:"red", height:"1080px", width:"1920px", scale: ".5"}} 
+            ></section>
+        </section>
+
         <section id="drawing-section" >
             <canvas id='canvas' height="1080" width="1920" className=" border-4 border-black"
                 onMouseDown={el => setPosition(el)}
@@ -137,6 +167,14 @@ export default function DrawAWebSite() {
             
         </section>
         
+        <section>
+            <section>
+                {<ListNodes />}
+            </section>
+            <section>
+                {<Editor />}
+            </section>
+        </section>
     </section>
   )
 }
