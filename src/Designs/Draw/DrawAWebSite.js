@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-// import { DeleteNodes } from './Functions/DeleteNode';
+// import { DeleteNodes } from './Functions/deleteNode/DeleteNode';
 // import { cloneNode } from './Functions/CloneNode';
 import { nanoid } from '@reduxjs/toolkit';
 import {  createAnchor, shiftAnchors } from './Functions/Anchor/ShowAnchor';
@@ -68,6 +68,7 @@ export default function DrawAWebSite() {
         wrapper.id = "wrapper-" + id;
 
         parentElement.appendChild(wrapper); 
+        
         // create div based on the drawn design
         let div = document.createElement("div");
         div.classList.add("drawnElement");
@@ -79,24 +80,29 @@ export default function DrawAWebSite() {
         div.style.height = storeTemp.height - storeTemp.y + "px";
         div.style.width = storeTemp.width  - storeTemp.x + "px";
         
-        // if(div.style.height === "1px" || div.style.width === "0px" || !div.style.width || !div.style.height){
-        //     wrapper.remove();
-        //     return;
-        // }
+        if(div.style.height === "1px" || div.style.width === "0px" || !div.style.width || !div.style.height){
+            wrapper.remove();
+            return;
+        }
 
         if(!div) return;
         div.style.backgroundColor = "orange";
         div.onclick = (element) => {
             move(element.target);
-            arrowFunction(element)
+            arrowFunction(element);
             // cloneNode(element);
             shiftAnchors(div)
+            
         };
+
+        div.ondblclick = (element) => NodeChange(element);
         
-        div.ondblclick = (element) => {
-            NodeChange(element)
-        };
+        
         wrapper.appendChild(div);
+
+        // clear the drawn ink after div is being injected
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
         createAnchor(div, wrapper);
         shiftAnchors(div)
     }
@@ -117,7 +123,7 @@ export default function DrawAWebSite() {
     }
 
   return (
-    <section>
+    <section style={{overflowX:"hidden", overflowY:"hidden"}}>
         <section id="drawing-section" >
             <canvas id='canvas' height="1080" width="1920" className=" border-4 border-black"
                 onMouseDown={el => setPosition(el)}

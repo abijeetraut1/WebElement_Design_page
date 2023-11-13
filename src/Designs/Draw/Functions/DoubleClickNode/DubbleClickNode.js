@@ -1,8 +1,7 @@
 import { nanoid } from "@reduxjs/toolkit";
-import {/*createAnchor,*/ shiftAnchors } from "../Anchor/ShowAnchor";
-import { move } from "../moveNode/MoveNode";
 import { arrowFunction } from "../shortCuts/arrowPosition/ArrowFunctions";
 import { increaseFontSize } from "../shortCuts/increaseFontSize/increaseFontSize";
+import { move } from "../moveNode/MoveNode";
 
 export function createElementOnDblClick(el) {
     if (!el) return;
@@ -13,11 +12,11 @@ export function createElementOnDblClick(el) {
 
     const wrapper = document.createElement("wrapper");
     wrapper.id = "wrapper-" + nanoid();
-
+    
     parentElement.appendChild(wrapper);
 
-    
     const createTextElement = document.createElement("p");
+    createTextElement.setAttribute("data-track", "NodeDubbleClicked");
     createTextElement.innerText = "Text Here";
     createTextElement.setAttribute("contenteditable", "true");
     createTextElement.style.position = "absolute";
@@ -29,8 +28,6 @@ export function createElementOnDblClick(el) {
     
     createTextElement.onclick = (element) => {
         move(element.target);
-        // cloneNode(element);
-        shiftAnchors(createTextElement)
     };
     createTextElement.onkeydown = (event) => {
         arrowFunction(event)

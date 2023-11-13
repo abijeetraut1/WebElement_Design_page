@@ -1,4 +1,5 @@
 export function arrowFunction(element) {
+    if(element.target.getAttribute("data-track") === "NodeDubbleClicked") return;
     document.addEventListener("keydown", (event) => {
         if (event.key === "ArrowRight") {
             let currentLeft = parseInt(element.target.style.left.replace("px", ""));
@@ -21,6 +22,7 @@ export function arrowFunction(element) {
             let newDown = currentDown + 2;
             element.target.style.top = newDown + "px";
         }
+        
         moveAnchors(element)
     })
 }
@@ -29,7 +31,10 @@ function moveAnchors(element) {
     if(!element.target) return;
     
     const buttons = document.querySelectorAll("#button-" + element.target.id);
-    
+    if(!buttons) return;
+
+    // console.log("element" + element.target.style.top);
+
     buttons[0].style.top = element.target.style.top;
     buttons[0].style.left = element.target.style.left;
     

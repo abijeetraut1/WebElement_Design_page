@@ -14,7 +14,7 @@ export function createAnchor(element, wrapper) {
     let height = parseInt(element.style.height);
     let width = parseInt(element.style.width);
 
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 8; i++) {
         const button = document.createElement("buttons");
         button.id = `button-${element.id}`
         button.setAttribute("drawn-attribute", element.id);
@@ -39,6 +39,42 @@ export function createAnchor(element, wrapper) {
             button.setAttribute("data-attribute", "bottom-left");
             button.style.top = top + height - 8 + "px";
             button.style.left = left + "px";
+        } else
+        if (i === 4) {
+            // n-resize
+            button.setAttribute("data-attribute", "top");
+            button.classList.remove("h-2", "w-2");
+            button.classList.add("h-0.5", "w-0.5");
+            button.style.top = top + "px";
+            button.style.left = left + "px";
+            button.style.width = width + "px";
+        } else
+        if (i === 5) {
+            // e-resize
+            button.setAttribute("data-attribute", "left");
+            button.classList.remove("h-2", "w-2");
+            button.classList.add("h-0.5", "w-0.5");
+            button.style.top = top + "px";
+            button.style.left = left + "px";
+            button.style.height = height + "px"
+        } else
+        if (i === 6) {
+            // e-resize
+            button.setAttribute("data-attribute", "right");
+            button.classList.remove("h-2", "w-2");
+            button.classList.add("h-0.5", "w-0.5");
+            button.style.top = top + "px";
+            button.style.left = width + left + "px";
+            button.style.height = height + "px";
+        } else
+        if (i === 7) {
+            // n-resize
+            button.setAttribute("data-attribute", "bottom");
+            button.classList.remove("h-2", "w-2");
+            button.classList.add("h-0.5", "w-0.5");
+            button.style.top = top + height + "px";
+            button.style.left = left + "px";
+            button.style.width = width + "px";
         }
 
         // resize the clicked element
@@ -73,6 +109,22 @@ export function moveAnchor(element) {
         if (button.getAttribute("data-attribute") === "bottom-left") {
             button.style.top = top + height - 8 + "px";
             button.style.left = left + "px";
+        } else
+        if (button.getAttribute("data-attribute") === "top") {
+            button.style.top = top + "px";
+            button.style.left = left + "px";
+        } else
+        if (button.getAttribute("data-attribute") === "right") {
+            button.style.top = top + "px";
+            button.style.left = left + width + "px";
+        } else
+        if (button.getAttribute("data-attribute") === "bottom") {
+            button.style.top = top + height + "px";
+            button.style.left = left + "px";
+        } else
+        if (button.getAttribute("data-attribute") === "left") {
+            button.style.top = top + "px";
+            button.style.left = left + "px";
         }
     });
 }
@@ -89,3 +141,14 @@ export function shiftAnchors(element) {
     clickElement.classList.remove("hidden");
     clickElement.classList.add("block");
 }
+
+export function setActive(element) {
+    if (!element) return;
+    const wrapper = document.querySelector("#wrapper-"+ element.id);
+
+    if(wrapper.classList.contains("active"))
+        wrapper.classList.remove("active")
+    else
+        wrapper.classList.contains("active")
+
+}   
