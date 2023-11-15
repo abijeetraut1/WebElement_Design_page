@@ -1,0 +1,9 @@
+#fonts::-webkit-scrollbar {
+  width: 5px;
+  background-color: transparent;
+}
+
+#fonts::-webkit-scrollbar-thumb {
+  background: white;
+  border-radius: 20px;
+}

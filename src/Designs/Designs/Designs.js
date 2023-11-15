@@ -8,8 +8,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 
 import { storeCodes, removeCode, updateCode } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
-
-
+import PopupElement from "./Functions/popupEditor/PopupElement";
 
 //  AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw api key
 export default function Designs() {
@@ -19,22 +18,18 @@ export default function Designs() {
 
     const [clicked, SetClicked] = useState("navigation");
     const {data:codes, isProtected, error} = useFetch(`http://localhost:8000/api/v1/codes/extractCode?section=${clicked.toLowerCase()}`, "GET", "codes");
-    const [choosenFont, setChoosenFont] = useState("Roboto");
+    // const [choosenFont, setChoosenFont] = useState("Roboto");
 
-    // for fonts
-    const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useFetch("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&sort=popularity", "GET", "fonts");
-    const {data:fontsVariance, isProtected:fontsVarianceProtected, error:fontsVarianceExtractError} = useFetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&family=${choosenFont ? choosenFont : "Roboto"}`, "GET", "fonts");
+    // // for fonts
+    // const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useFetch("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&sort=popularity", "GET", "fonts");
+    // const {data:fontsVariance, isProtected:fontsVarianceProtected, error:fontsVarianceExtractError} = useFetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&family=${choosenFont ? choosenFont : "Roboto"}`, "GET", "fonts");
    
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
     const [previousClickedElement, setPreviousClickedElement] = useState(null);
     // for choose design pannel determine close or open
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     // for edit pannel to determine close or open
-    const [openEditPanel, setOpenEditPanel] = useState(false);
-
-
-    // counts the clicked word length
-    const [clickWordCount, setClickWordCount] = useState(0);
+    // const [openEditPanel, setOpenEditPanel] = useState(false);
 
     
     return (
@@ -190,7 +185,7 @@ export default function Designs() {
                     </div>
                 </section>} 
             </aside>
-
+            <PopupElement />
             <section id="extract-code" className="h-screen" >
                 <html lang="en">    
                     <head>
@@ -198,7 +193,7 @@ export default function Designs() {
                         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                         <link rel="preconnect" href="https://fonts.googleapis.com" />
                         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-                        <link href={`https://fonts.googleapis.com/css2?family=${choosenFont}`} rel="stylesheet" />
+                        {/* <link href={`https://fonts.googleapis.com/css2?family=${choosenFont}`} rel="stylesheet" /> */}
                     </head>
                     <body id="edit-space">
                         {selectedCodes && selectedCodes.map((code, id) => (
@@ -211,7 +206,7 @@ export default function Designs() {
                                         
                                         <button className="control-buttons" onClick={el => {
                                             // deleteCode(code.id)
-                                            setOpenEditPanel(false);
+                                            // setOpenEditPanel(false);
                                             dispatch(removeCode(code.id))
                                         }}>
                                             <VscChromeClose className="control-buttons text-black"  />
@@ -242,28 +237,18 @@ export default function Designs() {
 
                                                 // shows the clicked element doesnot contain \n tag
                                                 if(RegExp.test(event.target.textContent) === false){
-                                                    setOpenEditPanel(true);
-                                                    let count = 1;
 
-                                                    // counts the number of words in an clicked text
-                                                    for (let i = 0; i < event.target.textContent.length; i++) {
-                                                        if(event.target.textContent[i] === " "){
-                                                            count++;
-                                                            setClickWordCount(count);
-                                                        }
-                                                    }
+                                                    event.target.setAttribute("contenteditable", "true");
 
                                                     event.target.style.border = "2px solid blue";
                                                     event.target.style.transitionDuration = "75ms";
+                                                    // popup(event.target);
                                                 
                                                     // store the clicked element data to dispaly the text content in input field
                                                     setclickedHTMLElement(event.target);
                                                     setPreviousClickedElement(event.target);
-
-                                                    
-                                                    
                                                 }else{
-                                                    setOpenEditPanel(false);
+                                                    // setOpenEditPanel(false);
                                                     setclickedHTMLElement(null);
                                                 }
                                             });
@@ -278,152 +263,6 @@ export default function Designs() {
                     </body>
                 </html>
             </section>
-
-            {openEditPanel && <aside className={`l-0 overflow-auto max-h-full h-screen  ${openEditPanel ? "w-1/6 bg-zinc-900" : " w-0 bg-transparent" } duration-300 bg-zinc-900 px-3 py-4 shadow-zinc-950 fixed top-0 right-0 z-1`}>
-                <div>
-                    <section className="">
-                        <div>
-                            <hr className="my-3" />
-                            <div>
-                                <div>
-                                    {/* if clickedHTMLElement.textContent contains more then 15 words then open textarea */}
-                                    {clickWordCount >= 15 ? 
-                                        <textarea 
-                                            class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" 
-                                            type="text"
-                                            name="search"
-                                            id="text-input"
-                                            rows="5"
-                                            onChange={(el) => {
-                                                if(clickedHTMLElement){
-                                                    clickedHTMLElement.textContent = el.target.value;
-                                                }
-                                            }}
-                                            placeholder={clickedHTMLElement.textContent}
-                                        />
-                                        :
-                                        <input 
-                                            class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" 
-                                            type="text"
-                                            placeholder={clickedHTMLElement ? clickedHTMLElement.textContent : ""}
-                                            name="search"
-                                            id="text-input"
-                                            onChange={(el) => {
-                                                if(clickedHTMLElement){
-                                                    clickedHTMLElement.textContent = el.target.value;
-                                                }
-                                            }}
-                                        />
-                                    }
-                                </div>
-                                <div className="py-2">
-                                    <button
-                                        className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                    >
-                                        Save
-                                    </button>
-                                </div>
-                            </div>
-                            <hr className="my-3" />
-                            <div className="flex flex-col">
-                                <div>
-                                    <h3 className="text-white font-bolder">Fonts</h3>
-                                </div>
-                                <div>
-                                    <select name="" id="" 
-                                        className="rounded"
-                                        onClick={(el) => {
-                                            setChoosenFont(el.target.value);
-
-                                            if(clickedHTMLElement){
-                                                clickedHTMLElement.style.fontFamily = el.target.value;    
-                                            }
-                                        }}
-
-                                    >
-                                        {fontsProtected && <h3 className="text-white" >Please Wait Slow Internet.</h3>}
-                                        {fontsExtractError && <h3 className="text-white" >Server Down Please Wait😥 Devs are working on it.</h3>}
-                                        {fonts && fonts.data.items.map((font, i) => (
-                                            <>
-                                                <option value={font.family}  style={{fontFamily : font.family}}>{font.family}</option>
-                                            </>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="py-3 flex space-x-5" >
-                                    <div>
-                                        <div>
-                                            <span className="text-white">font Size</span>
-                                        </div>
-                                        <div>
-                                            <select name="" id="" className="rounded" onClick={(el) => {
-                                                if(clickedHTMLElement){
-                                                    clickedHTMLElement.style.fontSize = el.target.value;
-                                                }
-                                            }}>
-                                                <option value="10px">10 px</option>
-                                                <option value="11px">11 px</option>
-                                                <option value="12px">12 px</option>
-                                                <option value="13px">13 px</option>
-                                                <option value="14px">14 px</option>
-                                                <option value="15px">15 px</option>
-                                                <option value="16px">16 px</option>
-                                                <option value="20px">20 px</option>
-                                                <option value="24px">24 px</option>
-                                                <option value="32px">32 px</option>
-                                                <option value="40px">40 px</option>
-                                                <option value="48px">48 px</option>
-                                                <option value="52px">52 px</option>
-                                                <option value="64px">64 px</option>
-                                            </select>
-                                        </div>
-
-                                    </div>
-                                    <div>
-                                        <div>
-                                            {/* add font style and font width */}
-                                            <div>
-                                                <span className="text-white">font Weight</span>
-                                            </div>
-                                            <div>
-                                                <select name="" id="" className="rounded" onClick={(el) => {
-                                                    if(clickedHTMLElement){
-
-                                                        // change the text to italic
-                                                        const italicRegExp =  /\b(\d+)italic\b/g;
-                                                        if(el.target.value.match(italicRegExp)){
-                                                            clickedHTMLElement.style.fontStyle = "italic";
-                                                            clickedHTMLElement.style.fontWeight = el.target.value.split("00")[0] * 100;
-                                                        }else{
-                                                            clickedHTMLElement.style.fontStyle = "normal";
-                                                            clickedHTMLElement.style.fontWeight = el.target.value;
-                                                        }
-                                                    }
-                                                }}>
-                                                    {fontsVarianceProtected && <h3 className="text-white" >Please Wait Slow Internet</h3>}
-                                                    {fontsVarianceExtractError && <h3 className="text-white" >Server Down Please Wait😥 Devs are working on it.</h3>}
-                                                    {fontsVariance && fontsVariance.data.items[0].variants.map((el) => (
-                                                        <option key={el} value={el}>{el}</option>
-                                                    ))} 
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr className="my-3" />
-                            <div>
-                                <div className="py-2">
-                                    <h3 className="font-bold">upload Image</h3>
-                                </div>
-                                <div className="py-2">
-                                    <input type="file" name="" id=""/>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </aside>}
         </section>
     )
 };

@@ -6,13 +6,6 @@ import Exports from './Designs/Exports/Exports';
 import DrawAWebSite from './Designs/Draw/DrawAWebSite';
 
 function App() {
-  const body = document.querySelector("body");
-  if(window.location.pathname === "/draw"){
-    body.style.overflow = "hidden";
-  }else{
-    body.style.overflow = "auto";
-  }
-
   return (
     <section className="App">
         <BrowserRouter> 

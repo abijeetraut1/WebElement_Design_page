@@ -9,7 +9,6 @@ import { arrowFunction } from './Functions/shortCuts/arrowPosition/ArrowFunction
 import { createElementOnDblClick } from './Functions/DoubleClickNode/DubbleClickNode';
 import ListNodes from './Layouts/NodesList/NodesList';
 import Editor from './Layouts/Editor/Editor';
-import StatusBar from './Layouts/StatusBar/StatusBar';
 
 export default function DrawAWebSite() {
     const [isDrawing, setIsDrawing] = useState(false);
@@ -45,7 +44,7 @@ export default function DrawAWebSite() {
         // constantly change the button position
         try{
             
-            canvas.style.zIndex = 1;
+            canvas.style.zIndex = 0;
             const divs = document.querySelectorAll("div");
             divs.forEach((div) => {
                 div.style.zIndex = 1;
@@ -99,7 +98,6 @@ export default function DrawAWebSite() {
 
         div.ondblclick = (element) => NodeChange(element);
         
-        
         wrapper.appendChild(div);
 
         // clear the drawn ink after div is being injected
@@ -124,56 +122,23 @@ export default function DrawAWebSite() {
         }
     }
 
-    useEffect(() => {
-        const ele = document.querySelector("#screen-desktop");
-        
-        document.addEventListener("wheel", (event) => {
-          if(event.ctrlKey){
-            if(event.deltaY < 0){
-              event.preventDefault();
-              let previous = parseFloat(ele.style.scale) + 0.05;
-              ele.style.scale = previous;
-            }else if(event.deltaY > 0){
-              event.preventDefault();
-              let previous = parseFloat(ele.style.scale) - 0.05;
-              ele.style.scale = previous;
-            }
-          }
-        }, { passive: false })
     
-    }, []);
-
   return (
-    <section style={{overflowX:"hidden", overflowY:"hidden"}}>
-
-
+    <section>
         <section>
-            <section 
-                id="screen-desktop"
-                style={{position: "absolute", backgroundColor:"red", height:"1080px", width:"1920px", scale: ".5"}} 
-            ></section>
+            <Editor />
         </section>
-
-        <section id="drawing-section" >
-            <canvas id='canvas' height="1080" width="1920" className=" border-4 border-black"
+        <section id="drawing-section" className='h-screen flex items-center justify-center bg-slate-600'>
+            <canvas id='canvas' width="1280" height="720" className="bg-white border-4 border-black"
                 onMouseDown={el => setPosition(el)}
                 onMouseUp={() => stopDrawing()}
                 onMouseMove={(el) => startDrawing(el)}
                 onDoubleClick={(el) => createElementOnDblClick(el)}
             ></canvas>
         </section>
-
-        <section id='drawSection'>
-            
-        </section>
-        
+            <section id='drawSection'  width={canvas ? canvas.width : ""} height={canvas ? canvas.height: ""}></section>
         <section>
-            <section>
-                {<ListNodes />}
-            </section>
-            <section>
-                {<Editor />}
-            </section>
+            <ListNodes />
         </section>
     </section>
   )
