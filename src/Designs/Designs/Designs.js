@@ -7,7 +7,7 @@ import testProfile from "../test-image/test-profile.jpeg";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 
-import { storeCodes, removeCode, updateCode, storeCurrentClicked } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
+import { storeCodes, removeCode, updateCode } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
 import PopupElement from "./Functions/popupEditor/PopupElement";
 import { popupPositining } from "./Functions/popupEditor/Popup/PopupPositining";
 
@@ -22,6 +22,7 @@ export default function Designs() {
     useEffect(() => {
         console.log(usedFonts)
     }, [usedFonts])
+    const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useFetch("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&sort=popularity", "GET", "fonts");
 
     const [clicked, SetClicked] = useState("navigation");
     const {data:codes, isProtected, error} = useFetch(`http://localhost:8000/api/v1/codes/extractCode?section=${clicked.toLowerCase()}`, "GET", "codes");
@@ -200,9 +201,14 @@ export default function Designs() {
                         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                         <link rel="preconnect" href="https://fonts.googleapis.com" />
                         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-                        {usedFonts && usedFonts.map(font => (
-                            <link href={`https://fonts.googleapis.com/css2?family=${font.fontFamily}`} rel="stylesheet" /> 
-                        ))}
+                        {
+                            fonts && fonts.data.items.map((font, i) => (
+                                <>
+                                    {i <= 50 ? <link href={`https://fonts.googleapis.com/css2?family=${font.family.replaceAll(" ", "+")}`} rel="stylesheet" /> : ""}
+                                </>
+                            ))
+                        }
+                        
                     </head>
                     <body id="edit-space">
                         {selectedCodes && selectedCodes.map((code, id) => (
@@ -253,8 +259,9 @@ export default function Designs() {
                                                     event.target.style.transitionDuration = "75ms";
                                                 
                                                     popupPositining(event, true);
-                                                    // dispatch(storeCurrentClicked(event.target.outerHTML))
+
                                                     setclickedHTMLElement(event.target);
+                                                    
                                                     // store the clicked element data to dispaly the text content in input field 
                                                     setPreviousClickedElement(event.target);
                                                 }else{
