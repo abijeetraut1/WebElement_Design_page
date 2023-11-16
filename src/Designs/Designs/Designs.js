@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState, useEffect} from "react";
 import React from 'react'
 import { FiSidebar } from "react-icons/fi";
 import { VscFilterFilled, VscChromeClose, VscGripper, /*VscLink*/} from "react-icons/vsc";
@@ -7,15 +7,21 @@ import testProfile from "../test-image/test-profile.jpeg";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 
-import { storeCodes, removeCode, updateCode } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
+import { storeCodes, removeCode, updateCode, storeCurrentClicked } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
 import PopupElement from "./Functions/popupEditor/PopupElement";
-import { popupPositining } from "./Functions/popupEditor/Functions/PopupPositining";
+import { popupPositining } from "./Functions/popupEditor/Popup/PopupPositining";
 
 //  AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw api key
 export default function Designs() {
     // redux
     const dispatch = useDispatch();
+
     const selectedCodes = useSelector(state => state.codes);
+    const usedFonts = useSelector(state => state.usedFonts);
+
+    useEffect(() => {
+        console.log(usedFonts)
+    }, [usedFonts])
 
     const [clicked, SetClicked] = useState("navigation");
     const {data:codes, isProtected, error} = useFetch(`http://localhost:8000/api/v1/codes/extractCode?section=${clicked.toLowerCase()}`, "GET", "codes");
@@ -186,7 +192,7 @@ export default function Designs() {
                     </div>
                 </section>} 
             </aside>
-            <PopupElement />
+            <PopupElement clicked={clickedHTMLElement} />
             <section id="extract-code" className="h-screen" >
                 <html lang="en">    
                     <head>
@@ -194,7 +200,9 @@ export default function Designs() {
                         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                         <link rel="preconnect" href="https://fonts.googleapis.com" />
                         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-                        {/* <link href={`https://fonts.googleapis.com/css2?family=${choosenFont}`} rel="stylesheet" /> */}
+                        {usedFonts && usedFonts.map(font => (
+                            <link href={`https://fonts.googleapis.com/css2?family=${font.fontFamily}`} rel="stylesheet" /> 
+                        ))}
                     </head>
                     <body id="edit-space">
                         {selectedCodes && selectedCodes.map((code, id) => (
@@ -229,7 +237,6 @@ export default function Designs() {
                                                 if(previousClickedElement){
                                                     previousClickedElement.style.border = "";
                                                     previousClickedElement.style.transitionDuration = "";
-
                                                 }
 
                                                 // const classList = event.target.classList("control-buttons");
@@ -244,16 +251,15 @@ export default function Designs() {
 
                                                     event.target.style.border = "2px solid blue";
                                                     event.target.style.transitionDuration = "75ms";
-                                                    // popup(event.target);
                                                 
                                                     popupPositining(event, true);
-                                                    // store the clicked element data to dispaly the text content in input field
+                                                    // dispatch(storeCurrentClicked(event.target.outerHTML))
                                                     setclickedHTMLElement(event.target);
+                                                    // store the clicked element data to dispaly the text content in input field 
                                                     setPreviousClickedElement(event.target);
                                                 }else{
                                                     // setOpenEditPanel(false);
                                                     setclickedHTMLElement(null);
-
                                                 }
 
                                             });

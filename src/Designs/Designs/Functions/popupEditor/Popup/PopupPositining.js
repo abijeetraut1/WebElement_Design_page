@@ -28,7 +28,6 @@ export function popupPositining(event, show) {
             editorContainer.classList.remove("hidden");
             editorContainer.classList.add("flex");
         }
-
     } catch (err) {
         if (err.name === "TypeError") return;
     }
