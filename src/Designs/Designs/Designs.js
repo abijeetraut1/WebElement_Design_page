@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { storeCodes, removeCode, updateCode } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
 import PopupElement from "./Functions/popupEditor/PopupElement";
+import { popupPositining } from "./Functions/popupEditor/Functions/PopupPositining";
 
 //  AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw api key
 export default function Designs() {
@@ -228,6 +229,7 @@ export default function Designs() {
                                                 if(previousClickedElement){
                                                     previousClickedElement.style.border = "";
                                                     previousClickedElement.style.transitionDuration = "";
+
                                                 }
 
                                                 // const classList = event.target.classList("control-buttons");
@@ -244,13 +246,16 @@ export default function Designs() {
                                                     event.target.style.transitionDuration = "75ms";
                                                     // popup(event.target);
                                                 
+                                                    popupPositining(event, true);
                                                     // store the clicked element data to dispaly the text content in input field
                                                     setclickedHTMLElement(event.target);
                                                     setPreviousClickedElement(event.target);
                                                 }else{
                                                     // setOpenEditPanel(false);
                                                     setclickedHTMLElement(null);
+
                                                 }
+
                                             });
                                         }}
 
