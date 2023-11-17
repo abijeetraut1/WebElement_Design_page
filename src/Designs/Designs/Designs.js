@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import { useState } from "react";
 import React from 'react'
 import { FiSidebar } from "react-icons/fi";
 import { VscFilterFilled, VscChromeClose, VscGripper, /*VscLink*/} from "react-icons/vsc";
@@ -11,33 +11,21 @@ import { storeCodes, removeCode, updateCode } from "../../reduxFunction/storeUse
 import PopupElement from "./Functions/popupEditor/PopupElement";
 import { popupPositining } from "./Functions/popupEditor/Popup/PopupPositining";
 
-//  AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw api key
 export default function Designs() {
     // redux
     const dispatch = useDispatch();
 
     const selectedCodes = useSelector(state => state.codes);
-    const usedFonts = useSelector(state => state.usedFonts);
-
-    useEffect(() => {
-        console.log(usedFonts)
-    }, [usedFonts])
     const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useFetch("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&sort=popularity", "GET", "fonts");
 
     const [clicked, SetClicked] = useState("navigation");
     const {data:codes, isProtected, error} = useFetch(`http://localhost:8000/api/v1/codes/extractCode?section=${clicked.toLowerCase()}`, "GET", "codes");
-    // const [choosenFont, setChoosenFont] = useState("Roboto");
 
-    // // for fonts
-    // const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useFetch("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&sort=popularity", "GET", "fonts");
-    // const {data:fontsVariance, isProtected:fontsVarianceProtected, error:fontsVarianceExtractError} = useFetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&family=${choosenFont ? choosenFont : "Roboto"}`, "GET", "fonts");
-   
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
     const [previousClickedElement, setPreviousClickedElement] = useState(null);
+    
     // for choose design pannel determine close or open
     const [open, setOpen] = useState(false);
-    // for edit pannel to determine close or open
-    // const [openEditPanel, setOpenEditPanel] = useState(false);
 
     
     return (
@@ -49,9 +37,6 @@ export default function Designs() {
                         <div className="flex items-center justify-between space-x-2">
                             <button
                                 className='border:solid border border-white bg-zinc-900 p-2 rounded-md'
-                                // onClick={() => {
-                                //     setChooseDesign(true);
-                                // }}
                                 onClick={() => setOpen(open ? false : true)}
                             >
                                 {<FiSidebar className= 'text-white text-xl ' />}
@@ -201,6 +186,8 @@ export default function Designs() {
                         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                         <link rel="preconnect" href="https://fonts.googleapis.com" />
                         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+                        {fontsProtected && <h3 className="text-white" >Please Wait Slow Internet.</h3>}
+                        {fontsExtractError && <h3 className="text-white" >Server Down Please Wait😥 Devs are working on it.</h3>}
                         {
                             fonts && fonts.data.items.map((font, i) => (
                                 <>

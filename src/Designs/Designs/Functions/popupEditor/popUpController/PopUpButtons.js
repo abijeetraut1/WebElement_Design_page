@@ -24,4 +24,8 @@ export function PopupButtons(clickedHTMLElement, event, style) {
     if (style === "fontWeight") {
         clickedHTMLElement.clicked.style.fontWeight = event.target.value;
     }
+
+    if (style === "fontColor") {
+        clickedHTMLElement.clicked.style.color = event.target.value;
+    }
 }
