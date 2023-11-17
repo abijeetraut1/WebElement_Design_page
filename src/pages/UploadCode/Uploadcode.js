@@ -15,7 +15,13 @@ export default function Uploadcode() {
       <section className="bg-neutral-900 h-screen w-screen overflow-hidden">
         <Navigation />
         <section className="mx-10">
-            <section className="flex justify-end mt-4">
+            <section className="flex justify-end mt-4 space-x-2">
+                <div>
+                    <input type="file" name="" id="" 
+                        title="yo file"
+                        className="rounded-md bg-indigo-600 px-3 py-1 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" 
+                    />
+                </div>
                 <div>
                     <button
                         onClick={() => saveCode(html, css, js)}
@@ -27,12 +33,6 @@ export default function Uploadcode() {
 
                 <div>
                     <div>
-                        {/* <Editor
-                            height="80vh"
-                            width="30vw"
-                            theme="vs-dark"
-                            defaultLanguage="HTML"
-                        /> */}
                         <textarea
                             onChange={(event) => setHtml(event.target.value)}
                             className="bg-neutral-800 text-white" name="" id="" cols="80" rows="30" style={{resize: "none"}}
@@ -42,12 +42,6 @@ export default function Uploadcode() {
 
                 <div>
                     <div>
-                        {/* <Editor
-                            height="80vh"
-                            width="30vw"
-                            theme="vs-dark"
-                            defaultLanguage="css"
-                        /> */}
                         <textarea
                             onChange={(event) => setCss(event.target.value)}
                             className="bg-neutral-800 text-white" name="" id="" cols="80" rows="30" style={{resize: "none"}}
@@ -59,12 +53,6 @@ export default function Uploadcode() {
 
                 <div>
                     <div>
-                        {/* <Editor
-                            height="80vh"
-                            width="30vw"
-                            theme="vs-dark"
-                            defaultLanguage="javascript"
-                        /> */}
                         <textarea
                             onChange={(event) => setJs(event.target.value)}
                             className="bg-neutral-800 text-white" name="" id="" cols="80" rows="30" style={{resize: "none"}}

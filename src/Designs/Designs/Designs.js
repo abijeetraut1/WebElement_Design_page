@@ -19,7 +19,7 @@ export default function Designs() {
     const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useFetch(process.env.REACT_APP_GOOGLE_FONT_API_URL+"?key="+ process.env.REACT_APP_GOOGLE_FONT_API_KEY +"&sort=popularity", "GET", "fonts");
 
     const [clicked, SetClicked] = useState("navigation");
-    const {data:codes, isProtected, error} = useFetch(`${process.env.REACT_APP_GOOGLE_FONT_API_URL}=${clicked.toLowerCase()}`, "GET", "codes");
+    const {data:codes, isProtected, error} = useFetch(`${process.env.REACT_APP_CODE_API_URL}=${clicked.toLowerCase()}`, "GET", "codes");
 
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
     const [previousClickedElement, setPreviousClickedElement] = useState(null);
@@ -44,7 +44,7 @@ export default function Designs() {
 
                             {open && 
                                 <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
-                                    Test  Website
+                                    Web Element
                                 </div>
                             } 
                         </div>
@@ -116,7 +116,7 @@ export default function Designs() {
                     {codes && codes.map((code, i) => (
                         <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded" >
                             <div className="">
-                                <img src={`${process.env.REACT_APP_GOOGLE_IMAGE_URL}/${code.desktopView}`} alt="image_cannot_be_shown"/>
+                                <img src={`${process.env.REACT_APP_IMAGE_URL}/${code.desktopView}`} alt="image_cannot_be_shown"/>
                             </div>
                             <div className="bg-white py-3 ">
                                 <div className="flex justify-between">
