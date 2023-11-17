@@ -8,9 +8,9 @@ import { storeFonts } from '../../../../reduxFunction/storeUsedCode/StoreCodeSli
 
 
 export default function PopupElement(clickedHTMLElement) {
-    const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useFetch("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&sort=popularity", "GET", "fonts");
+    const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useFetch("https://www.googleapis.com/webfonts/v1/webfonts?key="+ process.env.REACT_APP_GOOGLE_FONT_API_KEY + "&sort=popularity", "GET", "fonts");
     const [choosenFont, setChoosenFont] = useState("Roboto");
-    const {data:fontsVariance, isProtected:fontsVarianceProtected, error:fontsVarianceExtractError} = useFetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&family=${choosenFont ? choosenFont : "Roboto"}`, "GET", "fonts");
+    const {data:fontsVariance, isProtected:fontsVarianceProtected, error:fontsVarianceExtractError} = useFetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=${process.env.REACT_APP_GOOGLE_FONT_API_KEY}&family=${choosenFont ? choosenFont : "Roboto"}`, "GET", "fonts");
 
     const dispatch = useDispatch();
 

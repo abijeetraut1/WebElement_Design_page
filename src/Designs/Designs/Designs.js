@@ -16,10 +16,10 @@ export default function Designs() {
     const dispatch = useDispatch();
 
     const selectedCodes = useSelector(state => state.codes);
-    const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useFetch("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDnZs3GzydgkLGgqCUYNmLFzT7qvQbG1hw&sort=popularity", "GET", "fonts");
+    const {data:fonts, isProtected:fontsProtected, error:fontsExtractError} = useFetch(process.env.REACT_APP_GOOGLE_FONT_API_URL+"?key="+ process.env.REACT_APP_GOOGLE_FONT_API_KEY +"&sort=popularity", "GET", "fonts");
 
     const [clicked, SetClicked] = useState("navigation");
-    const {data:codes, isProtected, error} = useFetch(`http://localhost:8000/api/v1/codes/extractCode?section=${clicked.toLowerCase()}`, "GET", "codes");
+    const {data:codes, isProtected, error} = useFetch(`${process.env.REACT_APP_GOOGLE_FONT_API_URL}=${clicked.toLowerCase()}`, "GET", "codes");
 
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
     const [previousClickedElement, setPreviousClickedElement] = useState(null);
@@ -116,7 +116,7 @@ export default function Designs() {
                     {codes && codes.map((code, i) => (
                         <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded" >
                             <div className="">
-                                <img src={`http://localhost:8000/desktop/${code.desktopView}`} alt="image_cannot_be_shown"/>
+                                <img src={`${process.env.REACT_APP_GOOGLE_IMAGE_URL}/${code.desktopView}`} alt="image_cannot_be_shown"/>
                             </div>
                             <div className="bg-white py-3 ">
                                 <div className="flex justify-between">
@@ -191,7 +191,7 @@ export default function Designs() {
                         {
                             fonts && fonts.data.items.map((font, i) => (
                                 <>
-                                    {i <= 50 ? <link href={`https://fonts.googleapis.com/css2?family=${font.family.replaceAll(" ", "+")}`} rel="stylesheet" /> : ""}
+                                    {i <= 50 ? <link href={`${process.env.REACT_APP_GOOGLE_FONT_FAMILY_API_URL}=${font.family.replaceAll(" ", "+")}`} rel="stylesheet" /> : ""}
                                 </>
                             ))
                         }

@@ -7,3 +7,13 @@
   background: white;
   border-radius: 20px;
 }
+
+textarea::-webkit-scrollbar {
+  width: 5px;
+  background-color: transparent;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background: white;
+  border-radius: 20px;
+}
