@@ -14,6 +14,26 @@ textarea::-webkit-scrollbar {
 }
 
 textarea::-webkit-scrollbar-thumb {
-  background: white;
+  background: #6a6c6a;
   border-radius: 20px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6a6c6a;
+  border-radius: 20px;
+}
+
+@font-face {
+  font-family: 'Source Code Pro', monospace;
+  src: url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+}
+
+
+#textarea{
+  font-family: 'Source Code Pro', monospace;
 }
