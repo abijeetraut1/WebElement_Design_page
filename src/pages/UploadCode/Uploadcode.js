@@ -13,6 +13,7 @@ export default function Uploadcode() {
     const [jsCode, setJs] = useState("js");
     const [active, setActive] = useState("html");
     const [notificationActive, setNotificationActive] = useState(true);
+    const [section, setSection] = useState("Navigation");
 
     useEffect(() => {
         setTimeout(() => {
@@ -64,65 +65,93 @@ export default function Uploadcode() {
                         </section>
                     </section>
 
-                    <div className="w-11/12 pr-10">
-                        <section className="my-2 flex justify-between">
-                            <div className="flex text-white space-x-1 items-center">
-                                <span className="text-xl text-fontBlue">user</span>
-                                <span className="text-xl">/</span>
-                                <span><input className="bg-transparent border border-borderColor p-1 rounded w-fit h-8 outline-none focus:ring focus:ring-fontBlue focus:outline-none" type="text" name="" id="" /></span>
-                                <span>{<VscCheck className="text-xl text-fontBlue duration-200" />}</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                                <div>
-                                    <input type="file" multiple name="desktop" id="desktop" />
-                                   
+                    <section className="w-11/12">
+                        <div className="pr-10">
+                            <section className="my-2 flex justify-between">
+                                <div className="flex text-white space-x-1 items-center">
+                                    <span className="text-xl text-fontBlue">user</span>
+                                    <span className="text-xl">/</span>
+                                    <span><input className="bg-transparent border border-borderColor p-1 rounded w-fit h-8 outline-none focus:ring focus:ring-fontBlue focus:outline-none" type="text" name="" id="" /></span>
+                                    <span>{<VscCheck className="text-xl text-fontBlue duration-200" />}</span>
                                 </div>
-                                <div>
-                                    <button
-                                        className="rounded-md bg-green-900 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-emerald-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                        onClick={() => saveCode(htmlCode, cssCode, jsCode)}
-                                    >
-                                        Upload
-                                    </button>
+                                <div className="flex items-center space-x-2 text-white">
+                                    <div>
+                                        <select
+                                            id="web-section"
+                                            name="web-section"
+                                            autoComplete="web-section"
+                                            onChange={(el) => setSection(el.target.value)}
+                                            className="block w-fit rounded-md border-0 py-1.5 text-gray-900 outline-none font-bold shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                                        >
+                                            <option value="navigation" selected>Navigation Section</option>
+                                            <option value="hero">Hero Section</option>
+                                            <option value='body'>Body Section</option>
+                                            <option value="footer">Footer Section</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <button
+                                            className="rounded-md bg-green-900 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-emerald-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                            onClick={() => saveCode(section, htmlCode, cssCode, jsCode)}
+                                        >
+                                            Upload
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </section>
-                        <section>
-                            <div>
+                            </section>
+                            <section>
                                 <div>
-                                    <textarea
-                                        className={`border-2 outline-none p-2 w-full rounded resize-none border-neutral-800 text-white w-inherit ${active === "html" ? "block" : "hidden"} bg-inherit`}
-                                        name=""
-                                        id="textarea"
-                                        rows="30"
-                                        onChange={(event) => setHtml(event.target.value)}
-                                        value={htmlCode}
-                                    ></textarea>
+                                    <div>
+                                        <textarea
+                                            className={`border-2 outline-none p-2 w-full rounded resize-none border-neutral-800 text-white w-inherit ${active === "html" ? "block" : "hidden"} bg-inherit`}
+                                            name=""
+                                            id="textarea"
+                                            rows="30"
+                                            onChange={(event) => setHtml(event.target.value)}
+                                            value={htmlCode}
+                                        ></textarea>
+                                    </div>
+                                    <div>
+                                        <textarea
+                                            className={`border-2 outline-none p-2 w-full rounded resize-none border-neutral-800 text-white w-inherit ${active === "css" ? "block" : "hidden"} bg-inherit`}
+                                            name=""
+                                            id="textarea"
+                                            rows="30"
+                                            onChange={(event) => setCss(event.target.value)}
+                                            value={cssCode}
+                                        ></textarea>
+                                    </div>
+                                    <div>
+                                        <textarea
+                                            className={`border-2 outline-none p-2 w-full rounded resize-none border-neutral-800 text-white w-inherit ${active === "js" ? "block" : "hidden"} bg-inherit`}
+                                            name=""
+                                            id="textarea"
+                                            rows="30"
+                                            onChange={(event) => setJs(event.target.value)}
+                                            value={jsCode}
+                                        ></textarea>
+                                    </div>
                                 </div>
-                                <div>
-                                    <textarea
-                                        className={`border-2 outline-none p-2 w-full rounded resize-none border-neutral-800 text-white w-inherit ${active === "css" ? "block" : "hidden"} bg-inherit`}
-                                        name=""
-                                        id="textarea"
-                                        rows="30"
-                                        onChange={(event) => setCss(event.target.value)}
-                                        value={cssCode}
-                                    ></textarea>
-                                </div>
-                                <div>
-                                    <textarea
-                                        className={`border-2 outline-none p-2 w-full rounded resize-none border-neutral-800 text-white w-inherit ${active === "js" ? "block" : "hidden"} bg-inherit`}
-                                        name=""
-                                        id="textarea"
-                                        rows="30"
-                                        onChange={(event) => setJs(event.target.value)}
-                                        value={jsCode}
-                                    ></textarea>
-                                </div>
-                            </div>
 
+                            </section>
+                        </div>
+                        <section className="text-white flex ">
+                            <div className="flex">
+                                <div>
+                                    <div>Desktop View</div>
+                                    <input type="file" name="desktop" id="desktop" />
+                                </div>
+                                <div>
+                                    <div>Mobile View</div>
+                                    <input type="file" name="mobile" id="mobile" />
+                                </div>
+                                <div>
+                                    <div>Tablet View</div>
+                                    <input type="file" name="tablet" id="tablet" />
+                                </div>
+                            </div>
                         </section>
-                    </div>
+                    </section>
                 </section>
             </section>
 
