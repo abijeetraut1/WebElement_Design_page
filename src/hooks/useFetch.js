@@ -1,4 +1,7 @@
-import { useState, useEffect } from "react";
+import {
+    useState,
+    useEffect
+} from "react";
 import axios from "axios";
 
 export const useFetch = (url, method, purpose) => {
@@ -19,11 +22,12 @@ export const useFetch = (url, method, purpose) => {
                     url: url,
                 });
                 setIsPending(false)
-                if(purpose === "codes"){
+                if (purpose === "codes") {
                     setData(code.data.message.selectDataQuery)
-                }else{
+                } else {
                     setData(code)
                 }
+
                 setError(null)
             } catch (err) {
                 if (err.name === "AbortError") {

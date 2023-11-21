@@ -10,24 +10,18 @@ export async function saveCode(section, htmlCode, cssCode, jsCode) {
   formData.append("jsCode", jsCode);
   formData.append("section", section);
 
-  const desktop = document.querySelector("#desktop").files[0]; // Assuming #desktop is a file input
-  const mobile = document.querySelector("#mobile").files[0]; // Assuming #desktop is a file input
-  const tablet = document.querySelector("#tablet").files[0]; // Assuming #desktop is a file input
-  
-  formData.append("desktopView", desktop);
-  formData.append("mobileView", mobile);
-  formData.append("tabletView", tablet);
+  const webview = document.querySelector("#desktop").files[0]; // Assuming #desktop is a file input
+  formData.append("webview", webview);
 
-  try {
-    const dm = await axios.post(process.env.REACT_APP_UPLOAD_CODE_URL, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+  const response = await axios.post(process.env.REACT_APP_UPLOAD_CODE_URL, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 
-    console.log(dm.data);
-  } catch (error) {
-    console.error('Error:', error);
+  if (response.data.status === "success") {
+    return true;
+  } else {
+    return false;
   }
-
 }

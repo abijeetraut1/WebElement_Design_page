@@ -76,6 +76,9 @@ export default function Uploadcode() {
                                 </div>
                                 <div className="flex items-center space-x-2 text-white">
                                     <div>
+                                        <input type="file" name="desktop" id="desktop" multiple />
+                                    </div>
+                                    <div>
                                         <select
                                             id="web-section"
                                             name="web-section"
@@ -92,7 +95,9 @@ export default function Uploadcode() {
                                     <div>
                                         <button
                                             className="rounded-md bg-green-900 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-emerald-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                            onClick={() => saveCode(section, htmlCode, cssCode, jsCode)}
+                                            onClick={() => {
+                                                saveCode(section, htmlCode, cssCode, jsCode)
+                                            }}
                                         >
                                             Upload
                                         </button>
@@ -135,22 +140,6 @@ export default function Uploadcode() {
 
                             </section>
                         </div>
-                        <section className="text-white flex ">
-                            <div className="flex">
-                                <div>
-                                    <div>Desktop View</div>
-                                    <input type="file" name="desktop" id="desktop" />
-                                </div>
-                                <div>
-                                    <div>Mobile View</div>
-                                    <input type="file" name="mobile" id="mobile" />
-                                </div>
-                                <div>
-                                    <div>Tablet View</div>
-                                    <input type="file" name="tablet" id="tablet" />
-                                </div>
-                            </div>
-                        </section>
                     </section>
                 </section>
             </section>
