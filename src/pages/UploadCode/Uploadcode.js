@@ -11,14 +11,17 @@ export default function Uploadcode() {
     const [htmlCode, setHtml] = useState("html");
     const [cssCode, setCss] = useState("css");
     const [jsCode, setJs] = useState("js");
-    const [active, setActive] = useState("html");
-    const [notificationActive, setNotificationActive] = useState(true);
-    const [section, setSection] = useState("Navigation");
+    const [name, setName] = useState("name");
 
+    const [active, setActive] = useState("html");
+    const [notificationActive, setNotificationActive] = useState(false);
+    const [section, setSection] = useState("Navigation");
+    const [response, setResponse] = useState();
     useEffect(() => {
+        if (!notificationActive === true) return;
         setTimeout(() => {
             setNotificationActive(false);
-        }, 3000)
+        }, 2500)
     }, [notificationActive]);
 
     return (
@@ -71,12 +74,21 @@ export default function Uploadcode() {
                                 <div className="flex text-white space-x-1 items-center">
                                     <span className="text-xl text-fontBlue">user</span>
                                     <span className="text-xl">/</span>
-                                    <span><input className="bg-transparent border border-borderColor p-1 rounded w-fit h-8 outline-none focus:ring focus:ring-fontBlue focus:outline-none" type="text" name="" id="" /></span>
+                                    <span>
+                                        <input
+                                            value={name}
+                                            onChange={(el) => setName(el.target.value)}
+                                            className="bg-transparent border border-borderColor p-1 rounded w-fit h-8 outline-none focus:ring focus:ring-fontBlue focus:outline-none"
+                                            type="text"
+                                            name="page-name"
+                                            id="page-name"
+                                        />
+                                    </span>
                                     <span>{<VscCheck className="text-xl text-fontBlue duration-200" />}</span>
                                 </div>
                                 <div className="flex items-center space-x-2 text-white">
                                     <div>
-                                        <input type="file" name="desktop" id="desktop" multiple />
+                                        <input type="file" name="images" id="images" multiple />
                                     </div>
                                     <div>
                                         <select
@@ -90,13 +102,38 @@ export default function Uploadcode() {
                                             <option value="hero">Hero Section</option>
                                             <option value='body'>Body Section</option>
                                             <option value="footer">Footer Section</option>
+                                            <option value="website">Complete Website</option>
                                         </select>
                                     </div>
                                     <div>
                                         <button
                                             className="rounded-md bg-green-900 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-emerald-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                             onClick={() => {
-                                                saveCode(section, htmlCode, cssCode, jsCode)
+                                                const webview = document.querySelector("#images").files; // Assuming #desktop is a file input
+
+                                                const imageLength = webview.length;
+
+                                                if (imageLength === 0 || !name || !htmlCode || !cssCode || !jsCode) {
+                                                    setResponse(imageLength === 0 ?
+                                                        "FAILED: Please Upload At Least One Output Image" 
+                                                        : !name 
+                                                        ? "OOPS😅😅 You Forgot To Give a Name" 
+                                                        : `OOPS😅😅 You Forgot To Insert 
+                                                        ${!htmlCode ? "HTML" : cssCode ? "CSS" ? jsCode : "JS" : ""} Code`
+                                                    );
+                                                    setNotificationActive(true)
+                                                } else if (!name) {
+                                                    setResponse("OOPS😅😅 You Forgot To Give a Name");
+                                                    setNotificationActive(true)
+                                                } else {
+                                                    const formData = new FormData();
+                                                    const imageLength = webview.length;
+
+                                                    for (let i = 0; i < imageLength; i++) {
+                                                        formData.append(`webview`, webview[i]);
+                                                    }
+                                                    saveCode(formData, name, section, htmlCode, cssCode, jsCode)
+                                                }
                                             }}
                                         >
                                             Upload
@@ -147,7 +184,7 @@ export default function Uploadcode() {
             {notificationActive &&
                 <div className="absolute top-2 right-2 text-white  flex items-center justify-center ">
                     <div className="bg-green-900 flex items-center justify-center space-x-10 p-4 rounded">
-                        <div><span > {notificationActive === true ? "code saved" : "something went wrong"}</span></div>
+                        <div id="popupMessage"><span id="popupMessage" > {response}</span></div>
                         <div><button onClick={() => setNotificationActive(false)}><VscClose /></button></div>
                     </div>
                 </div>
