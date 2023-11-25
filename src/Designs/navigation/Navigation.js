@@ -13,7 +13,7 @@ export default function Navigation() {
                 </Link>
             </div>
             <div className='flex justify-between items-center space-x-4'>
-                <div> <Link to="#">Home</Link> </div>
+                <div> <Link to="/">Home</Link> </div>
                 <div> <Link to="/design">Design</Link> </div>
                 <div> <Link to="/upload">Upload</Link> </div>
                 <div>

@@ -17,6 +17,7 @@ export default function Uploadcode() {
     const [notificationActive, setNotificationActive] = useState(false);
     const [section, setSection] = useState("Navigation");
     const [response, setResponse] = useState();
+
     useEffect(() => {
         if (!notificationActive === true) return;
         setTimeout(() => {
@@ -37,7 +38,7 @@ export default function Uploadcode() {
                         <section className='py-4 m-1 outline-none'>
                             <div
                                 onClick={() => setActive("html")}
-                                className={` flex items-center space-x-3 px-3 py-1 cursor-pointer ${active === "html" ? "border border-neutral-900 bg-neutral-900 rounded" : "border-hidden hover:bg-neutral-700"} duration-300`}>
+                                className={`flex items-center space-x-3 px-3 py-1 cursor-pointer ${active === "html" ? "border border-neutral-900 bg-neutral-900 rounded" : "border-hidden hover:bg-neutral-700"} duration-300`}>
                                 <div>
                                     <img className='h-6 w-6 rounded' src={html} alt="" />
                                 </div>
@@ -47,7 +48,7 @@ export default function Uploadcode() {
                             </div>
                             <div
                                 onClick={() => setActive("css")}
-                                className={` flex items-center space-x-3 px-3 py-1 cursor-pointer ${active === "css" ? "border border-neutral-900 bg-neutral-900 rounded" : "border-hidden hover:bg-neutral-700"} duration-300`}>
+                                className={`flex items-center space-x-3 px-3 py-1 cursor-pointer ${active === "css" ? "border border-neutral-900 bg-neutral-900 rounded" : "border-hidden hover:bg-neutral-700"} duration-300`}>
                                 <div >
                                     <img className='h-6 w-6 rounded' src={css} alt="" />
                                 </div>
@@ -102,7 +103,7 @@ export default function Uploadcode() {
                                             <option value="hero">Hero Section</option>
                                             <option value='body'>Body Section</option>
                                             <option value="footer">Footer Section</option>
-                                            <option value="website">Complete Website</option>
+                                            <option value="webpage">Complete Website</option>
                                         </select>
                                     </div>
                                     <div>
@@ -117,13 +118,12 @@ export default function Uploadcode() {
                                                     setResponse(imageLength === 0 ?
                                                         "FAILED: Please Upload At Least One Output Image" 
                                                         : !name 
-                                                        ? "OOPS😅😅 You Forgot To Give a Name" 
-                                                        : `OOPS😅😅 You Forgot To Insert 
-                                                        ${!htmlCode ? "HTML" : cssCode ? "CSS" ? jsCode : "JS" : ""} Code`
+                                                        ? "OOPS😅 You Forgot To Give a Name" 
+                                                        : `OOPS😅 You Forgot To Insert ${!htmlCode ? "HTML" : !cssCode ? "CSS" : !jsCode ? "JS" :"" } Code`
                                                     );
                                                     setNotificationActive(true)
                                                 } else if (!name) {
-                                                    setResponse("OOPS😅😅 You Forgot To Give a Name");
+                                                    setResponse("OOPS😅 You Forgot To Give a Name");
                                                     setNotificationActive(true)
                                                 } else {
                                                     const formData = new FormData();

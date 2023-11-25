@@ -25,7 +25,7 @@ export default function Designs() {
     const [previousClickedElement, setPreviousClickedElement] = useState(null);
 
     // for choose design pannel determine close or open
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
 
     return (
@@ -99,6 +99,8 @@ export default function Designs() {
                                 <option value="hero">Hero Section</option>
                                 <option value='body'>Body Section</option>
                                 <option value="footer">Footer Section</option>
+                                <option value="webpage">Complete Website</option>
+                            
                             </select>
                         </div>
                         <button className="border:solid border border-white p-2 rounded-md">
@@ -116,7 +118,8 @@ export default function Designs() {
                     {codes && codes.map((code, i) => (
                         <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded" >
                             <div className="">
-                                <img src={`${process.env.REACT_APP_IMAGE_URL}/${code.desktopView}`} alt="image_cannot_be_shown" />
+                                {console.log(JSON.parse(code.images)[0])}
+                                <img src={`${process.env.REACT_APP_IMAGE_URL}/${JSON.parse(code.images)[0]}`} alt="image_cannot_be_shown" />
                             </div>
                             <div className="bg-white py-3 ">
                                 <div className="flex justify-between">
