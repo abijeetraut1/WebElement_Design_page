@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { storeCodes, removeCode, updateCode } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
 import PopupElement from "./Functions/popupEditor/PopupElement";
 import { popupPositining } from "./Functions/popupEditor/Popup/PopupPositining";
+import { changeAltImage } from "./Functions/popupEditor/ChangeAltImage/ChangeAltImage";
 
 export default function Designs() {
     // redux
@@ -100,7 +101,7 @@ export default function Designs() {
                                 <option value='body'>Body Section</option>
                                 <option value="footer">Footer Section</option>
                                 <option value="webpage">Complete Website</option>
-                            
+
                             </select>
                         </div>
                         <button className="border:solid border border-white p-2 rounded-md">
@@ -118,7 +119,6 @@ export default function Designs() {
                     {codes && codes.map((code, i) => (
                         <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded" >
                             <div className="">
-                                {console.log(JSON.parse(code.images)[0])}
                                 <img src={`${process.env.REACT_APP_IMAGE_URL}/${JSON.parse(code.images)[0]}`} alt="image_cannot_be_shown" />
                             </div>
                             <div className="bg-white py-3 ">
@@ -149,6 +149,7 @@ export default function Designs() {
                                         onClick={() => {
                                             // send the object to the redux config
                                             dispatch(storeCodes({ name: code.name, html: code.htmlCode, css: code.cssCode, slug: code.slug }));
+                                            changeAltImage();
                                         }}
                                     >
                                         Use
@@ -221,6 +222,7 @@ export default function Designs() {
 
                                 <div>
                                     <div id={code.id}
+                                        dangerouslySetInnerHTML={{ __html: code.codeParams.html }}
                                         onClick={() => {
                                             const editSpace = document.getElementById("edit-space");
 
@@ -261,8 +263,6 @@ export default function Designs() {
 
                                             });
                                         }}
-
-                                        dangerouslySetInnerHTML={{ __html: code.codeParams.html }}
                                     ></div>
                                     <style dangerouslySetInnerHTML={{ __html: code.codeParams.css }}></style>
                                 </div>
