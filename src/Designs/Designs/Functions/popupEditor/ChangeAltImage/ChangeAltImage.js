@@ -1,4 +1,3 @@
-// import plusImage from "../../../../../Images/add-image.svg";
 import {
     nanoid
 } from "@reduxjs/toolkit";
@@ -8,16 +7,18 @@ export function changeAltImage(id) {
     try {
         const selectedDOM = document.getElementById(id);
         const imgTag = selectedDOM.querySelectorAll("img");
+
         imgTag.forEach((img, i) => {
-            const insertImage = document.createElement("input");
-            insertImage.type = "file";
-            insertImage.id = "image-" + nanoid() + "-inserter";
-            insertImage.setAttribute("isChanged", true);
-            insertImage.onchange = (element) => changeTagWhenUpload(element);
-            img.insertAdjacentElement("afterend", insertImage);
+            if (img.getAttribute("isChanged") === false || !img.getAttribute("isChanged")) {
+                const insertImage = document.createElement("input");
+                insertImage.type = "file";
+                insertImage.id = "image-" + nanoid() + "-inserter";
+                insertImage.setAttribute("isChanged", false);
+                insertImage.onchange = (element) => changeTagWhenUpload(element);
+                img.insertAdjacentElement("afterend", insertImage);
 
-            img.remove();
-
+                img.remove();
+            }
         });
     } catch (err) {
         return;
@@ -30,17 +31,21 @@ async function changeTagWhenUpload(element) {
     const imageWrapper = new FormData();
     imageWrapper.append("image", uploadedImage);
 
-    const sendImage = await axios.post("http://localhost:8000/api/v1/codes/uploadPageImage", imageWrapper, {
+    // sends the image to the database
+    const sendImage = await axios.post(process.env.REACT_APP_UPLOAD_CUSTOMIZATION_IMAGE, imageWrapper, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
     })
 
-    console.log(sendImage.data.message)
-
     const imageTag = document.createElement("img");
-    imageTag.src = "http://localhost:8000/customizedImages/" + sendImage.data.message;
+
+    // set the content is being changed or not
+    imageTag.setAttribute("isChanged", true);
+
+    imageTag.src = process.env.REACT_APP_GET_CUSTOMIZATION_IMAGE + sendImage.data.message;
     element.target.insertAdjacentElement("afterend", imageTag);
 
+    // remove the input:files NODE
     element.target.remove();
 }

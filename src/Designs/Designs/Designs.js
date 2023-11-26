@@ -244,8 +244,8 @@ export default function Designs() {
 
                                                 // shows the clicked element doesnot contain \n tag
                                                 if (RegExp.test(event.target.textContent) === false) {
-
-                                                    if(event.target.tagName !== "img"){
+                                                    console.log(event.target.tagName)
+                                                    if(event.target.tagName !== "IMG"){
                                                         event.target.setAttribute("contenteditable", "true");
                                                     }
 
