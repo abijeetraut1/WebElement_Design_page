@@ -149,7 +149,6 @@ export default function Designs() {
                                         onClick={() => {
                                             // send the object to the redux config
                                             dispatch(storeCodes({ name: code.name, html: code.htmlCode, css: code.cssCode, slug: code.slug }));
-                                            changeAltImage();
                                         }}
                                     >
                                         Use
@@ -223,6 +222,7 @@ export default function Designs() {
                                 <div>
                                     <div id={code.id}
                                         dangerouslySetInnerHTML={{ __html: code.codeParams.html }}
+                                        onLoad ={changeAltImage(code.id)}
                                         onClick={() => {
                                             const editSpace = document.getElementById("edit-space");
 
@@ -245,7 +245,9 @@ export default function Designs() {
                                                 // shows the clicked element doesnot contain \n tag
                                                 if (RegExp.test(event.target.textContent) === false) {
 
-                                                    event.target.setAttribute("contenteditable", "true");
+                                                    if(event.target.tagName !== "img"){
+                                                        event.target.setAttribute("contenteditable", "true");
+                                                    }
 
                                                     event.target.style.border = "2px solid blue";
                                                     event.target.style.transitionDuration = "75ms";
