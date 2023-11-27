@@ -4,7 +4,7 @@ import { FiSidebar } from "react-icons/fi";
 import { VscFilterFilled, VscChromeClose, VscGripper, /*VscLink*/ } from "react-icons/vsc";
 import { useFetch } from "../../hooks/useFetch";
 import testProfile from "../test-image/test-profile.jpeg";
-import { ImSpinner3 } from "react-icons/im";
+// import { ImSpinner3 } from "react-icons/im";
 import { useDispatch, useSelector } from 'react-redux';
 
 import { storeCodes, removeCode, updateCode, setClose } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
@@ -83,7 +83,7 @@ export default function Designs() {
                                                 dispatch(setClose(true));
                                             }}
                                         >
-                                            <div className="animate-spin"><ImSpinner3 /></div>
+                                            {/* <div className="animate-spin"><ImSpinner3 /></div> */}
                                             <div>Save</div>
                                             
                                         </button>
