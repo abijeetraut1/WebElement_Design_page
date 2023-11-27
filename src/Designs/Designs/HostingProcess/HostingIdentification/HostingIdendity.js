@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { VscChromeClose } from "react-icons/vsc";
 import { useDispatch } from 'react-redux';
 import { setClose } from '../../../../reduxFunction/storeUsedCode/StoreCodeSlice';
 
 export default function HostingIdendity() {
     const dispatch = useDispatch();
+    const [siteName, setSiteName] = useState("");
 
     return (
-        <section className='drop-shadow-xl h-screen w-screen bg-slate-400 flex items-center justify-center font-extrabold'>
+        <section className='transition-300 drop-shadow-xl h-screen w-screen bg-slate-400 flex items-center justify-center font-extrabold'>
             <div className='rounded bg-white '>
                 <div className='w-full flex justify-end p-1'>
                     <button onClick={() => dispatch(setClose(false))} className='rounded-3xl bg-gray-500 p-1 text-white'><VscChromeClose /></button>
@@ -19,7 +20,13 @@ export default function HostingIdendity() {
                     </div>
                     <div>
                         <label htmlFor="site-name" className='text-sm'>Enter Domain Name</label>
-                        <input type="text" name="site-name" id="site-name" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xs sm:leading-6" placeholder="abcde.webelement.design" />
+                        <input
+                            type="text"
+                            name="site-name"
+                            id="site-name"
+                            class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xs sm:leading-6" placeholder="abcde.webelement.design"
+                            onInput={(el) => { setSiteName(el.target.value) }}
+                        />
                     </div>
                     <div>
                         <button

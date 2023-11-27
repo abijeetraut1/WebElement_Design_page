@@ -4,7 +4,7 @@ import { FiSidebar } from "react-icons/fi";
 import { VscFilterFilled, VscChromeClose, VscGripper, /*VscLink*/ } from "react-icons/vsc";
 import { useFetch } from "../../hooks/useFetch";
 import testProfile from "../test-image/test-profile.jpeg";
-import { Link } from "react-router-dom";
+import { ImSpinner3 } from "react-icons/im";
 import { useDispatch, useSelector } from 'react-redux';
 
 import { storeCodes, removeCode, updateCode, setClose } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
@@ -39,7 +39,7 @@ export default function Designs() {
                 <HostingIdendity />
             </section>
 
-            <section>
+            <section className={isDisplay === false ? "block" : "hidden"}>
                 <aside className={` fixed top-0 left-0 ${open ? "w-1/5 bg-zinc-900" : "w-0 bg-transparent"} duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100 `} >
                     <div className="sm:col-span-3 inset-0 backdrop-blur-md">
                         <div className='flex items-center justify-between space-x-2'>
@@ -62,7 +62,7 @@ export default function Designs() {
                                 <div className="flex space-x-1">
                                     <div>
                                         <button
-                                            className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                            className="flex items-center space-x-2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                             onClick={() => {
                                                 selectedCodes.forEach(code => {
                                                     try {
@@ -83,7 +83,9 @@ export default function Designs() {
                                                 dispatch(setClose(true));
                                             }}
                                         >
-                                            Save
+                                            <div className="animate-spin"><ImSpinner3 /></div>
+                                            <div>Save</div>
+                                            
                                         </button>
                                     </div>
                                 </div>
