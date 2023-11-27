@@ -4,7 +4,7 @@ import { FiSidebar } from "react-icons/fi";
 import { VscFilterFilled, VscChromeClose, VscGripper, /*VscLink*/ } from "react-icons/vsc";
 import { useFetch } from "../../hooks/useFetch";
 import testProfile from "../test-image/test-profile.jpeg";
-// import { ImSpinner3 } from "react-icons/im";
+import ai from "../../Images/ai.png"
 import { useDispatch, useSelector } from 'react-redux';
 
 import { storeCodes, removeCode, updateCode, setClose } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
@@ -108,8 +108,8 @@ export default function Designs() {
 
                                 </select>
                             </div>
-                            <button className="border:solid border border-white p-2 rounded-md">
-                                <VscFilterFilled className="text-white text-xl" />
+                            <button className="h-fit w-fit rounded-md">
+                                <img src={ai} alt="ai_image_load_failed" />
                             </button>
                         </div>}
                         {open && <div className="my-4 block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
