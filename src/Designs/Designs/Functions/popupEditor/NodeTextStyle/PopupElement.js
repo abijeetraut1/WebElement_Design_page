@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { VscBold, VscItalic, VscGripper  } from 'react-icons/vsc'
-import { useFetch } from '../../../../hooks/useFetch';
+import { useFetch } from '../../../../../hooks/useFetch';
 import "./popupElement.css"
-import { PopupButtons } from './popUpController/PopUpButtons';
+import { PopupButtons } from '../popUpController/PopUpButtons';
 import { useDispatch } from 'react-redux';
-import { storeFonts } from '../../../../reduxFunction/storeUsedCode/StoreCodeSlice';
+import { storeFonts } from '../../../../../reduxFunction/storeUsedCode/StoreCodeSlice';
 
 
 export default function PopupElement(clickedHTMLElement) {

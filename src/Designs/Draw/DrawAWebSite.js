@@ -136,7 +136,7 @@ export default function DrawAWebSite() {
                 onDoubleClick={(el) => createElementOnDblClick(el)}
             ></canvas>
         </section>
-            <section id='drawSection'  width={canvas ? canvas.width : ""} height={canvas ? canvas.height: ""}></section>
+            <section id='drawSection'  width= "1920"/*{canvas ? canvas.width : ""}*/ height="1080"/*{canvas ? canvas.height: ""} */></section>
         <section>
             <ListNodes />
         </section>

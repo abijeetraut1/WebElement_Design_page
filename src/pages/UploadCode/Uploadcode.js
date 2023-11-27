@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import Navigation from "../../Designs/navigation/Navigation"
-import "./../../Designs/Designs/Functions/popupEditor/popupElement.css"
+import "../../Designs/Designs/Functions/popupEditor/NodeTextStyle/popupElement.css"
 import { VscCheck, VscClose } from "react-icons/vsc";
 import html from "../../Images/html.png"
 import css from "../../Images/css.png"

@@ -7,7 +7,8 @@ const slices = createSlice({
     name: "codes",
     initialState: {
         codes: [],
-        usedFonts: []
+        usedFonts: [],
+        setNamePannel: false
     },
     reducers: {
         storeCodes: (state, action) => {
@@ -40,6 +41,9 @@ const slices = createSlice({
             }
             state.usedFonts = state.usedFonts.filter(font => font.fontFamily !== action.payload ? action.payload : "")
             state.usedFonts.push(fontsObj);
+        },
+        setClose: (state, action) => {
+            state.setNamePannel = action.payload;
         }
     }
 });
@@ -48,6 +52,7 @@ export const {
     storeCodes,
     removeCode,
     updateCode,
-    storeFonts
+    storeFonts,
+    setClose
 } = slices.actions;
 export default slices.reducer;
