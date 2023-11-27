@@ -11,7 +11,7 @@ import { storeCodes, removeCode, updateCode, setClose } from "../../reduxFunctio
 import PopupElement from "./Functions/popupEditor/NodeTextStyle/PopupElement";
 import { popupPositining } from "./Functions/popupEditor/Popup/PopupPositining";
 import { changeAltImage } from "./Functions/popupEditor/ChangeAltImage/ChangeAltImage";
-// import changeImage from "./Functions/popupEditor/popupChangeImage/changeImage";
+
 import HostingIdendity from "./HostingProcess/HostingIdentification/HostingIdendity";
 
 export default function Designs() {
@@ -226,7 +226,9 @@ export default function Designs() {
                                     <div>
                                         <div id={code.id}
                                             dangerouslySetInnerHTML={{ __html: code.codeParams.html }}
-                                            onLoad={changeAltImage(code.id)}
+                                            onLoad={
+                                                changeAltImage(code.id)
+                                            }
                                             onClick={() => {
                                                 const editSpace = document.getElementById("edit-space");
 
@@ -248,7 +250,6 @@ export default function Designs() {
 
                                                     // shows the clicked element doesnot contain \n tag
                                                     if (RegExp.test(event.target.textContent) === false) {
-                                                        console.log(event.target.tagName)
                                                         if (event.target.tagName !== "IMG") {
                                                             event.target.setAttribute("contenteditable", "true");
                                                         }

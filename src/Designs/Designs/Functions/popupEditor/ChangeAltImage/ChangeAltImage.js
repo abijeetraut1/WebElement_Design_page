@@ -7,6 +7,14 @@ export function changeAltImage(id) {
     try {
         const selectedDOM = document.getElementById(id);
         const imgTag = selectedDOM.querySelectorAll("img");
+        const aTag = selectedDOM.querySelectorAll("a");
+
+        // added preventdefault because if it contains link it blocks the link execution
+        aTag.forEach((el, i) => {
+            el.onclick = (element) => {
+                element.preventDefault();
+            }
+        })
 
         imgTag.forEach((img, i) => {
             if (img.getAttribute("isChanged") === false || !img.getAttribute("isChanged")) {
