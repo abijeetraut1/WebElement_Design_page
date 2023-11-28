@@ -11,6 +11,7 @@ export function changeAltImage(id) {
 
         // added preventdefault because if it contains link it blocks the link execution
         aTag.forEach((el, i) => {
+            el.href = el.textContent.replaceAll(" ", "-").toLowerCase();
             el.onclick = (element) => {
                 element.preventDefault();
             }
@@ -40,14 +41,12 @@ async function changeTagWhenUpload(element) {
     const imageFormData = new FormData();
     imageFormData.append("image", uploadedImage);
 
-
     // sends the image to the database
     const sendImage = await axios.post(process.env.REACT_APP_UPLOAD_CUSTOMIZATION_IMAGE, imageFormData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
     })
-
 
     const imageTag = document.createElement("img");
 

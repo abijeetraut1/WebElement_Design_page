@@ -1,7 +1,7 @@
 import { useState } from "react";
 import React from 'react'
 import { FiSidebar } from "react-icons/fi";
-import { VscFilterFilled, VscChromeClose, VscGripper, /*VscLink*/ } from "react-icons/vsc";
+import { VscChromeClose, VscGripper } from "react-icons/vsc";
 import { useFetch } from "../../hooks/useFetch";
 import testProfile from "../test-image/test-profile.jpeg";
 import ai from "../../Images/ai.png"
@@ -17,7 +17,8 @@ import HostingIdendity from "./HostingProcess/HostingIdentification/HostingIdend
 export default function Designs() {
     // redux
     const dispatch = useDispatch();
-    const isDisplay = useSelector(state => state.setNamePannel)
+    const isDisplay = useSelector(state => state.setNamePannel);
+    const homePage = useSelector(state => state.pages);
 
     const selectedCodes = useSelector(state => state.codes);
     const { data: fonts, isProtected: fontsProtected, error: fontsExtractError } = useFetch(process.env.REACT_APP_GOOGLE_FONT_API_URL + "?key=" + process.env.REACT_APP_GOOGLE_FONT_API_KEY + "&sort=popularity", "GET", "fonts");
@@ -30,7 +31,7 @@ export default function Designs() {
 
     // for choose design pannel determine close or open
     const [open, setOpen] = useState(true);
-
+    const [designPage, setDesignPage] = useState("home");
 
     return (
         // side design choosing section
@@ -80,38 +81,52 @@ export default function Designs() {
                                                         return;
                                                     }
                                                 })
-                                                dispatch(setClose(true));
+                                                
                                             }}
                                         >
                                             {/* <div className="animate-spin"><ImSpinner3 /></div> */}
                                             <div>Save</div>
-                                            
+
                                         </button>
                                     </div>
                                 </div>
                             }
                         </div>
-                        {open && <div className="flex items-center justify-center space-x-1 mt-2">
-                            <div>
-                                <select
-                                    id="web-section"
-                                    name="web-section"
-                                    autoComplete="web-section"
-                                    className="block w-96 rounded-md border-0 py-1.5 text-gray-900 outline-none font-bold shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                                    onChange={el => SetClicked(el.target.value)} // section choose name
-                                >
-                                    <option value="navigation" selected>Navigation Section</option>
-                                    <option value="hero">Hero Section</option>
-                                    <option value='body'>Body Section</option>
-                                    <option value="footer">Footer Section</option>
-                                    <option value="webpage">Complete Website</option>
-
-                                </select>
+                        {open &&
+                            <div className="space-y-1">
+                                <div className="flex items-center justify-center space-x-1 mt-2">
+                                    <div>
+                                        <select
+                                            id="web-section"
+                                            name="web-section"
+                                            autoComplete="web-section"
+                                            className="block w-96 rounded-md border-0 py-1.5 text-gray-900 outline-none font-bold shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                                            onChange={el => SetClicked(el.target.value)} // section choose name
+                                        >
+                                            <option value="navigation" selected>Navigation Section</option>
+                                            <option value="hero">Hero Section</option>
+                                            <option value='body'>Body Section</option>
+                                            <option value="footer">Footer Section</option>
+                                            <option value="webpage">Complete Website</option>
+                                        </select>
+                                    </div>
+                                    <button className="h-fit w-fit rounded-md">
+                                        <img src={ai} alt="ai_image_load_failed" />
+                                    </button>
+                                </div>
+                                <div>
+                                    <select name="" id=""
+                                        className="block w-96 rounded-md border-0 py-1.5 text-gray-900 outline-none font-bold shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                                        onChange={(el) => setDesignPage(el.target.value)}
+                                    >
+                                        <option value="home" selected>Home</option>
+                                        <option value="about">About</option>
+                                        <option value='contact'>Contact</option>
+                                        <option value="login">Login</option>
+                                    </select>
+                                </div>
                             </div>
-                            <button className="h-fit w-fit rounded-md">
-                                <img src={ai} alt="ai_image_load_failed" />
-                            </button>
-                        </div>}
+                        }
                         {open && <div className="my-4 block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
                             {clicked} Section
                         </div>}
@@ -178,6 +193,7 @@ export default function Designs() {
                             <div>
                                 <button
                                     className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    onClick={() => dispatch(setClose(true))}
                                 >
                                     Host
                                 </button>

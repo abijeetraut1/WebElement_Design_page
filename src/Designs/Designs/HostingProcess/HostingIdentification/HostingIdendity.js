@@ -7,6 +7,7 @@ export default function HostingIdendity() {
     const dispatch = useDispatch();
     const [siteName, setSiteName] = useState("");
 
+
     return (
         <section className='transition-300 drop-shadow-xl h-screen w-screen bg-slate-400 flex items-center justify-center font-extrabold'>
             <div className='rounded bg-white '>

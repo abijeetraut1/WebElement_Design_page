@@ -55,4 +55,5 @@ export const {
     storeFonts,
     setClose
 } = slices.actions;
+
 export default slices.reducer;
