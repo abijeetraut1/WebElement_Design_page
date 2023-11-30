@@ -109,9 +109,10 @@ The `Designs` component relies on the following external dependencies:
 - `react-icons`: Icon library for React components.
 
 ## Components
-- ` <HostingIdendity /> `: This shows when clicked on `<button> save </button>` when designer can insert their hosting indendity (Web Site Name)
-- ` <PopupElement clicked={clickedHTMLElement} /> `: This Gives The Popup dialog for changing the the styles like `font-family`, `font-size`, `font-width`, `font-style`
-
+- `<HostingIdendity />` : This shows when clicked on `<button> save </button>` when designer can insert their hosting indendity (Web Site Name).
+- `dangerouslySetInnerHTML={{ __html: code.codeParams.html }` : It Gives the permission to insert the insert the html code which will be comming from the backend. 
+- `<PopupElement clicked={clickedHTMLElement} />` : This Gives The Popup dialog for changing the the styles like `font-family`, `font-size`, `font-width`, `font-style`.
+-  `popupPositining(event, true)` : It indicated in which position the popup element should be placed when clicked on certain item
 
 Make sure to install and configure these dependencies in your project.
 - `npm install`: Install all the react library.
