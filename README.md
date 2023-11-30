@@ -108,6 +108,11 @@ The `Designs` component relies on the following external dependencies:
 - `react-redux`: Official React bindings for Redux.
 - `react-icons`: Icon library for React components.
 
+## Components
+- ` <HostingIdendity /> `: This shows when clicked on `<button> save </button>` when designer can insert their hosting indendity (Web Site Name)
+- ` <PopupElement clicked={clickedHTMLElement} /> `: This Gives The Popup dialog for changing the the styles like `font-family`, `font-size`, `font-width`, `font-style`
+
+
 Make sure to install and configure these dependencies in your project.
 - `npm install`: Install all the react library.
 
