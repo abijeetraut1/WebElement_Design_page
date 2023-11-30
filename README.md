@@ -116,7 +116,20 @@ The `Designs` component relies on the following external dependencies:
 
 Make sure to install and configure these dependencies in your project.
 - `npm install`: Install all the react library.
-
-
 ---
 
+### ./hooks
+- useFetch.js : currently it is capable on only using `GET` request
+- POST request method is needed
+
+### ./hooks
+- useFetch.js : currently it is capable on only using `GET` request
+
+### ./pages
+- contains all the pages codes like `[http:localhost:3000/uploadCode]` 
+
+### ./reduxFunction
+- NEED TO REWORK on this page
+
+### ./store
+- contains the initialization code for redux.
