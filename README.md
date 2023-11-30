@@ -1,14 +1,13 @@
 # What is WebElement?
 WebElement is website creator web tool in which each section developers can insert their specific part of the web component Code like Navigation section, Hero Section, Footer Section etc. to create a complete website. 
 
-# Surface level Code Work Through
-<pre>
- ```
- This is a code block.
- It can have multiple lines.
- ```
-</pre>
-
+# Steps to run WebElement
+1. Download the both backend and the Frontend Code.
+2. ### `npm Install`
+3. ### `npm Start`
+4. Hit [http://localhost:3000]/uploadCode to upload code
+5. Start Testing The Design Section [http://localhost:3000]/design
+6. ### `Draw Section is still need lots of maintainence Do not Open`
 
 
 # Getting Started with Create React App
