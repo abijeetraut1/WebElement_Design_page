@@ -118,6 +118,7 @@ Make sure to install and configure these dependencies in your project.
 - `npm install`: Install all the react library.
 ---
 
+# Folder Path information.
 ### ./hooks
 - useFetch.js : currently it is capable on only using `GET` request
 - POST request method is needed
