@@ -3,14 +3,22 @@ WebElement is website creator web tool in which each section developers can inse
 
 # Steps to run WebElement
 1. Download the both backend and the Frontend Code.
-2. `npm Install`
-3. `npm Start`
+2. npm Install
+3. npm Start
 4. Hit [http://localhost:3000]/uploadCode to upload code
 5. Start Testing The Design Section [http://localhost:3000]/design
-6. `Draw Section is still need lots of maintainence Do not Open`
+6. Draw Section is still need lots of maintainence Do not Open
 
 # Code OverThrough
-1. src/Designs/Designs/Designs.js
+`[http://localhost:3000]/design`
+1. when an user click on the use button to overview those design those content will be directly store in the `react-redux` for the central state management.
+
+2. We use dynamic `inline styling` eg:- when clicked on `font-size: 32px` then inline scripting will be applied.
+
+3. Complete Website:
+We also have a feature of complete website to when user upload code with `<img />` in html it will automatically detect the all the html element and replace those tag with `<input type="file">` tag
+
+4. Link wont apply on the text customization section. 
 
 # Getting Started with Create React App
 
