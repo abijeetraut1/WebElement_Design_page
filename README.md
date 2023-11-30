@@ -1,3 +1,16 @@
+# What is WebElement?
+WebElement is website creator web tool in which each section developers can insert their specific part of the web component Code like Navigation section, Hero Section, Footer Section etc. to create a complete website. 
+
+# Surface level Code Work Through
+<pre>
+ ```
+ This is a code block.
+ It can have multiple lines.
+ ```
+</pre>
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
