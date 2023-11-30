@@ -10,8 +10,6 @@ WebElement is website creator web tool in which each section developers can inse
 6. Draw Section is still need lots of maintainence Do not Open
 
 # Code OverThrough
-Creating documentation for your code involves explaining how to use and understand your codebase. You can include sections such as installation, usage, API reference, examples, and more. Below is a template for documenting your React component:
-
 ```markdown
 # Designs Component Documentation
 
@@ -98,7 +96,6 @@ The `Designs` component is structured as follows:
 - Event handling for code editing and saving
 - Popup element functionality
 
-Feel free to explore the component file for more details.
 
 ## Dependencies
 
