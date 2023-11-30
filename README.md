@@ -10,7 +10,111 @@ WebElement is website creator web tool in which each section developers can inse
 6. Draw Section is still need lots of maintainence Do not Open
 
 # Code OverThrough
-`[http://localhost:3000]/design`
+Creating documentation for your code involves explaining how to use and understand your codebase. You can include sections such as installation, usage, API reference, examples, and more. Below is a template for documenting your React component:
+
+```markdown
+# Designs Component Documentation
+
+The `Designs` component is a React component that provides a user interface for choosing and displaying web design elements. It integrates with Redux for state management and includes features such as code editing, design selection, and hosting identification.
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Redux State](#redux-state)
+- [Component Structure](#component-structure)
+- [Dependencies](#dependencies)
+
+## Installation
+
+To use the `Designs` component in your React project, follow these steps:
+
+1. Install the required packages:
+
+   ```bash
+   npm install react react-dom react-icons redux react-redux
+   ```
+
+2. Import the `Designs` component in your file:
+
+   ```jsx
+   import Designs from './path/to/Designs';
+   ```
+
+3. Use the `Designs` component in your JSX:
+
+   ```jsx
+   <Designs />
+   ```
+
+## Usage
+
+The `Designs` component provides a user interface for choosing and displaying web design elements. It integrates with Redux for state management and includes the following features:
+
+- Web element selection
+- Design section selection (e.g., Navigation, Hero, Body, Footer, Complete Website)
+- Design page selection (e.g., Home, About, Contact, Login)
+- Code extraction and display
+- Code editing and saving
+- Hosting identification
+
+Here is an example of how to use the component in your React application:
+
+```jsx
+import React from 'react';
+import Designs from './path/to/Designs';
+
+function App() {
+  return (
+    <div>
+      <h1>Your App Title</h1>
+      <Designs />
+    </div>
+  );
+}
+
+export default App;
+```
+
+## Redux State
+
+The `Designs` component uses Redux for state management. It interacts with the following slices of the Redux store:
+
+- `setNamePannel`: Manages the display state of the name panel.
+- `pages`: Manages the selected pages.
+- `codes`: Manages the selected codes.
+
+Ensure that your Redux store is properly configured with these slices.
+
+## Component Structure
+
+The `Designs` component is structured as follows:
+
+- Web element selection panel
+- Design section panel
+- Design page selection
+- Code extraction and display section
+- Redux state management
+- Event handling for code editing and saving
+- Popup element functionality
+
+Feel free to explore the component file for more details.
+
+## Dependencies
+
+The `Designs` component relies on the following external dependencies:
+
+- `react`: React library for building user interfaces.
+- `redux`: State management library for React applications.
+- `react-redux`: Official React bindings for Redux.
+- `react-icons`: Icon library for React components.
+
+Make sure to install and configure these dependencies in your project.
+
+---
+
+Feel free to customize and expand this documentation based on the specific details of your `Designs` component and its functionalities.
+<!-- `[http://localhost:3000]/design`
 1. when an user click on the use button to overview those design those content will be directly store in the `react-redux` for the central state management.
 
 2. We use dynamic `inline styling` eg:- when clicked on `font-size: 32px` then inline scripting will be applied.
@@ -18,7 +122,7 @@ WebElement is website creator web tool in which each section developers can inse
 3. Complete Website:
 We also have a feature of complete website to when user upload code with `<img />` in html it will automatically detect the all the html element and replace those tag with `<input type="file">` tag
 
-4. Link wont apply on the text customization section. 
+4. Link wont apply on the text customization section.  -->
 
 # Getting Started with Create React App
 
