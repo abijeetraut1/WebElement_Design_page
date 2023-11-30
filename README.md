@@ -9,41 +9,6 @@ WebElement is website creator web tool in which each section developers can inse
 5. Start Testing The Design Section `[http://localhost:3000]/design`
 6. Draw Section is still need lots of maintainence Do not Open
 
-# Code OverThrough
-```markdown
-# Designs Component Documentation
-
-The `Designs` component is a React component that provides a user interface for choosing and displaying web design elements. It integrates with Redux for state management and includes features such as code editing, design selection, and hosting identification.
-
-## Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Redux State](#redux-state)
-- [Component Structure](#component-structure)
-- [Dependencies](#dependencies)
-
-## Installation
-
-To use the `Designs` component in your React project, follow these steps:
-
-1. Install the required packages:
-
-   ```bash
-   npm install react react-dom react-icons redux react-redux
-   ```
-
-2. Import the `Designs` component in your file:
-
-   ```jsx
-   import Designs from './path/to/Designs';
-   ```
-
-3. Use the `Designs` component in your JSX:
-
-   ```jsx
-   <Designs />
-   ```
 
 ## Usage
 
@@ -58,23 +23,6 @@ the following features:
 - Code editing and saving
 - Hosting identification
 
-Here is an example of how to use the component in your React application:
-
-```jsx
-import React from 'react';
-import Designs from './path/to/Designs';
-
-function App() {
-  return (
-    <div>
-      <h1>Your App Title</h1>
-      <Designs />
-    </div>
-  );
-}
-
-export default App;
-```
 
 ## Redux State
 
@@ -87,7 +35,6 @@ The `Designs` component uses Redux for state management. It interacts with the f
 Ensure that your Redux store is properly configured with these slices.
 
 ## Component Structure
-
 The `Designs` component is structured as follows:
 
 - Web element selection panel
@@ -121,7 +68,7 @@ Make sure to install and configure these dependencies in your project.
 # Folder Path information.
 ### ./hooks
 - useFetch.js : currently it is capable on only using `GET` request
-- POST request method is needed
+- usePost.js :  `POST` request method is needed
 
 ### ./hooks
 - useFetch.js : currently it is capable on only using `GET` request
