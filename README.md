@@ -74,7 +74,7 @@ Make sure to install and configure these dependencies in your project.
 - useFetch.js : currently it is capable on only using `GET` request
 
 ### ./pages
-- contains all the pages codes like `[http:localhost:3000/uploadCode]` 
+- contains all the pages codes like [http:localhost:3000/uploadCode]
 
 ### ./reduxFunction
 - NEED TO REWORK on this page
