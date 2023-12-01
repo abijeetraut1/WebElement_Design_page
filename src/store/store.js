@@ -1,6 +1,6 @@
 import {configureStore} from "@reduxjs/toolkit";
-import slices from "../reduxFunction/storeUsedCode/StoreCodeSlice";
+import combineReducer from "../reduxFunction/combineReducer";
 
 export const store = configureStore({
-    reducer: slices
+    reducer: combineReducer
 }); 

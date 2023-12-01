@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { VscChromeClose } from "react-icons/vsc";
 import { useDispatch } from 'react-redux';
-import { setClose } from '../../../../reduxFunction/storeUsedCode/StoreCodeSlice';
+import { setClose } from '../../../../reduxFunction/PageControls/pageControls';
 
 export default function HostingIdendity() {
     const dispatch = useDispatch();

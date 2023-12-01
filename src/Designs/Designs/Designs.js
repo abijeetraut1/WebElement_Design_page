@@ -1,26 +1,35 @@
-import { useState } from "react";
-import React from 'react'
+import React, { useState, useEffect } from "react";
+
+// incons
 import { FiSidebar } from "react-icons/fi";
 import { VscChromeClose, VscGripper } from "react-icons/vsc";
+import { ImSpinner3 } from "react-icons/im";
+
+// Custom APIs
 import { useFetch } from "../../hooks/useFetch";
+
+// Images
 import testProfile from "../test-image/test-profile.jpeg";
 import ai from "../../Images/ai.png"
-import { useDispatch, useSelector } from 'react-redux';
 
-import { storeCodes, removeCode, updateCode, setClose } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
+// redux
+import { useDispatch, useSelector } from 'react-redux';
+import { storeCodes, removeCode, updateCode } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
+import { storeHomePageCode } from "../../reduxFunction/StorePageCode/StorePageCode";
+import { setClose } from "../../reduxFunction/PageControls/pageControls";
+
+// component
 import PopupElement from "./Functions/popupEditor/NodeTextStyle/PopupElement";
 import { popupPositining } from "./Functions/popupEditor/Popup/PopupPositining";
 import { changeAltImage } from "./Functions/popupEditor/ChangeAltImage/ChangeAltImage";
-
 import HostingIdendity from "./HostingProcess/HostingIdentification/HostingIdendity";
 
 export default function Designs() {
     // redux
     const dispatch = useDispatch();
-    const isDisplay = useSelector(state => state.setNamePannel);
-    const homePage = useSelector(state => state.pages);
+    const isDisplay = useSelector(state => state.pageControls.setNamePannel);
 
-    const selectedCodes = useSelector(state => state.codes);
+    const selectedCodes = useSelector(state => state.StoreCodeSlice.codes);
     const { data: fonts, isProtected: fontsProtected, error: fontsExtractError } = useFetch(process.env.REACT_APP_GOOGLE_FONT_API_URL + "?key=" + process.env.REACT_APP_GOOGLE_FONT_API_KEY + "&sort=popularity", "GET", "fonts");
 
     const [clicked, SetClicked] = useState("navigation");
@@ -31,7 +40,17 @@ export default function Designs() {
 
     // for choose design pannel determine close or open
     const [open, setOpen] = useState(true);
-    const [designPage, setDesignPage] = useState("home");
+
+    const [designPage, setDesignPage] = useState("home");   
+    const [isSping, setIsSpin] = useState(false);
+
+    useEffect(() => {
+        if (isSping === true) {
+            setTimeout(() => {
+                setIsSpin(false);
+            }, 3000)
+        }
+    }, [isSping]);
 
     return (
         // side design choosing section
@@ -41,7 +60,7 @@ export default function Designs() {
             </section>
 
             <section className={isDisplay === false ? "block" : "hidden"}>
-                <aside className={` fixed top-0 left-0 ${open ? "w-1/5 bg-zinc-900" : "w-0 bg-transparent"} duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100 `} >
+                <aside className={`fixed top-0 left-0 ${open ? "w-1/5 bg-zinc-900" : "w-0 bg-transparent"} duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100 `} >
                     <div className="sm:col-span-3 inset-0 backdrop-blur-md">
                         <div className='flex items-center justify-between space-x-2'>
                             <div className="flex items-center justify-between space-x-2">
@@ -65,28 +84,26 @@ export default function Designs() {
                                         <button
                                             className="flex items-center space-x-2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                             onClick={() => {
+                                                setIsSpin(true);
+
+                                                dispatch(storeHomePageCode("hello"))
                                                 selectedCodes.forEach(code => {
-                                                    try {
-                                                        if (clickedHTMLElement.style.border) {
-                                                            clickedHTMLElement.style.border = "";
-                                                        }
+                                                    // const htmlChangedCodes = document.getElementById(`${code.id}`).innerHTML;
 
-                                                        if (clickedHTMLElement.style.transitionDuration) {
-                                                            clickedHTMLElement.style.transitionDuration = "";
-                                                        }
-                                                        const htmlChangedCodes = document.getElementById(`${code.id}`).innerHTML;
-                                                        dispatch(updateCode({ id: code.id, html: htmlChangedCodes }))
+                                                    // if (clickedHTMLElement.style.border) {
+                                                    //     clickedHTMLElement.style.border = "";
+                                                    // }
 
-                                                    } catch (err) {
-                                                        return;
-                                                    }
+                                                    // if (clickedHTMLElement.style.transitionDuration) {
+                                                    //     clickedHTMLElement.style.transitionDuration = "";
+                                                    // }
+
                                                 })
-                                                
                                             }}
                                         >
-                                            {/* <div className="animate-spin"><ImSpinner3 /></div> */}
-                                            <div>Save</div>
-
+                                            {
+                                                isSping === true ? <div className="animate-spin"> <ImSpinner3 /> </div> : <div>Save</div>
+                                            }
                                         </button>
                                     </div>
                                 </div>
@@ -285,7 +302,6 @@ export default function Designs() {
                                                         // setOpenEditPanel(false);
                                                         setclickedHTMLElement(null);
                                                     }
-
                                                 });
                                             }}
                                         ></div>
