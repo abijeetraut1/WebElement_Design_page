@@ -1,70 +1,83 @@
-# Getting Started with Create React App
+# What is WebElement?
+WebElement is website creator web tool in which each section developers can insert their specific part of the web component Code like Navigation section, Hero Section, Footer Section etc. to create a complete website. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Steps to run WebElement
+1. Download the both backend and the Frontend Code.
+2. npm Install
+3. npm Start
+4. Hit [http://localhost:3000/uploadCode] to upload code
+5. Start Testing The Design Section [http://localhost:3000/design]
+6. Draw Section is still need lots of maintainence Do not Open
 
-## Available Scripts
 
-In the project directory, you can run:
+## Usage
 
-### `npm start`
+The `Designs` component provides a user interface for choosing and displaying
+web design elements. It integrates with Redux for state management and includes
+the following features:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Web element selection
+- Design section selection Contains major web page items like (e.g., Navigation, Hero, Body, Footer, Complete Website)
+- Design page selection (e.g., Home, About, Contact, Login)
+- Code extraction and display
+- Code editing and saving
+- Hosting identification
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## Redux State
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The `Designs` component uses Redux for state management. It interacts with the following slices of the Redux store:
 
-### `npm run build`
+- `setNamePannel`: Manages the display state of the name panel.
+- `pages`: Manages the selected pages.
+- `codes`: Manages the selected codes.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Ensure that your Redux store is properly configured with these slices.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Component Structure
+The `Designs` component is structured as follows:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Web element selection panel
+- Design section panel
+- Design page selection
+- Code extraction and display section
+- Redux state management
+- Event handling for code editing and saving
+- Popup element functionality
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Dependencies
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The `Designs` component relies on the following external dependencies:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- `react`: React library for building user interfaces.
+- `redux`: State management library for React applications.
+- `react-redux`: Official React bindings for Redux.
+- `react-icons`: Icon library for React components.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Components
+- `<HostingIdendity />` : This shows when clicked on `<button> save </button>` when designer can insert their hosting indendity (Web Site Name).
+- `dangerouslySetInnerHTML={{ __html: code.codeParams.html }` : It Gives the permission to insert the insert the html code which will be comming from the backend. 
+- `<PopupElement clicked={clickedHTMLElement} />` : This Gives The Popup dialog for changing the the styles like `font-family`, `font-size`, `font-width`, `font-style`.
+-  `popupPositining(event, true)` : It indicated in which position the popup element should be placed when clicked on certain item
 
-## Learn More
+Make sure to install and configure these dependencies in your project.
+- `npm install`: Install all the react library.
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Folder Path information.
+### ./hooks
+- useFetch.js : currently it is capable on only using `GET` request
+- usePost.js :  `POST` request method is needed
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### ./hooks
+- useFetch.js : currently it is capable on only using `GET` request
 
-### Code Splitting
+### ./pages
+- contains all the pages codes like [http:localhost:3000/uploadCode]
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### ./reduxFunction
+- NEED TO REWORK on this page
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### ./store
+- contains the initialization code for redux.
