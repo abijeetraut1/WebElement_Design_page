@@ -96,14 +96,17 @@ export default function Uploadcode() {
                                             id="web-section"
                                             name="web-section"
                                             autoComplete="web-section"
-                                            onChange={(el) => setSection(el.target.value)}
+                                            onChange={(el) => {
+                                                console.log(el.target.value)
+                                                setSection({ pageSection: el.target.value, type: el.target.getAttribute('data-type') })
+                                            }}
                                             className="block w-fit rounded-md border-0 py-1.5 text-gray-900 outline-none font-bold shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                         >
-                                            <option value="navigation" selected>Navigation Section</option>
-                                            <option value="hero">Hero Section</option>
-                                            <option value='body'>Body Section</option>
-                                            <option value="footer">Footer Section</option>
-                                            <option value="webpage">Complete Website</option>
+                                            <option data-type="section" value="navigation" selected>Navigation Section</option>
+                                            <option data-type="section" value="hero">Hero Section</option>
+                                            <option data-type="section" value='body'>Body Section</option>
+                                            <option data-type="section" value="footer">Footer Section</option>
+                                            <option data-type="page" value="webpage">Complete WebPage</option>
                                         </select>
                                     </div>
                                     <div>
@@ -116,10 +119,10 @@ export default function Uploadcode() {
 
                                                 if (imageLength === 0 || !name || !htmlCode || !cssCode || !jsCode) {
                                                     setResponse(imageLength === 0 ?
-                                                        "FAILED: Please Upload At Least One Output Image" 
-                                                        : !name 
-                                                        ? "OOPS😅 You Forgot To Give a Name" 
-                                                        : `OOPS😅 You Forgot To Insert ${!htmlCode ? "HTML" : !cssCode ? "CSS" : !jsCode ? "JS" :"" } Code`
+                                                        "FAILED: Please Upload At Least One Output Image"
+                                                        : !name
+                                                            ? "OOPS😅 You Forgot To Give a Name"
+                                                            : `OOPS😅 You Forgot To Insert ${!htmlCode ? "HTML" : !cssCode ? "CSS" : !jsCode ? "JS" : ""} Code`
                                                     );
                                                     setNotificationActive(true)
                                                 } else if (!name) {

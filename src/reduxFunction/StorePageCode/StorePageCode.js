@@ -7,9 +7,9 @@ const pageStorage = createSlice({
     name: "pages",
     initialState: {
         home: [],
-        // about: [],
-        // contact: [],
-        // login: []
+        about: [],
+        contact: [],
+        login: []
     },
     reducers: {
         storeHomePageCode: (state, action) => {

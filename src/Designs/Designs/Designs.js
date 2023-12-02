@@ -6,7 +6,7 @@ import { VscChromeClose, VscGripper } from "react-icons/vsc";
 import { ImSpinner3 } from "react-icons/im";
 
 // Custom APIs
-import { useFetch } from "../../hooks/useFetch";
+import { useFetch } from "../../hooks/Fetch/useFetch";
 
 // Images
 import testProfile from "../test-image/test-profile.jpeg";
@@ -25,24 +25,24 @@ import { changeAltImage } from "./Functions/popupEditor/ChangeAltImage/ChangeAlt
 import HostingIdendity from "./HostingProcess/HostingIdentification/HostingIdendity";
 
 export default function Designs() {
-    // redux
-    const dispatch = useDispatch();
-    const isDisplay = useSelector(state => state.pageControls.setNamePannel);
-
-    const selectedCodes = useSelector(state => state.StoreCodeSlice.codes);
-    const { data: fonts, isProtected: fontsProtected, error: fontsExtractError } = useFetch(process.env.REACT_APP_GOOGLE_FONT_API_URL + "?key=" + process.env.REACT_APP_GOOGLE_FONT_API_KEY + "&sort=popularity", "GET", "fonts");
-
-    const [clicked, SetClicked] = useState("navigation");
-    const { data: codes, isProtected, error } = useFetch(`${process.env.REACT_APP_CODE_API_URL}=${clicked.toLowerCase()}`, "GET", "codes");
-
+    // state
+    const [section, setSection] = useState("navigation");
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
     const [previousClickedElement, setPreviousClickedElement] = useState(null);
-
-    // for choose design pannel determine close or open
-    const [open, setOpen] = useState(true);
-
+    const [open, setOpen] = useState(true);  // for choose design pannel determine close or open
     const [designPage, setDesignPage] = useState("home");   
     const [isSping, setIsSpin] = useState(false);
+
+    // Fetch
+    const { data: fonts, isProtected: fontsProtected, error: fontsExtractError } = useFetch(process.env.REACT_APP_GOOGLE_FONT_API_URL + "?key=" + process.env.REACT_APP_GOOGLE_FONT_API_KEY + "&sort=popularity", "GET", "fonts");
+    const { data: codes, isProtected, error } = useFetch(`${process.env.REACT_APP_CODE_API_URL}=${section.toLowerCase()}`, "GET", "codes");
+    
+    // redux Dispatch
+    const dispatch = useDispatch();
+    
+    // extract from Redux
+    const isDisplay = useSelector(state => state.pageControls.setNamePannel);
+    const selectedCodes = useSelector(state => state.StoreCodeSlice.codes);
 
     useEffect(() => {
         if (isSping === true) {
@@ -85,20 +85,23 @@ export default function Designs() {
                                             className="flex items-center space-x-2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                             onClick={() => {
                                                 setIsSpin(true);
+                                                if(section === "webpage"){
+                                                    dispatch(storeHomePageCode("hello"))
+                                                }else{
+                                                    console.log("add")
+                                                }
+                                                // selectedCodes.forEach(code => {
+                                                //     // const htmlChangedCodes = document.getElementById(`${code.id}`).innerHTML;
 
-                                                dispatch(storeHomePageCode("hello"))
-                                                selectedCodes.forEach(code => {
-                                                    // const htmlChangedCodes = document.getElementById(`${code.id}`).innerHTML;
+                                                //     // if (clickedHTMLElement.style.border) {
+                                                //     //     clickedHTMLElement.style.border = "";
+                                                //     // }
 
-                                                    // if (clickedHTMLElement.style.border) {
-                                                    //     clickedHTMLElement.style.border = "";
-                                                    // }
+                                                //     // if (clickedHTMLElement.style.transitionDuration) {
+                                                //     //     clickedHTMLElement.style.transitionDuration = "";
+                                                //     // }
 
-                                                    // if (clickedHTMLElement.style.transitionDuration) {
-                                                    //     clickedHTMLElement.style.transitionDuration = "";
-                                                    // }
-
-                                                })
+                                                // })
                                             }}
                                         >
                                             {
@@ -118,7 +121,7 @@ export default function Designs() {
                                             name="web-section"
                                             autoComplete="web-section"
                                             className="block w-96 rounded-md border-0 py-1.5 text-gray-900 outline-none font-bold shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                                            onChange={el => SetClicked(el.target.value)} // section choose name
+                                            onChange={el => setSection(el.target.value)} // section choose name
                                         >
                                             <option value="navigation" selected>Navigation Section</option>
                                             <option value="hero">Hero Section</option>
@@ -145,7 +148,7 @@ export default function Designs() {
                             </div>
                         }
                         {open && <div className="my-4 block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
-                            {clicked} Section
+                            {section} Section
                         </div>}
                     </div>
 
