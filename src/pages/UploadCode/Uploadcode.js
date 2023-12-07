@@ -15,7 +15,7 @@ export default function Uploadcode() {
 
     const [active, setActive] = useState("html");
     const [notificationActive, setNotificationActive] = useState(false);
-    const [section, setSection] = useState("Navigation");
+    const [section, setSection] = useState({ pageSection: "Navigation", type: "section" });
     const [response, setResponse] = useState();
 
     useEffect(() => {
@@ -97,16 +97,15 @@ export default function Uploadcode() {
                                             name="web-section"
                                             autoComplete="web-section"
                                             onChange={(el) => {
-                                                console.log(el.target.value)
-                                                setSection({ pageSection: el.target.value, type: el.target.getAttribute('data-type') })
+                                                setSection( { sectionName: el.target.value.split("-")[0], elementType: el.target.value.split("-")[1] } )
                                             }}
                                             className="block w-fit rounded-md border-0 py-1.5 text-gray-900 outline-none font-bold shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                         >
-                                            <option data-type="section" value="navigation" selected>Navigation Section</option>
-                                            <option data-type="section" value="hero">Hero Section</option>
-                                            <option data-type="section" value='body'>Body Section</option>
-                                            <option data-type="section" value="footer">Footer Section</option>
-                                            <option data-type="page" value="webpage">Complete WebPage</option>
+                                            <option value="navigation-section" selected>Navigation Section</option>
+                                            <option value="hero-section">Hero Section</option>
+                                            <option value="body-section">Body Section</option>
+                                            <option value="footer-section">Footer Section</option>
+                                            <option value="webpage-page">Complete WebPage</option>
                                         </select>
                                     </div>
                                     <div>
@@ -114,7 +113,6 @@ export default function Uploadcode() {
                                             className="rounded-md bg-green-900 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-emerald-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                             onClick={() => {
                                                 const webview = document.querySelector("#images").files; // Assuming #desktop is a file input
-
                                                 const imageLength = webview.length;
 
                                                 if (imageLength === 0 || !name || !htmlCode || !cssCode || !jsCode) {
@@ -130,7 +128,6 @@ export default function Uploadcode() {
                                                     setNotificationActive(true)
                                                 } else {
                                                     const formData = new FormData();
-                                                    const imageLength = webview.length;
 
                                                     for (let i = 0; i < imageLength; i++) {
                                                         formData.append(`webview`, webview[i]);

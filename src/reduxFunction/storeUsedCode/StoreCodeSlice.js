@@ -1,6 +1,6 @@
 import {
     createSlice,
-    nanoid,
+    nanoid
 } from "@reduxjs/toolkit";
 
 const slices = createSlice({
@@ -8,31 +8,78 @@ const slices = createSlice({
     initialState: {
         codes: [],
         usedFonts: [],
+        homeIDs: [],
+        contactIDs: [],
+        aboutIDs: [],
     },
     reducers: {
         storeCodes: (state, action) => {
+            const ID = nanoid();
+
             const {
                 name,
                 html,
                 css,
-                slug
+                js,
+                type,
+                slug,
+                pageName
             } = action.payload;
+
             const codesObj = {
-                id: nanoid(),
+                id: ID,
                 codeParams: {
                     name: name,
                     html: html,
                     css: css,
-                    slug: slug
+                    js: js,
+                    type: type,
+                    slug: slug,
+                    pageName: pageName
                 }
             }
-            state.codes.push(codesObj);
+
+
+            if (pageName === 'home') {
+                if (type === "page") {
+                    // if alreay a webpage exist then clear cant allow to insert another
+                    if (state.codes.length === 1) return;
+                    state.codes.push(codesObj);
+                    state.homeIDs.push(ID);
+                } else if (type === "section") {
+                    state.codes.push(codesObj);
+                    state.homeIDs.push(ID);
+                }
+            } else if (pageName === 'about') {
+                if (type === "page") {
+                    // if alreay a webpage exist then clear cant allow to insert another
+                    if (state.codes.length === 1) return;
+                    state.codes.push(codesObj);
+                    state.aboutIDs.push(ID);
+                } else if (type === "section") {
+                    state.codes.push(codesObj);
+                    state.aboutIDs.push(ID);
+                }
+            } else if (pageName === 'contact') {
+                if (type === "page") {
+                    // if alreay a webpage exist then clear cant allow to insert another
+                    if (state.codes.length === 1) return;
+                    state.codes.push(codesObj);
+                    state.contactIDs.push(ID);
+                } else if (type === "section") {
+                    state.codes.push(codesObj);
+                    state.contactIDs.push(ID);
+                }
+            }
         },
         removeCode: (state, action) => {
-            state.codes = state.codes.filter(code => code.id !== action.payload);
+            // it only does for the home pages
+            state.homeIDs = state.homeIDs.filter(ids => ids !== action.payload.id)
+            state.codes = state.codes.filter(code => code.id !== action.payload.id);
         },
-        updateCode: (state, action) => {
-            state.codes = state.codes.filter(code => code.id === action.payload.id ? code.codeParams.html = action.payload.html : code.codeParams.html);
+        clearPreviousCodeOnDOM: (state, action) => {
+            const length = state.codes.length;
+            state.codes.splice(0, length);
         },
         storeFonts: (state, action) => {
             const fontsObj = {
@@ -48,7 +95,7 @@ const slices = createSlice({
 export const {
     storeCodes,
     removeCode,
-    updateCode,
+    clearPreviousCodeOnDOM,
     storeFonts,
 } = slices.actions;
 

@@ -1,19 +1,34 @@
 import {
     createSlice,
-    // nanoid
 } from "@reduxjs/toolkit";
 
 const pageStorage = createSlice({
     name: "pages",
     initialState: {
-        home: [],
-        about: [],
-        contact: [],
-        login: []
+        home: {},
+        about: {},
+        contact: {},
+        login: {}
     },
     reducers: {
         storeHomePageCode: (state, action) => {
-            console.log(action.payload)
+            const {
+                code,
+                section
+            } = action.payload;
+
+            if(!action.payload.code) return;
+            console.log(code)
+            // stores the codes in the section
+            if (section === "home") {
+                state.home = code;
+            } else if (section === "about") {
+                state.about = code;
+            }else if(section === "contact"){
+                state.contact = code;
+            }else if(section === "login"){
+                state.login = code;
+            }
         }
     }
 })

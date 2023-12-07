@@ -5,7 +5,7 @@ export async function saveCode(formData, name, section, htmlCode, cssCode, jsCod
   formData.append("htmlCode", htmlCode);
   formData.append("cssCode", cssCode);
   formData.append("jsCode", jsCode);
-  formData.append("section", section);
+  formData.append("section", JSON.stringify(section));
 
   const response = await axios.post(process.env.REACT_APP_UPLOAD_CODE_URL, formData, {
     headers: {
@@ -13,5 +13,6 @@ export async function saveCode(formData, name, section, htmlCode, cssCode, jsCod
     },
   });
 
+  console.log(response)
   return response.data.status + response.data.message;
 }

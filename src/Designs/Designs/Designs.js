@@ -6,7 +6,7 @@ import { VscChromeClose, VscGripper } from "react-icons/vsc";
 import { ImSpinner3 } from "react-icons/im";
 
 // Custom APIs
-import { useFetch } from "../../hooks/Fetch/useFetch";
+import { useFetch } from "../../hooks/GetRequest/useFetch";
 
 // Images
 import testProfile from "../test-image/test-profile.jpeg";
@@ -14,7 +14,7 @@ import ai from "../../Images/ai.png"
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { storeCodes, removeCode, updateCode } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
+import { storeCodes, removeCode, clearPreviousCodeOnDOM } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
 import { storeHomePageCode } from "../../reduxFunction/StorePageCode/StorePageCode";
 import { setClose } from "../../reduxFunction/PageControls/pageControls";
 
@@ -23,26 +23,36 @@ import PopupElement from "./Functions/popupEditor/NodeTextStyle/PopupElement";
 import { popupPositining } from "./Functions/popupEditor/Popup/PopupPositining";
 import { changeAltImage } from "./Functions/popupEditor/ChangeAltImage/ChangeAltImage";
 import HostingIdendity from "./HostingProcess/HostingIdentification/HostingIdendity";
+import { Extraction } from "./Functions/Extraction/Extraction";
+import { Render } from "./Functions/Render/Render";
 
 export default function Designs() {
     // state
-    const [section, setSection] = useState("navigation");
+    const [section, setSection] = useState("Navigation");
     const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
     const [previousClickedElement, setPreviousClickedElement] = useState(null);
     const [open, setOpen] = useState(true);  // for choose design pannel determine close or open
-    const [designPage, setDesignPage] = useState("home");   
+    const [designPage, setDesignPage] = useState("home");
     const [isSping, setIsSpin] = useState(false);
 
     // Fetch
     const { data: fonts, isProtected: fontsProtected, error: fontsExtractError } = useFetch(process.env.REACT_APP_GOOGLE_FONT_API_URL + "?key=" + process.env.REACT_APP_GOOGLE_FONT_API_KEY + "&sort=popularity", "GET", "fonts");
     const { data: codes, isProtected, error } = useFetch(`${process.env.REACT_APP_CODE_API_URL}=${section.toLowerCase()}`, "GET", "codes");
-    
+
     // redux Dispatch
     const dispatch = useDispatch();
-    
+
     // extract from Redux
     const isDisplay = useSelector(state => state.pageControls.setNamePannel);
     const selectedCodes = useSelector(state => state.StoreCodeSlice.codes);
+
+    // codes ids 
+    const home = useSelector(state => state.StoreCodeSlice.homeIDs);
+    const about = useSelector(state => state.StoreCodeSlice.aboutIDs);
+    const contact = useSelector(state => state.StoreCodeSlice.contactIDs);
+
+    const homePage = useSelector(state => state.StorePageCode.home);
+
 
     useEffect(() => {
         if (isSping === true) {
@@ -51,6 +61,21 @@ export default function Designs() {
             }, 3000)
         }
     }, [isSping]);
+
+    // save code function
+    function saveCodes() {
+        let extractedCodes;
+        if (designPage === "home") {
+            extractedCodes = Extraction(home);
+        } else if (designPage === "contact") {
+            extractedCodes = Extraction(contact);
+        } else if (designPage === "about") {
+            extractedCodes = Extraction(about);
+        }
+
+        dispatch(storeHomePageCode({ code: extractedCodes, section: designPage }));
+        dispatch(clearPreviousCodeOnDOM());
+    }
 
     return (
         // side design choosing section
@@ -85,23 +110,7 @@ export default function Designs() {
                                             className="flex items-center space-x-2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                             onClick={() => {
                                                 setIsSpin(true);
-                                                if(section === "webpage"){
-                                                    dispatch(storeHomePageCode("hello"))
-                                                }else{
-                                                    console.log("add")
-                                                }
-                                                // selectedCodes.forEach(code => {
-                                                //     // const htmlChangedCodes = document.getElementById(`${code.id}`).innerHTML;
-
-                                                //     // if (clickedHTMLElement.style.border) {
-                                                //     //     clickedHTMLElement.style.border = "";
-                                                //     // }
-
-                                                //     // if (clickedHTMLElement.style.transitionDuration) {
-                                                //     //     clickedHTMLElement.style.transitionDuration = "";
-                                                //     // }
-
-                                                // })
+                                                saveCodes();
                                             }}
                                         >
                                             {
@@ -121,13 +130,15 @@ export default function Designs() {
                                             name="web-section"
                                             autoComplete="web-section"
                                             className="block w-96 rounded-md border-0 py-1.5 text-gray-900 outline-none font-bold shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                                            onChange={el => setSection(el.target.value)} // section choose name
+                                            onChange={el => {
+                                                setSection(el.target.value)
+                                            }} // section choose name
                                         >
                                             <option value="navigation" selected>Navigation Section</option>
                                             <option value="hero">Hero Section</option>
                                             <option value='body'>Body Section</option>
                                             <option value="footer">Footer Section</option>
-                                            <option value="webpage">Complete Website</option>
+                                            <option value="webpage" >Complete Website</option>
                                         </select>
                                     </div>
                                     <button className="h-fit w-fit rounded-md">
@@ -137,7 +148,10 @@ export default function Designs() {
                                 <div>
                                     <select name="" id=""
                                         className="block w-96 rounded-md border-0 py-1.5 text-gray-900 outline-none font-bold shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                                        onChange={(el) => setDesignPage(el.target.value)}
+                                        onChange={(el) => {
+                                            saveCodes();
+                                            setDesignPage(el.target.value);
+                                        }}
                                     >
                                         <option value="home" selected>Home</option>
                                         <option value="about">About</option>
@@ -186,8 +200,7 @@ export default function Designs() {
                                         <button
                                             className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                             onClick={() => {
-                                                // send the object to the redux config
-                                                dispatch(storeCodes({ name: code.name, html: code.htmlCode, css: code.cssCode, slug: code.slug }));
+                                                dispatch(storeCodes({ name: code.name, html: code.htmlCode, css: code.cssCode, js: code.jsCode, type: code.type, slug: code.slug, pageName: designPage }))
                                             }}
                                         >
                                             Use
@@ -242,17 +255,15 @@ export default function Designs() {
                         </head>
                         <body id="edit-space">
                             {selectedCodes && selectedCodes.map((code, id) => (
-                                <section key={code.id}>
+                                <section key={code.id} >
                                     <div className="control-buttons flex flex-row w-full  items-center justify-center absolute z-50">
                                         <div className="control-buttons py-1 px-6 bg-blue-500 flex items-center justify-center space-x-4">
-                                            <button className="control-buttons">
+                                            <button className="control-buttons" >
                                                 <VscGripper id="control-buttons" className="control-buttons text-black " />
                                             </button>
 
                                             <button className="control-buttons" onClick={el => {
-                                                // deleteCode(code.id)
-                                                // setOpenEditPanel(false);
-                                                dispatch(removeCode(code.id))
+                                                dispatch(removeCode({ id: code.id, pageName: designPage }))
                                             }}>
                                                 <VscChromeClose className="control-buttons text-black" />
                                             </button>
@@ -260,19 +271,15 @@ export default function Designs() {
                                     </div>
 
                                     <div>
-                                        <div id={code.id}
-                                            dangerouslySetInnerHTML={{ __html: code.codeParams.html }}
-                                            onLoad={
-                                                changeAltImage(code.id)
-                                            }
+                                        <div id={code.id + "-html-structure"}
+                                            dangerouslySetInnerHTML={{ __html: code.codeParams.html  }}
+                                            onLoad={changeAltImage(code.id)}
+
                                             onClick={() => {
                                                 const editSpace = document.getElementById("edit-space");
 
                                                 editSpace.addEventListener('click', function (event) {
                                                     const RegExp = /\n/;
-
-                                                    // const htmlChangedCodes = document.getElementById(`${code.id}`).innerHTML;
-                                                    // dispatch(updateCode({id: code.id, html: htmlChangedCodes}))
 
                                                     if (previousClickedElement) {
                                                         previousClickedElement.style.border = "";
@@ -308,14 +315,14 @@ export default function Designs() {
                                                 });
                                             }}
                                         ></div>
-                                        <style dangerouslySetInnerHTML={{ __html: code.codeParams.css }}></style>
+                                        <style id={code.id + "-style-structure"} dangerouslySetInnerHTML={{ __html: code.codeParams.css }}></style>
                                     </div>
                                 </section>
                             ))}
                         </body>
                     </html>
                 </section>
-            </section>
-        </section>
+            </section >
+        </section >
     )
 };

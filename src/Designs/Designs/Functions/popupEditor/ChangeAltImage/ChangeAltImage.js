@@ -9,6 +9,8 @@ export function changeAltImage(id) {
         const imgTag = selectedDOM.querySelectorAll("img");
         const aTag = selectedDOM.querySelectorAll("a");
 
+
+
         // added preventdefault because if it contains link it blocks the link execution
         aTag.forEach((el, i) => {
             el.href = el.textContent.replaceAll(" ", "-").toLowerCase();
