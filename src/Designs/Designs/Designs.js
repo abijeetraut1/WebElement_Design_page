@@ -52,6 +52,9 @@ export default function Designs() {
     const contact = useSelector(state => state.StoreCodeSlice.contactIDs);
 
     const homePage = useSelector(state => state.StorePageCode.home);
+    const aboutPage = useSelector(state => state.StorePageCode.about);
+    const contactPage = useSelector(state => state.StorePageCode.contact);
+    const loginPage = useSelector(state => state.StorePageCode.login);
 
 
     useEffect(() => {
@@ -72,6 +75,7 @@ export default function Designs() {
         } else if (designPage === "about") {
             extractedCodes = Extraction(about);
         }
+
 
         dispatch(storeHomePageCode({ code: extractedCodes, section: designPage }));
         dispatch(clearPreviousCodeOnDOM());
@@ -149,8 +153,19 @@ export default function Designs() {
                                     <select name="" id=""
                                         className="block w-96 rounded-md border-0 py-1.5 text-gray-900 outline-none font-bold shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                         onChange={(el) => {
-                                            saveCodes();
                                             setDesignPage(el.target.value);
+                                            saveCodes();
+
+                                            if(!homePage) return;
+                                            
+                                            if(el.target.value === "home"){
+                                                Render(el.target.value, home, homePage);
+                                            }else if(el.target.value === "about"){
+                                                Render(el.target.value, about, aboutPage);
+                                            }else if(el.target.value === "contact"){
+                                                Render(el.target.value, contact, contactPage);
+                                            }
+
                                         }}
                                     >
                                         <option value="home" selected>Home</option>
@@ -272,7 +287,7 @@ export default function Designs() {
 
                                     <div>
                                         <div id={code.id + "-html-structure"}
-                                            dangerouslySetInnerHTML={{ __html: code.codeParams.html  }}
+                                            dangerouslySetInnerHTML={{ __html: code.codeParams.html }}
                                             onLoad={changeAltImage(code.id)}
 
                                             onClick={() => {

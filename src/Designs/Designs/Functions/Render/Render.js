@@ -1,17 +1,27 @@
-// import { useSelector } from "react-redux/es/hooks/useSelector";
+const renderParentElement = document.getElementById("edit-space");
 
-export function Render(page){
-    console.log(page)
-    // const homePage = useSelector(state => state.StorePageCode.home);
-    // const IDS = useSelector(state => state.StoreCodeSlice.homeIDs);
+function RenderTheCodes(IDS, html, css) {
 
-    // console.log(homePage)
-    // IDS.forEach(id => {
-    //     const RenderHtmlElement = document.getElementById(id + "-html-structure");
-    //     const RenderCssElement = document.getElementById(id + "-style-structure");
+    IDS.forEach(id => {
+        const RenderHtmlElement = document.createElement("div");
+        RenderHtmlElement.id = id + "-html-structure";
 
-    //     // if(page === "home"){
-    //     //     console.log(homePage.codes.html)
-    //     // }
-    // });
+        const RenderCssElement = document.createElement("style");
+        RenderCssElement.id = id + "-style-structure";
+
+        renderParentElement.insertAdjacentElement("beforeend", RenderHtmlElement);
+        renderParentElement.insertAdjacentElement("beforeend", RenderCssElement);
+
+        RenderHtmlElement.insertAdjacentHTML("beforeend", html);
+        RenderCssElement.insertAdjacentHTML("beforeend", css);
+    });
+}
+
+export function Render(page, IDS, pageCode) {
+    if(!pageCode.codes.html) return;
+
+    const html = JSON.parse(pageCode.codes.html);
+    const css = JSON.parse(pageCode.codes.css);
+    
+    RenderTheCodes(IDS, html, css);
 }
