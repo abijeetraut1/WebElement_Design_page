@@ -1,6 +1,4 @@
-import {
-    createSlice,
-} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const pageStorage = createSlice({
     name: "pages",
@@ -17,8 +15,8 @@ const pageStorage = createSlice({
                 section
             } = action.payload;
 
-            if(!action.payload.code) return;
-            console.log(code)
+            if(!(action.payload.code)) return;
+
             // stores the codes in the section
             if (section === "home") {
                 state.home = code;

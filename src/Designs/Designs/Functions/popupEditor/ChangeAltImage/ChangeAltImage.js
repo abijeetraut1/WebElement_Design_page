@@ -1,15 +1,11 @@
-import {
-    nanoid
-} from "@reduxjs/toolkit";
+import { nanoid } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export function changeAltImage(id) {
     try {
-        const selectedDOM = document.getElementById(id);
+        const selectedDOM = document.getElementById(id+ "-html-structure");
         const imgTag = selectedDOM.querySelectorAll("img");
         const aTag = selectedDOM.querySelectorAll("a");
-
-
 
         // added preventdefault because if it contains link it blocks the link execution
         aTag.forEach((el, i) => {

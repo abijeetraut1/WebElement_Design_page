@@ -68,6 +68,7 @@ export default function Designs() {
     // save code function
     function saveCodes() {
         let extractedCodes;
+        console.log(designPage)
         if (designPage === "home") {
             extractedCodes = Extraction(home);
         } else if (designPage === "contact") {
