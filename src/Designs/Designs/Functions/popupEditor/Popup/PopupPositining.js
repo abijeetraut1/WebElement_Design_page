@@ -1,5 +1,4 @@
 export function popupPositining(event, show) {
-
     // this should in an function
     const editorContainer = document.querySelector("#editor-container");
     const editSpace = document.querySelector("#edit-space");

@@ -33,7 +33,8 @@ export default function Designs() {
     const [open, setOpen] = useState(true);  // for choose design pannel determine close or open
     const [designPage, setDesignPage] = useState("home");
     const [isSping, setIsSpin] = useState(false);
-
+    const [clickedHTMLElement, setClickedHTMLElement] = useState(true);
+    
     // Fetch
     const { data: fonts, isProtected: fontsProtected, error: fontsExtractError } = useFetch(process.env.REACT_APP_GOOGLE_FONT_API_URL + "?key=" + process.env.REACT_APP_GOOGLE_FONT_API_KEY + "&sort=popularity", "GET", "fonts");
     const { data: codes, isProtected, error } = useFetch(`${process.env.REACT_APP_CODE_API_URL}=${section.toLowerCase()}`, "GET", "codes");
@@ -249,7 +250,7 @@ export default function Designs() {
                         </div>
                     </section>}
                 </aside>
-                {/* <PopupElement clicked={clickedHTMLElement} /> */}
+                <PopupElement clicked={clickedHTMLElement} />
                 <section id="extract-code" className="h-screen" >
                     <html lang="en">
                         <head>
@@ -289,7 +290,10 @@ export default function Designs() {
                                         <div id={code.id + "-html-structure"}
                                             dangerouslySetInnerHTML={{ __html: code.codeParams.html }}
                                             onLoad={changeAltImage(code.id)}
-                                            onClick={(event) => PopupEditorTriggerer(event)}
+                                            onClick={(event) => {
+                                                PopupEditorTriggerer(event)
+                                                setClickedHTMLElement(event.target);
+                                            }}
                                         ></div>
                                         <style id={code.id + "-style-structure"} dangerouslySetInnerHTML={{ __html: code.codeParams.css }}></style>
                                     </div>
