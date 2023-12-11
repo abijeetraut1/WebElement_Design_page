@@ -1,9 +1,11 @@
-import { nanoid } from "@reduxjs/toolkit";
+import {
+    nanoid
+} from "@reduxjs/toolkit";
 import axios from "axios";
 
 export function changeAltImage(id) {
     try {
-        const selectedDOM = document.getElementById(id+ "-html-structure");
+        const selectedDOM = document.getElementById(id + "-html-structure");
         const imgTag = selectedDOM.querySelectorAll("img");
         const aTag = selectedDOM.querySelectorAll("a");
 
@@ -22,7 +24,7 @@ export function changeAltImage(id) {
                 insertImage.id = "image-" + nanoid() + "-inserter";
                 insertImage.setAttribute("isChanged", false);
                 insertImage.setAttribute("accept", "image/png, image/gif, image/jpeg");
-                insertImage.onchange = (element) => changeTagWhenUpload(element);
+                insertImage.oninput = (element) => changeTagWhenUpload(element);
                 img.insertAdjacentElement("afterend", insertImage);
 
                 img.remove();
@@ -55,7 +57,7 @@ async function changeTagWhenUpload(element) {
         createInputFileNode(Node);
         Node.target.remove();
     }
-
+    console.log(sendImage.data.message)
     imageTag.src = process.env.REACT_APP_GET_CUSTOMIZATION_IMAGE + sendImage.data.message;
     element.target.insertAdjacentElement("afterend", imageTag);
 

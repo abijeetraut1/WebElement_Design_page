@@ -25,12 +25,11 @@ import { changeAltImage } from "./Functions/popupEditor/ChangeAltImage/ChangeAlt
 import HostingIdendity from "./HostingProcess/HostingIdentification/HostingIdendity";
 import { Extraction } from "./Functions/Extraction/Extraction";
 import { Render } from "./Functions/Render/Render";
+import { PopupEditorTriggerer } from "./Functions/popupEditor/PopupEditorTriggerer/PopupEditorTriggerer";
 
 export default function Designs() {
     // state
     const [section, setSection] = useState("Navigation");
-    const [clickedHTMLElement, setclickedHTMLElement] = useState(null);
-    const [previousClickedElement, setPreviousClickedElement] = useState(null);
     const [open, setOpen] = useState(true);  // for choose design pannel determine close or open
     const [designPage, setDesignPage] = useState("home");
     const [isSping, setIsSpin] = useState(false);
@@ -79,7 +78,6 @@ export default function Designs() {
 
 
         dispatch(storeHomePageCode({ code: extractedCodes, section: designPage }));
-        dispatch(clearPreviousCodeOnDOM());
     }
 
     return (
@@ -157,15 +155,16 @@ export default function Designs() {
                                             setDesignPage(el.target.value);
                                             saveCodes();
 
-                                            if(!homePage) return;
-                                            
-                                            if(el.target.value === "home"){
+                                            if (!homePage) return;
+
+                                            if (el.target.value === "home") {
                                                 Render(el.target.value, home, homePage);
-                                            }else if(el.target.value === "about"){
+                                            } else if (el.target.value === "about") {
                                                 Render(el.target.value, about, aboutPage);
-                                            }else if(el.target.value === "contact"){
+                                            } else if (el.target.value === "contact") {
                                                 Render(el.target.value, contact, contactPage);
                                             }
+                                            dispatch(clearPreviousCodeOnDOM());
 
                                         }}
                                     >
@@ -250,7 +249,7 @@ export default function Designs() {
                         </div>
                     </section>}
                 </aside>
-                <PopupElement clicked={clickedHTMLElement} />
+                {/* <PopupElement clicked={clickedHTMLElement} /> */}
                 <section id="extract-code" className="h-screen" >
                     <html lang="en">
                         <head>
@@ -290,46 +289,7 @@ export default function Designs() {
                                         <div id={code.id + "-html-structure"}
                                             dangerouslySetInnerHTML={{ __html: code.codeParams.html }}
                                             onLoad={changeAltImage(code.id)}
-
-                                            onClick={() => {
-                                                const editSpace = document.getElementById("edit-space");
-
-                                                editSpace.addEventListener('click', function (event) {
-                                                    const RegExp = /\n/;
-
-                                                    if (previousClickedElement) {
-                                                        previousClickedElement.style.border = "";
-                                                        previousClickedElement.style.transitionDuration = "";
-                                                    }
-
-                                                    // const classList = event.target.classList("control-buttons");
-                                                    if (event.target instanceof HTMLElement) {
-                                                        if (event.target.classList.contains("control-buttons")) return;
-                                                    }
-
-                                                    // shows the clicked element doesnot contain \n tag
-                                                    if (RegExp.test(event.target.textContent) === false) {
-                                                        if (event.target.tagName !== "IMG") {
-                                                            event.target.setAttribute("contenteditable", "true");
-                                                        }
-
-                                                        event.target.style.border = "2px solid blue";
-                                                        event.target.style.transitionDuration = "75ms";
-
-                                                        if (event.target.tagName !== "IMG") {
-                                                            popupPositining(event, true);
-                                                        }
-
-                                                        setclickedHTMLElement(event.target);
-
-                                                        // store the clicked element data to dispaly the text content in input field 
-                                                        setPreviousClickedElement(event.target);
-                                                    } else {
-                                                        // setOpenEditPanel(false);
-                                                        setclickedHTMLElement(null);
-                                                    }
-                                                });
-                                            }}
+                                            onClick={(event) => PopupEditorTriggerer(event)}
                                         ></div>
                                         <style id={code.id + "-style-structure"} dangerouslySetInnerHTML={{ __html: code.codeParams.css }}></style>
                                     </div>
