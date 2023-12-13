@@ -16,7 +16,7 @@ import ai from "../../Images/ai.png"
 import { useDispatch, useSelector } from 'react-redux';
 import { storeCodes, removeCode, clearPreviousCodeOnDOM } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
 import { storeHomePageCode } from "../../reduxFunction/StorePageCode/StorePageCode";
-import { setClose } from "../../reduxFunction/PageControls/pageControls";
+import { setHostingPannelActive } from "../../reduxFunction/PageControls/pageControls";
 
 // component
 import PopupElement from "./Functions/popupEditor/NodeTextStyle/PopupElement";
@@ -34,7 +34,7 @@ export default function Designs() {
     const [designPage, setDesignPage] = useState("home");
     const [isSping, setIsSpin] = useState(false);
     const [clickedHTMLElement, setClickedHTMLElement] = useState(true);
-    
+
     // Fetch
     const { data: fonts, isProtected: fontsProtected, error: fontsExtractError } = useFetch(process.env.REACT_APP_GOOGLE_FONT_API_URL + "?key=" + process.env.REACT_APP_GOOGLE_FONT_API_KEY + "&sort=popularity", "GET", "fonts");
     const { data: codes, isProtected, error } = useFetch(`${process.env.REACT_APP_CODE_API_URL}=${section.toLowerCase()}`, "GET", "codes");
@@ -43,18 +43,19 @@ export default function Designs() {
     const dispatch = useDispatch();
 
     // extract from Redux
-    const isDisplay = useSelector(state => state.pageControls.setNamePannel);
+    const openHostingPannel = useSelector(state => state.pageControls.hostingPannelActive);
     const selectedCodes = useSelector(state => state.StoreCodeSlice.codes);
 
     // codes ids 
     const home = useSelector(state => state.StoreCodeSlice.homeIDs);
     const about = useSelector(state => state.StoreCodeSlice.aboutIDs);
     const contact = useSelector(state => state.StoreCodeSlice.contactIDs);
+    const authentication = useSelector(state => state.StoreCodeSlice.authenticationIDs);
 
     const homePage = useSelector(state => state.StorePageCode.home);
     const aboutPage = useSelector(state => state.StorePageCode.about);
     const contactPage = useSelector(state => state.StorePageCode.contact);
-    const loginPage = useSelector(state => state.StorePageCode.login);
+    const loginPage = useSelector(state => state.StorePageCode.authentication);
 
 
     useEffect(() => {
@@ -75,8 +76,9 @@ export default function Designs() {
             extractedCodes = Extraction(contact);
         } else if (designPage === "about") {
             extractedCodes = Extraction(about);
+        } else if (designPage === "login") {
+            extractedCodes = Extraction(authentication);
         }
-
 
         dispatch(storeHomePageCode({ code: extractedCodes, section: designPage }));
     }
@@ -84,11 +86,11 @@ export default function Designs() {
     return (
         // side design choosing section
         <section>
-            <section className={isDisplay === true ? "block overflow-hidden" : "hidden"}>
+            <section className={openHostingPannel === true ? "block overflow-hidden" : "hidden"}>
                 <HostingIdendity />
             </section>
 
-            <section className={isDisplay === false ? "block" : "hidden"}>
+            <section className={openHostingPannel === false ? "block" : "hidden"}>
                 <aside className={`fixed top-0 left-0 ${open ? "w-1/5 bg-zinc-900" : "w-0 bg-transparent"} duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100 `} >
                     <div className="sm:col-span-3 inset-0 backdrop-blur-md">
                         <div className='flex items-center justify-between space-x-2'>
@@ -143,6 +145,7 @@ export default function Designs() {
                                             <option value='body'>Body Section</option>
                                             <option value="footer">Footer Section</option>
                                             <option value="webpage" >Complete Website</option>
+                                            <option value="login" >Login</option>
                                         </select>
                                     </div>
                                     <button className="h-fit w-fit rounded-md">
@@ -164,6 +167,8 @@ export default function Designs() {
                                                 Render(el.target.value, about, aboutPage);
                                             } else if (el.target.value === "contact") {
                                                 Render(el.target.value, contact, contactPage);
+                                            } else if (el.target.value === "login") {
+                                                Render(el.target.value, authentication, loginPage);
                                             }
                                             dispatch(clearPreviousCodeOnDOM());
 
@@ -242,7 +247,11 @@ export default function Designs() {
                             <div>
                                 <button
                                     className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                    onClick={() => dispatch(setClose(true))}
+                                    onClick={() => {
+                                        console.log(openHostingPannel)
+
+                                        dispatch(setHostingPannelActive(true))
+                                    }}
                                 >
                                     Host
                                 </button>

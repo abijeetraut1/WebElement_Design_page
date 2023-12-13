@@ -1,18 +1,17 @@
 import React, { useState } from 'react'
 import { VscChromeClose } from "react-icons/vsc";
 import { useDispatch } from 'react-redux';
-import { setClose } from '../../../../reduxFunction/PageControls/pageControls';
+import { setHostingPannelActive } from '../../../../reduxFunction/PageControls/pageControls';
 
 export default function HostingIdendity() {
     const dispatch = useDispatch();
     const [siteName, setSiteName] = useState("");
 
-
     return (
         <section className='transition-300 drop-shadow-xl h-screen w-screen bg-slate-400 flex items-center justify-center font-extrabold'>
             <div className='rounded bg-white '>
                 <div className='w-full flex justify-end p-1'>
-                    <button onClick={() => dispatch(setClose(false))} className='rounded-3xl bg-gray-500 p-1 text-white'><VscChromeClose /></button>
+                    <button onClick={() => dispatch(setHostingPannelActive(false))} className='rounded-3xl bg-gray-500 p-1 text-white'><VscChromeClose /></button>
                 </div>
                 <div className='space-y-5 p-20 text-gray-600'>
                     <div >
@@ -33,7 +32,7 @@ export default function HostingIdendity() {
                     <div>
                         <button
                             className="w-full rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            onClick={() => dispatch(setClose(false))}
+                            onClick={() => dispatch(setHostingPannelActive(false))}
                         >
                             Host
                         </button>

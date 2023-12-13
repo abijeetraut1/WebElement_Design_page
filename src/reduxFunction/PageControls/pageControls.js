@@ -1,16 +1,16 @@
-import {
-    createSlice
-} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-const controls = createSlice({
-    name: "PagesButtonControls",
-    initialState: {
-        setNamePannel: false
+const pageControlsSlice = createSlice({
+  name: "PageControls",
+  initialState: {
+    hostingPannelActive: false,
+  },
+  reducers: {
+    setHostingPannelActive: (state, action) => {
+      state.hostingPannelActive = action.payload;
     },
-    setClose: (state, action) => {
-        state.setNamePannel = action.payload;
-    }
-})
+  },
+});
 
-export const { setClose } = controls.actions;
-export default controls.reducer;
+export const { setHostingPannelActive } = pageControlsSlice.actions;
+export default pageControlsSlice.reducer;

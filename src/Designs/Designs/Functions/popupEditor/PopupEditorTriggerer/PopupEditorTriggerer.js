@@ -19,7 +19,7 @@ export function PopupEditorTriggerer(event) {
                 event.target.setAttribute("contenteditable", "true");
             }
 
-            if (event.target.tagName !== "IMG") {
+            if (event.target.tagName !== "IMG" || event.target.tagName !== "INPUT") {
                 popupPositining(event, true);
             }
         }

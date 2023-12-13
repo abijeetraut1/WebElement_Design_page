@@ -106,6 +106,7 @@ export default function Uploadcode() {
                                             <option value="body-section">Body Section</option>
                                             <option value="footer-section">Footer Section</option>
                                             <option value="webpage-page">Complete WebPage</option>
+                                            <option value="login-page">Login Section</option>
                                         </select>
                                     </div>
                                     <div>

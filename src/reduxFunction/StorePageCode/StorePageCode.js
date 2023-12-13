@@ -6,7 +6,7 @@ const pageStorage = createSlice({
         home: {},
         about: {},
         contact: {},
-        login: {}
+        authentication: {}
     },
     reducers: {
         storeHomePageCode: (state, action) => {
@@ -25,7 +25,7 @@ const pageStorage = createSlice({
             }else if(section === "contact"){
                 state.contact = code;
             }else if(section === "login"){
-                state.login = code;
+                state.authentication = code;
             }
         }
     }

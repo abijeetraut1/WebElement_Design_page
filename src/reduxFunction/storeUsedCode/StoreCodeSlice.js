@@ -11,6 +11,7 @@ const slices = createSlice({
         homeIDs: [],
         contactIDs: [],
         aboutIDs: [],
+        authenticationIDs: []
     },
     reducers: {
         storeCodes: (state, action) => {
@@ -38,7 +39,6 @@ const slices = createSlice({
                     pageName: pageName
                 }
             }
-
 
             if (pageName === 'home') {
                 if (type === "page") {
@@ -69,6 +69,13 @@ const slices = createSlice({
                 } else if (type === "section") {
                     state.codes.push(codesObj);
                     state.contactIDs.push(ID);
+                }
+            } else if (pageName === 'login') {
+                if (type === "page") {
+                    // if alreay a webpage exist then clear cant allow to insert another
+                    if (state.codes.length === 1) return;
+                    state.codes.push(codesObj);
+                    state.authenticationIDs.push(ID);
                 }
             }
         },
