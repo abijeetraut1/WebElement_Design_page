@@ -1,11 +1,41 @@
 import React, { useState } from 'react'
 import { VscChromeClose } from "react-icons/vsc";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setHostingPannelActive } from '../../../../reduxFunction/PageControls/pageControls';
+import axios from 'axios';
 
 export default function HostingIdendity() {
     const dispatch = useDispatch();
     const [siteName, setSiteName] = useState("");
+
+    // pages codes
+    const homePageCode = useSelector(state => state.StorePageCode.home);
+    const aboutPageCode = useSelector(state => state.StorePageCode.about);
+    const contactPageCode = useSelector(state => state.StorePageCode.contact);
+    const authentication = useSelector(state => state.StorePageCode.authentication);
+
+    async function saveTheCodes() {
+        try {
+            console.log(homePageCode.codes)
+            const sendHostCodes = await axios({
+                method: "POST",
+                url: "http://127.0.0.1:8000/api/v1/hosting/hostcodes",
+                data: {
+                    webPageName: siteName,
+                    home: homePageCode.codes,
+                    about: aboutPageCode.codes,
+                    contact: contactPageCode.codes,
+                    authentication: authentication.codes,
+                }
+            })
+
+            console.log(sendHostCodes)
+        } catch (err) {
+            console.log(err);
+        }
+
+
+    }
 
     return (
         <section className='transition-300 drop-shadow-xl h-screen w-screen bg-slate-400 flex items-center justify-center font-extrabold'>
@@ -32,7 +62,10 @@ export default function HostingIdendity() {
                     <div>
                         <button
                             className="w-full rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            onClick={() => dispatch(setHostingPannelActive(false))}
+                            onClick={() => {
+                                saveTheCodes();
+                                dispatch(setHostingPannelActive(false));
+                            }}
                         >
                             Host
                         </button>
