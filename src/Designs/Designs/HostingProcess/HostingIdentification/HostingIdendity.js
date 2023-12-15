@@ -25,7 +25,7 @@ export default function HostingIdendity() {
                     home: homePageCode.codes,
                     about: aboutPageCode.codes,
                     contact: contactPageCode.codes,
-                    authentication: authentication.codes,
+                    authentication: authentication.codes
                 }
             })
 
