@@ -107,8 +107,9 @@ export default function ChooseDesign() {
                                         onChange={el => {
                                             dispatch(setDesignSection(el.target.value))
                                         }} // section choose name
+                                        value={section}
                                     >
-                                        <option value="navigation" selected>Navigation Section</option>
+                                        <option value="navigation">Navigation Section</option>
                                         <option value="hero">Hero Section</option>
                                         <option value='body'>Body Section</option>
                                         <option value="footer">Footer Section</option>
@@ -140,6 +141,7 @@ export default function ChooseDesign() {
                                         }
                                         dispatch(clearPreviousCodeOnDOM());
                                     }}
+                                    value={designPage}
                                 >
                                     <option value="home">Home</option>
                                     <option value="about">About</option>
