@@ -1,87 +1,24 @@
-import React, { useState, useEffect } from "react";
-
-// incons
-import { FiSidebar } from "react-icons/fi";
+import React, { useState } from "react";
 import { VscChromeClose, VscGripper } from "react-icons/vsc";
-import { ImSpinner3 } from "react-icons/im";
-
-// Custom APIs
 import { useFetch } from "../../hooks/GetRequest/useFetch";
-
-// Images
-import testProfile from "../test-image/test-profile.jpeg";
-import ai from "../../Images/ai.png"
-
-// redux
 import { useDispatch, useSelector } from 'react-redux';
-import { storeCodes, removeCode, clearPreviousCodeOnDOM } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
-import { storeHomePageCode } from "../../reduxFunction/StorePageCode/StorePageCode";
-import { setHostingPannelActive } from "../../reduxFunction/PageControls/pageControls";
+import { removeCode } from "../../reduxFunction/storeUsedCode/StoreCodeSlice";
 
 // component
 import PopupElement from "./Functions/popupEditor/NodeTextStyle/PopupElement";
-import { popupPositining } from "./Functions/popupEditor/Popup/PopupPositining";
+// import { popupPositining } from "./Functions/popupEditor/Popup/PopupPositining";
 import { changeAltImage } from "./Functions/popupEditor/ChangeAltImage/ChangeAltImage";
 import HostingIdendity from "./HostingProcess/HostingIdentification/HostingIdendity";
-import { Extraction } from "./Functions/Extraction/Extraction";
-import { Render } from "./Functions/Render/Render";
 import { PopupEditorTriggerer } from "./Functions/popupEditor/PopupEditorTriggerer/PopupEditorTriggerer";
+import ChooseDesign from "./Functions/Slider/DesignChoosingSlider/ChooseDesign";
 
 export default function Designs() {
-    // state
-    const [section, setSection] = useState("Navigation");
-    const [open, setOpen] = useState(true);  // for choose design pannel determine close or open
-    const [designPage, setDesignPage] = useState("home");
-    const [isSping, setIsSpin] = useState(false);
-    const [clickedHTMLElement, setClickedHTMLElement] = useState(true);
-
-    // Fetch
-    const { data: fonts, isProtected: fontsProtected, error: fontsExtractError } = useFetch(process.env.REACT_APP_GOOGLE_FONT_API_URL + "?key=" + process.env.REACT_APP_GOOGLE_FONT_API_KEY + "&sort=popularity", "GET", "fonts");
-    const { data: codes, isProtected, error } = useFetch(`${process.env.REACT_APP_CODE_API_URL}=${section.toLowerCase()}`, "GET", "codes");
-
-    // redux Dispatch
     const dispatch = useDispatch();
-
-    // extract from Redux
+    const [clickedHTMLElement, setClickedHTMLElement] = useState(true);
+    const { data: fonts, isProtected: fontsProtected, error: fontsExtractError } = useFetch(process.env.REACT_APP_GOOGLE_FONT_API_URL + "?key=" + process.env.REACT_APP_GOOGLE_FONT_API_KEY + "&sort=popularity", "GET", "fonts");
     const openHostingPannel = useSelector(state => state.pageControls.hostingPannelActive);
     const selectedCodes = useSelector(state => state.StoreCodeSlice.codes);
-
-    // codes ids 
-    const home = useSelector(state => state.StoreCodeSlice.homeIDs);
-    const about = useSelector(state => state.StoreCodeSlice.aboutIDs);
-    const contact = useSelector(state => state.StoreCodeSlice.contactIDs);
-    const authentication = useSelector(state => state.StoreCodeSlice.authenticationIDs);
-
-    const homePage = useSelector(state => state.StorePageCode.home);
-    const aboutPage = useSelector(state => state.StorePageCode.about);
-    const contactPage = useSelector(state => state.StorePageCode.contact);
-    const loginPage = useSelector(state => state.StorePageCode.authentication);
-
-
-    useEffect(() => {
-        if (isSping === true) {
-            setTimeout(() => {
-                setIsSpin(false);
-            }, 3000)
-        }
-    }, [isSping]);
-
-    // save code function
-    function saveCodes() {
-        let extractedCodes;
-        console.log(designPage)
-        if (designPage === "home") {
-            extractedCodes = Extraction(home);
-        } else if (designPage === "contact") {
-            extractedCodes = Extraction(contact);
-        } else if (designPage === "about") {
-            extractedCodes = Extraction(about);
-        } else if (designPage === "login") {
-            extractedCodes = Extraction(authentication);
-        }
-
-        dispatch(storeHomePageCode({ code: extractedCodes, section: designPage }));
-    }
+    const designPage = useSelector(state => state.pageControls.designPage)
 
     return (
         // side design choosing section
@@ -91,175 +28,12 @@ export default function Designs() {
             </section>
 
             <section className={openHostingPannel === false ? "block" : "hidden"}>
-                <aside className={`fixed top-0 left-0 ${open ? "w-1/5 bg-zinc-900" : "w-0 bg-transparent"} duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100 `} >
-                    <div className="sm:col-span-3 inset-0 backdrop-blur-md">
-                        <div className='flex items-center justify-between space-x-2'>
-                            <div className="flex items-center justify-between space-x-2">
-                                <button
-                                    className='border:solid border border-white bg-zinc-900 p-2 rounded-md'
-                                    onClick={() => setOpen(open ? false : true)}
-                                >
-                                    {<FiSidebar className='text-white text-xl ' />}
-                                </button>
-
-                                {open &&
-                                    <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
-                                        Web Element
-                                    </div>
-                                }
-                            </div>
-
-                            {open &&
-                                <div className="flex space-x-1">
-                                    <div>
-                                        <button
-                                            className="flex items-center space-x-2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                            onClick={() => {
-                                                setIsSpin(true);
-                                                saveCodes();
-                                            }}
-                                        >
-                                            {
-                                                isSping === true ? <div className="animate-spin"> <ImSpinner3 /> </div> : <div>Save</div>
-                                            }
-                                        </button>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                        {open &&
-                            <div className="space-y-1">
-                                <div className="flex items-center justify-center space-x-1 mt-2">
-                                    <div>
-                                        <select
-                                            id="web-section"
-                                            name="web-section"
-                                            autoComplete="web-section"
-                                            className="block w-96 rounded-md border-0 py-1.5 text-gray-900 outline-none font-bold shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                                            onChange={el => {
-                                                setSection(el.target.value)
-                                            }} // section choose name
-                                        >
-                                            <option value="navigation" selected>Navigation Section</option>
-                                            <option value="hero">Hero Section</option>
-                                            <option value='body'>Body Section</option>
-                                            <option value="footer">Footer Section</option>
-                                            <option value="webpage" >Complete Website</option>
-                                            <option value="login" >Login</option>
-                                        </select>
-                                    </div>
-                                    <button className="h-fit w-fit rounded-md">
-                                        <img src={ai} alt="ai_image_load_failed" />
-                                    </button>
-                                </div>
-                                <div>
-                                    <select name="" id=""
-                                        className="block w-96 rounded-md border-0 py-1.5 text-gray-900 outline-none font-bold shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                                        onChange={(el) => {
-                                            setDesignPage(el.target.value);
-                                            saveCodes();
-
-                                            if (!homePage) return;
-
-                                            if (el.target.value === "home") {
-                                                Render(el.target.value, home, homePage);
-                                            } else if (el.target.value === "about") {
-                                                Render(el.target.value, about, aboutPage);
-                                            } else if (el.target.value === "contact") {
-                                                Render(el.target.value, contact, contactPage);
-                                            } else if (el.target.value === "login") {
-                                                Render(el.target.value, authentication, loginPage);
-                                            }
-                                            dispatch(clearPreviousCodeOnDOM());
-
-                                        }}
-                                    >
-                                        <option value="home" selected>Home</option>
-                                        <option value="about">About</option>
-                                        <option value='contact'>Contact</option>
-                                        <option value="login">Login</option>
-                                    </select>
-                                </div>
-                            </div>
-                        }
-                        {open && <div className="my-4 block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
-                            {section} Section
-                        </div>}
-                    </div>
-
-                    {open && <section id="choose-deign" className="h-3/4 overflow-auto rounded-md">
-                        {isProtected && <p>Fetching codes</p>}
-                        {error && <p className="text-white">server error please wait we are fixing it.</p>}
-                        {codes && codes.map((code, i) => (
-                            <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded" >
-                                <div className="">
-                                    <img src={`${process.env.REACT_APP_IMAGE_URL}/${JSON.parse(code.images)[0]}`} alt="image_cannot_be_shown" />
-                                </div>
-                                <div className="bg-white py-3 ">
-                                    <div className="flex justify-between">
-                                        <div>
-                                            <div>
-                                                <h3 className="font-bold capitalize">{code.name}</h3>
-                                            </div>
-                                            <div>
-                                                <h5 className="text-slate-500 cursor-pointer">Abijeet Raut</h5>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div>
-                                                <h4><span className="font-bold">Rating</span>: {code.rating}</h4>
-                                            </div>
-                                            <div>
-                                                <h4><span className="font-bold">Used By: </span>: {code.usedBy}</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="flex space-x-1">
-                                        <button className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                            Rate
-                                        </button>
-                                        <button
-                                            className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                            onClick={() => {
-                                                dispatch(storeCodes({ name: code.name, html: code.htmlCode, css: code.cssCode, js: code.jsCode, type: code.type, slug: code.slug, pageName: designPage }))
-                                            }}
-                                        >
-                                            Use
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </section>}
-
-                    {open && <section className="py-3 fiexed bottom-0">
-                        <div className="flex items-center space-x-2 justify-between">
-                            <div className="flex items-center space-x-3">
-                                <div>
-                                    <button>
-                                        <img src={testProfile} className='outline-white h-10 w-10 rounded-full outline' alt="cannot display profile" />
-                                    </button>
-                                </div>
-                                <div>
-                                    <span className="text-white cursor-pointer">Abijeet Raut</span>
-                                </div>
-                            </div>
-                            <div>
-                                <button
-                                    className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                    onClick={() => {
-                                        console.log(openHostingPannel)
-
-                                        dispatch(setHostingPannelActive(true))
-                                    }}
-                                >
-                                    Host
-                                </button>
-                            </div>
-                        </div>
-                    </section>}
+                <aside>
+                    <ChooseDesign />
                 </aside>
+
                 <PopupElement clicked={clickedHTMLElement} />
+
                 <section id="extract-code" className="h-screen" >
                     <html lang="en">
                         <head>
