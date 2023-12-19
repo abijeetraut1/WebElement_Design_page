@@ -5,6 +5,10 @@ import axios from "axios";
 
 export function changeAltImage(id) {
     try {
+        const imageClass = [];
+        const imageIds = [];
+        const imageInlineStyles = [];
+        
         const selectedDOM = document.getElementById(id + "-html-structure");
         const imgTag = selectedDOM.querySelectorAll("img");
         const aTag = selectedDOM.querySelectorAll("a");
@@ -29,7 +33,34 @@ export function changeAltImage(id) {
 
                 img.remove();
             }
+
+            if (img.id || !img.id) {
+                imageIds.push({
+                    index: i,
+                    id: img.id
+                });
+            }
+
+            if (img.classList) {
+                imageClass.push({
+                    index: i,
+                    class: img.classList.value
+                });
+            };
+
+            if(img.style){
+                imageInlineStyles.push({
+                    index: i,
+                    style: img.style
+                })
+            }
         });
+
+        return {
+            imageIds,
+            imageClass,
+            imageInlineStyles
+        }
     } catch (err) {
         return;
     }

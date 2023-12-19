@@ -7,10 +7,12 @@ import { storeCodes, clearPreviousCodeOnDOM } from "../../../../../reduxFunction
 import { storeHomePageCode } from "../../../../../reduxFunction/StorePageCode/StorePageCode";
 import { useFetch } from '../../../../../hooks/GetRequest/useFetch';
 import { Render } from '../../Render/Render';
-import { setHostingPannelActive, setDesignPage, setDesignSection } from '../../../../../reduxFunction/PageControls/pageControls';
-
+import { setHostingPannelActive, setDesignPage, setDesignSection, setEdit } from '../../../../../reduxFunction/PageControls/pageControls';
 import testProfile from "../../../../test-image/test-profile.jpeg";
 import ai from "../../../../../Images/ai.png";
+
+import { IoEyeSharp } from "react-icons/io5";
+import { FiEdit2 } from "react-icons/fi";
 
 export default function ChooseDesign() {
     const designPage = useSelector(state => state.pageControls.designPage);
@@ -18,8 +20,11 @@ export default function ChooseDesign() {
     const [open, setOpen] = useState(true);  // for choose design pannel determine close or open
     const [isSping, setIsSpin] = useState(false);
     const { data: codes, isProtected, error } = useFetch(`${process.env.REACT_APP_CODE_API_URL}=${section.toLowerCase()}`, "GET", "codes");
-
     const dispatch = useDispatch();
+
+    const isEdit = useSelector(state => state.pageControls.isEdit)
+    
+
 
     // codes ids 
     const home = useSelector(state => state.StoreCodeSlice.homeIDs);
@@ -79,6 +84,14 @@ export default function ChooseDesign() {
 
                         {open &&
                             <div className="flex space-x-1">
+                                <div>
+                                    <button 
+                                        onClick={() => dispatch(setEdit(isEdit === false ? true : false))}
+                                        className="flex items-center space-x-2 rounded-md bg-indigo-600 px-5 py-3 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    >
+                                        {isEdit ? <FiEdit2 /> : <IoEyeSharp />}
+                                    </button>
+                                </div>
                                 <div>
                                     <button
                                         className="flex items-center space-x-2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"

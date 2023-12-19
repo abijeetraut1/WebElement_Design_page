@@ -7,7 +7,8 @@ const pageControlsSlice = createSlice({
   initialState: {
     hostingPannelActive: false,
     designPage: "home",
-    designSection: "navigation"
+    designSection: "navigation",
+    isEdit: false
   },
   reducers: {
     setHostingPannelActive: (state, action) => {
@@ -18,6 +19,9 @@ const pageControlsSlice = createSlice({
     },
     setDesignSection: (state, action) => {
       state.designSection = action.payload;
+    },
+    setEdit: (state, action) => {
+      state.isEdit = action.payload;
     }
   },
 });
@@ -25,7 +29,8 @@ const pageControlsSlice = createSlice({
 export const {
   setHostingPannelActive,
   setDesignPage,
-  setDesignSection
+  setDesignSection,
+  setEdit
 } = pageControlsSlice.actions;
 
 export default pageControlsSlice.reducer;

@@ -33,8 +33,6 @@ export default function HostingIdendity() {
         } catch (err) {
             console.log(err);
         }
-
-
     }
 
     return (
@@ -57,7 +55,7 @@ export default function HostingIdendity() {
                             class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xs sm:leading-6"
                             onInput={(el) => { setSiteName(el.target.value) }}
                         />
-                        <label className='text-sm'><span>{siteName.replace(" ", "-")}</span><span>.webelement.design</span></label>
+                        <label className='text-sm'><span>{siteName.replace(" ", "-")}</span><span>.webelement.com</span></label>
                     </div>
                     <div>
                         <button

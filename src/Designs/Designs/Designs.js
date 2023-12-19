@@ -19,6 +19,7 @@ export default function Designs() {
     const openHostingPannel = useSelector(state => state.pageControls.hostingPannelActive);
     const selectedCodes = useSelector(state => state.StoreCodeSlice.codes);
     const designPage = useSelector(state => state.pageControls.designPage)
+    const isEdit = useSelector(state => state.pageControls.isEdit);
 
     return (
         // side design choosing section
@@ -50,8 +51,8 @@ export default function Designs() {
                                     </>
                                 ))
                             }
-
                         </head>
+
                         <body id="edit-space">
                             {selectedCodes && selectedCodes.map((code, id) => (
                                 <section key={code.id} >
@@ -74,6 +75,7 @@ export default function Designs() {
                                             dangerouslySetInnerHTML={{ __html: code.codeParams.html }}
                                             onLoad={changeAltImage(code.id)}
                                             onClick={(event) => {
+                                                if(isEdit === false) return;
                                                 PopupEditorTriggerer(event)
                                                 setClickedHTMLElement(event.target);
                                             }}
