@@ -14,7 +14,7 @@ import ChooseDesign from "./Functions/Slider/DesignChoosingSlider/ChooseDesign";
 
 export default function Designs() {
     const dispatch = useDispatch();
-    const [clickedHTMLElement, setClickedHTMLElement] = useState(true);
+    const [clickedHTMLElement, setClickedHTMLElement] = useState();
     const { data: fonts, isProtected: fontsProtected, error: fontsExtractError } = useFetch(process.env.REACT_APP_GOOGLE_FONT_API_URL + "?key=" + process.env.REACT_APP_GOOGLE_FONT_API_KEY + "&sort=popularity", "GET", "fonts");
     const openHostingPannel = useSelector(state => state.pageControls.hostingPannelActive);
     const selectedCodes = useSelector(state => state.StoreCodeSlice.codes);
@@ -30,7 +30,7 @@ export default function Designs() {
 
             <section className={openHostingPannel === false ? "block" : "hidden"}>
                 <aside>
-                    <ChooseDesign />
+                    <ChooseDesign clickedItem={clickedHTMLElement} />
                 </aside>
 
                 <PopupElement clicked={clickedHTMLElement} />
@@ -73,7 +73,7 @@ export default function Designs() {
                                     <div>
                                         <div id={code.id + "-html-structure"}
                                             dangerouslySetInnerHTML={{ __html: code.codeParams.html }}
-                                            onLoad={changeAltImage(code.id)}
+                                            // onLoad={changeAltImage(code.id)}
                                             onClick={(event) => {
                                                 if(isEdit === false) return;
                                                 PopupEditorTriggerer(event)

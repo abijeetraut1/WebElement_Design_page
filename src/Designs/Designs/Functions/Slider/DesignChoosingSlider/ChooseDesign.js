@@ -13,8 +13,9 @@ import ai from "../../../../../Images/ai.png";
 
 import { IoEyeSharp } from "react-icons/io5";
 import { FiEdit2 } from "react-icons/fi";
+import { changeAltImage } from "../../popupEditor/ChangeAltImage/ChangeAltImage";
 
-export default function ChooseDesign() {
+export default function ChooseDesign(clickedItem) {
     const designPage = useSelector(state => state.pageControls.designPage);
     const section = useSelector(state => state.pageControls.designSection);
     const [open, setOpen] = useState(true);  // for choose design pannel determine close or open
@@ -23,7 +24,7 @@ export default function ChooseDesign() {
     const dispatch = useDispatch();
 
     const isEdit = useSelector(state => state.pageControls.isEdit)
-    
+    // const isCurrentClicked = useSelector(state => state.pageControls.isCurrentClicked);
 
 
     // codes ids 
@@ -85,8 +86,17 @@ export default function ChooseDesign() {
                         {open &&
                             <div className="flex space-x-1">
                                 <div>
-                                    <button 
-                                        onClick={() => dispatch(setEdit(isEdit === false ? true : false))}
+                                    <button
+                                        onClick={() => {
+                                            dispatch(setEdit(isEdit === false ? true : false));
+                                            if (isEdit === true) {
+                                                if(!clickedItem) return;
+                                                changeAltImage(clickedItem.id);
+                                            }
+
+                                            if(!clickedItem.clickedItem) return;
+                                            clickedItem.clickedItem.setAttribute("contenteditable", false);
+                                        }}
                                         className="flex items-center space-x-2 rounded-md bg-indigo-600 px-5 py-3 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >
                                         {isEdit ? <FiEdit2 /> : <IoEyeSharp />}

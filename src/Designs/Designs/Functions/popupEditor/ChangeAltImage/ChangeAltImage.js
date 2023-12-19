@@ -28,6 +28,8 @@ export function changeAltImage(id) {
                 insertImage.id = "image-" + nanoid() + "-inserter";
                 insertImage.setAttribute("isChanged", false);
                 insertImage.setAttribute("accept", "image/png, image/gif, image/jpeg");
+                // attribute position is because we previously extracted classes, ids, and styles to insert those element into previous image index
+                insertImage.setAttribute("position", i);
                 insertImage.oninput = (element) => changeTagWhenUpload(element);
                 img.insertAdjacentElement("afterend", insertImage);
 

@@ -23,5 +23,7 @@ export function PopupEditorTriggerer(event) {
                 popupPositining(event, true);
             }
         }
+
+        return event.target;
     });
 }
