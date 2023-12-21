@@ -5,10 +5,11 @@ import {
 const pageControlsSlice = createSlice({
   name: "PageControls",
   initialState: {
-    hostingPannelActive: false,
-    designPage: "home",
-    designSection: "navigation",
-    isEdit: false,
+    hostingPannelActive: false,  // setting hosting pannel active
+    designPage: "home", // which page we are working on
+    designSection: "navigation",  // which component we are editing on
+    isEdit: false,  // allowing the pannel to be edit
+    isPage: 0 // shows the current page options
   },
   reducers: {
     setHostingPannelActive: (state, action) => {
@@ -23,6 +24,13 @@ const pageControlsSlice = createSlice({
     setEdit: (state, action) => {
       state.isEdit = action.payload;
     },
+    setPage: (state, action) => {
+      // if(action.payload === "clear"){
+      //   state.isPage = 0;  
+      // }else{
+      // }
+      state.isPage = state.isPage + 1;
+    },
   },
 });
 
@@ -31,6 +39,7 @@ export const {
   setDesignPage,
   setDesignSection,
   setEdit,
+  setPage
 } = pageControlsSlice.actions;
 
 export default pageControlsSlice.reducer;

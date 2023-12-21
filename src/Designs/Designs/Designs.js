@@ -11,6 +11,7 @@ import { changeAltImage } from "./Functions/popupEditor/ChangeAltImage/ChangeAlt
 import HostingIdendity from "./HostingProcess/HostingIdentification/HostingIdendity";
 import { PopupEditorTriggerer } from "./Functions/popupEditor/PopupEditorTriggerer/PopupEditorTriggerer";
 import ChooseDesign from "./Functions/Slider/DesignChoosingSlider/ChooseDesign";
+import { nanoid } from "@reduxjs/toolkit";
 
 export default function Designs() {
     const dispatch = useDispatch();
@@ -54,7 +55,7 @@ export default function Designs() {
                         </head>
 
                         <body id="edit-space">
-                            {selectedCodes && selectedCodes.map((code, id) => (
+                            {selectedCodes && selectedCodes.map((code, i) => (
                                 <section key={code.id} >
                                     <div className="control-buttons flex flex-row w-full  items-center justify-center absolute z-50">
                                         <div className="control-buttons py-1 px-6 bg-blue-500 flex items-center justify-center space-x-4">
@@ -71,16 +72,17 @@ export default function Designs() {
                                     </div>
 
                                     <div>
-                                        <div id={code.id + "-html-structure"}
+                                        <div
+                                            id={i + "-" + code.id + "-html-structure"}
                                             dangerouslySetInnerHTML={{ __html: code.codeParams.html }}
-                                            // onLoad={changeAltImage(code.id)}
+                                            onLoad={changeAltImage(i + "-" + code.id)}
                                             onClick={(event) => {
-                                                if(isEdit === false) return;
+                                                if (isEdit === false) return;
                                                 PopupEditorTriggerer(event)
                                                 setClickedHTMLElement(event.target);
                                             }}
                                         ></div>
-                                        <style id={code.id + "-style-structure"} dangerouslySetInnerHTML={{ __html: code.codeParams.css }}></style>
+                                        <style id={i + "-" + code.id + "-style-structure"} dangerouslySetInnerHTML={{ __html: code.codeParams.css }}></style>
                                     </div>
                                 </section>
                             ))}

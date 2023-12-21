@@ -7,24 +7,30 @@ import { storeCodes, clearPreviousCodeOnDOM } from "../../../../../reduxFunction
 import { storeHomePageCode } from "../../../../../reduxFunction/StorePageCode/StorePageCode";
 import { useFetch } from '../../../../../hooks/GetRequest/useFetch';
 import { Render } from '../../Render/Render';
-import { setHostingPannelActive, setDesignPage, setDesignSection, setEdit } from '../../../../../reduxFunction/PageControls/pageControls';
+import { setHostingPannelActive, setDesignPage, setDesignSection, setEdit, setPage } from '../../../../../reduxFunction/PageControls/pageControls';
 import testProfile from "../../../../test-image/test-profile.jpeg";
 import ai from "../../../../../Images/ai.png";
 
 import { IoEyeSharp } from "react-icons/io5";
 import { FiEdit2 } from "react-icons/fi";
-import { changeAltImage } from "../../popupEditor/ChangeAltImage/ChangeAltImage";
 
 export default function ChooseDesign(clickedItem) {
     const designPage = useSelector(state => state.pageControls.designPage);
     const section = useSelector(state => state.pageControls.designSection);
+    const page = useSelector(state => state.pageControls.isPage);
     const [open, setOpen] = useState(true);  // for choose design pannel determine close or open
     const [isSping, setIsSpin] = useState(false);
-    const { data: codes, isProtected, error } = useFetch(`${process.env.REACT_APP_CODE_API_URL}=${section.toLowerCase()}`, "GET", "codes");
-    const dispatch = useDispatch();
 
+    const [url, setUrl] = useState(`${process.env.REACT_APP_CODE_API_URL}?section=${section.toLowerCase()}&page=${page}`);
+    const dispatch = useDispatch();
     const isEdit = useSelector(state => state.pageControls.isEdit)
-    // const isCurrentClicked = useSelector(state => state.pageControls.isCurrentClicked);
+
+    const { data, isProtected, error } = useFetch(`${process.env.REACT_APP_CODE_API_URL}?section=${section.toLowerCase()}&page=${page}`, "GET", "codes");
+    const [codes, setCodes] = useState([]);
+
+    useEffect(() => {
+        setCodes(data)
+    }, [codes, data]);
 
 
     // codes ids 
@@ -63,6 +69,12 @@ export default function ChooseDesign(clickedItem) {
         }
     }, [isSping]);
 
+    useEffect(() => {
+        setUrl(`${process.env.REACT_APP_CODE_API_URL}?section=${section.toLowerCase()}&page=${page}`);
+    }, [page, url, section]);
+
+
+
     return (
         <div>
             <aside className={`fixed top-0 left-0 ${open ? "w-1/5 bg-zinc-900" : "w-0 bg-transparent"} duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100 `} >
@@ -89,13 +101,12 @@ export default function ChooseDesign(clickedItem) {
                                     <button
                                         onClick={() => {
                                             dispatch(setEdit(isEdit === false ? true : false));
-                                            if (isEdit === true) {
-                                                if(!clickedItem) return;
-                                                changeAltImage(clickedItem.id);
-                                            }
+                                            // if (isEdit === true) {
+                                            //     if(!clickedItem) return;
+                                            // }
 
-                                            if(!clickedItem.clickedItem) return;
-                                            clickedItem.clickedItem.setAttribute("contenteditable", false);
+                                            // if (!clickedItem.clickedItem) return;
+                                            // clickedItem.clickedItem.setAttribute("contenteditable", false);
                                         }}
                                         className="flex items-center space-x-2 rounded-md bg-indigo-600 px-5 py-3 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >
@@ -182,6 +193,7 @@ export default function ChooseDesign(clickedItem) {
                 {open && <section id="choose-deign" className="h-3/4 overflow-auto rounded-md">
                     {isProtected && <p>Fetching codes</p>}
                     {error && <p className="text-white">server error please wait we are fixing it.</p>}
+
                     {codes && codes.map((code, i) => (
                         <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded" >
                             <div className="">
@@ -222,30 +234,41 @@ export default function ChooseDesign(clickedItem) {
                             </div>
                         </div>
                     ))}
+                    {codes && <div>
+                        <button
+                            className="w-full rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            onClick={() => {
+                                dispatch(setPage(true));
+                            }}
+                        >
+                            More
+                        </button>
+                    </div>}
                 </section>}
 
-                {open && <section className="py-3 fiexed bottom-0">
-                    <div className="flex items-center space-x-2 justify-between">
-                        <div className="flex items-center space-x-3">
+                {open &&
+                    <section className="fiexed bottom-0">
+                        <div className="flex items-center space-x-2 justify-between">
+                            <div className="flex items-center space-x-3">
+                                <div>
+                                    <button>
+                                        <img src={testProfile} className='outline-white h-10 w-10 rounded-full outline' alt="cannot display profile" />
+                                    </button>
+                                </div>
+                                <div>
+                                    <span className="text-white cursor-pointer">Abijeet Raut</span>
+                                </div>
+                            </div>
                             <div>
-                                <button>
-                                    <img src={testProfile} className='outline-white h-10 w-10 rounded-full outline' alt="cannot display profile" />
+                                <button
+                                    className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    onClick={() => dispatch(setHostingPannelActive(true))}
+                                >
+                                    Host
                                 </button>
                             </div>
-                            <div>
-                                <span className="text-white cursor-pointer">Abijeet Raut</span>
-                            </div>
                         </div>
-                        <div>
-                            <button
-                                className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                onClick={() => dispatch(setHostingPannelActive(true))}
-                            >
-                                Host
-                            </button>
-                        </div>
-                    </div>
-                </section>}
+                    </section>}
             </aside>
         </div>
     )
