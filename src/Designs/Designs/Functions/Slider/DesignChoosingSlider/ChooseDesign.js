@@ -124,6 +124,7 @@ export default function ChooseDesign(clickedItem) {
                                         className="block w-96 rounded-md border-0 py-1.5 text-gray-900 outline-none font-bold shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                         onChange={el => {
                                             dispatch(setDesignSection(el.target.value))
+                                            dispatch(setPage("reset"))
                                         }} // section choose name
                                         value={section}
                                     >
@@ -178,6 +179,17 @@ export default function ChooseDesign(clickedItem) {
                     {isProtected && <p>Fetching codes</p>}
                     {error && <p className="text-white">server error please wait we are fixing it.</p>}
 
+                    {(page >= 1)  && <div>
+                        <button
+                            className="w-full rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            onClick={() => {
+                                dispatch(setPage("previous"));
+                            }}
+                        >
+                            Previous
+                        </button>
+                    </div>}
+
                     {codes && codes.map((code, i) => (
                         <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded" >
                             <div className="">
@@ -222,7 +234,7 @@ export default function ChooseDesign(clickedItem) {
                         <button
                             className="w-full rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             onClick={() => {
-                                dispatch(setPage(true));
+                                dispatch(setPage("more"));
                             }}
                         >
                             More
