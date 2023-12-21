@@ -2,8 +2,9 @@ import {
     nanoid
 } from "@reduxjs/toolkit";
 import axios from "axios";
+// import ai from "../../../../../Images/ai.png"
 
-export function changeAltImage(id) {
+export function changeAltImage(id, clickedNode) {
     try {
         const imageClass = [];
         const imageIds = [];
@@ -23,6 +24,8 @@ export function changeAltImage(id) {
 
         imgTag.forEach((img, i) => {
             if (img.getAttribute("isChanged") === false || !img.getAttribute("isChanged")) {
+                // img.src = ai;
+
                 const insertImage = document.createElement("input");
                 insertImage.type = "file";
                 insertImage.id = "image-" + nanoid() + "-inserter";
@@ -56,6 +59,9 @@ export function changeAltImage(id) {
                     style: img.style
                 })
             }
+            
+            if(!clickedNode) return;
+            clickedNode.parentNode.parentNode.parentNode.remove();
         });
 
         return {

@@ -11,7 +11,10 @@ import { changeAltImage } from "./Functions/popupEditor/ChangeAltImage/ChangeAlt
 import HostingIdendity from "./HostingProcess/HostingIdentification/HostingIdendity";
 import { PopupEditorTriggerer } from "./Functions/popupEditor/PopupEditorTriggerer/PopupEditorTriggerer";
 import ChooseDesign from "./Functions/Slider/DesignChoosingSlider/ChooseDesign";
-import { nanoid } from "@reduxjs/toolkit";
+
+import { IoEyeSharp } from "react-icons/io5";
+import { FiEdit2 } from "react-icons/fi";
+import { setEdit } from "../../reduxFunction/PageControls/pageControls";
 
 export default function Designs() {
     const dispatch = useDispatch();
@@ -59,15 +62,33 @@ export default function Designs() {
                                 <section key={code.id} >
                                     <div className="control-buttons flex flex-row w-full  items-center justify-center absolute z-50">
                                         <div className="control-buttons py-1 px-6 bg-blue-500 flex items-center justify-center space-x-4">
-                                            <button className="control-buttons" >
-                                                <VscGripper id="control-buttons" className="control-buttons text-black " />
-                                            </button>
+                                            <div>
+                                                <button className="control-buttons" >
+                                                    <VscGripper id="control-buttons" className="control-buttons text-black " />
+                                                </button>
+                                            </div>
 
-                                            <button className="control-buttons" onClick={el => {
-                                                dispatch(removeCode({ id: code.id, pageName: designPage }))
-                                            }}>
-                                                <VscChromeClose className="control-buttons text-black" />
-                                            </button>
+                                            <div
+                                                onClick={(event) => {
+                                                    dispatch(setEdit(isEdit === false ? true : false));
+                                                    changeAltImage(i + "-" + code.id, event.target)
+                                                }}
+                                            >
+                                                <button
+                                                    className="control-buttons"
+                                                >
+                                                    <FiEdit2 />
+                                                </button>
+                                            </div>
+
+                                            <div>
+                                                <button className="control-buttons" onClick={el => {
+                                                    dispatch(removeCode({ id: code.id, pageName: designPage }))
+                                                }}>
+                                                    <VscChromeClose className="control-buttons text-black" />
+                                                </button>
+                                            </div>
+
                                         </div>
                                     </div>
 
@@ -75,7 +96,7 @@ export default function Designs() {
                                         <div
                                             id={i + "-" + code.id + "-html-structure"}
                                             dangerouslySetInnerHTML={{ __html: code.codeParams.html }}
-                                            onLoad={changeAltImage(i + "-" + code.id)}
+                                            // onLoad={}
                                             onClick={(event) => {
                                                 if (isEdit === false) return;
                                                 PopupEditorTriggerer(event)
