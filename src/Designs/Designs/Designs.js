@@ -93,7 +93,7 @@ export default function Designs() {
 
                                     <div>
                                         <div
-                                            id={i + "-" + code.id + "-html-structure"}
+                                            id={code.id + "-html-structure"}
                                             dangerouslySetInnerHTML={{ __html: code.codeParams.html }}
                                             // onLoad={}
                                             onClick={(event) => {
@@ -102,7 +102,7 @@ export default function Designs() {
                                                 setClickedHTMLElement(event.target);
                                             }}
                                         ></div>
-                                        <style id={i + "-" + code.id + "-style-structure"} dangerouslySetInnerHTML={{ __html: code.codeParams.css }}></style>
+                                        <style id={code.id + "-style-structure"} dangerouslySetInnerHTML={{ __html: code.codeParams.css }}></style>
                                     </div>
                                 </section>
                             ))}

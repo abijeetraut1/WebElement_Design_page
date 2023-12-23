@@ -1,7 +1,6 @@
 export function Extraction(IDS) {
     let codesCollectionObject = {};
     try {
-
         IDS.forEach(id => {
             let html = document.getElementById(id + "-html-structure").innerHTML;
             let css = document.getElementById(id + "-style-structure").innerHTML;

@@ -11,12 +11,15 @@ export async function fetchSigleCode(slug, section) {
         }
     })
 
+    console.log(singleCall)
     const sepratedCodes = {
         id: singleCall.data.message.id,  
-        html: singleCall.data.message.htmlCode, 
-        css: singleCall.data.message.cssCode, 
-        js: singleCall.data.message.jsCode,
-        type: singleCall.data.message.type
+        html: singleCall.data.message.html, 
+        css: singleCall.data.message.css, 
+        js: singleCall.data.message.js,
+        type: singleCall.data.message.type,
+        slug: slug, 
+        name: singleCall.data.message.name
     }
 
     return sepratedCodes;

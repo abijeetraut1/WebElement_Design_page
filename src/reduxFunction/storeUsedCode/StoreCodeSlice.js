@@ -3,6 +3,7 @@ import {
     nanoid
 } from "@reduxjs/toolkit";
 
+
 const slices = createSlice({
     name: "codes",
     initialState: {
@@ -15,30 +16,31 @@ const slices = createSlice({
     },
     reducers: {
         storeCodes: (state, action) => {
+            console.log(action.payload.code)
             const ID = nanoid();
 
             const {
-                name,
-                html,
                 css,
+                html,
                 js,
                 type,
-                slug,
-                pageName
-            } = action.payload;
+                name,
+                slug
+            } = action.payload.code;
+            const pageName = action.payload.designPage;
 
             const codesObj = {
                 id: ID,
                 codeParams: {
-                    name: name,
                     html: html,
                     css: css,
                     js: js,
                     type: type,
-                    slug: slug,
-                    pageName: pageName
+                    name: name,
+                    slug
                 }
             }
+            console.log(codesObj)
 
             if (pageName === 'home') {
                 if (type === "page") {

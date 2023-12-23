@@ -11,8 +11,8 @@ import testProfile from "../../../../test-image/test-profile.jpeg";
 // import ai from "../../../../../Images/ai.png";
 import DesignControls from "../DesignControls/DesignControl";
 import Filter from "../Filter/Filter";
-import axios from "axios";
 import { fetchSigleCode } from "../../FetchSingle/FetchSingle";
+import {storeCodes} from "../../../../../reduxFunction/storeUsedCode/StoreCodeSlice";
 
 export default function ChooseDesign(clickedItem) {
     const designPage = useSelector(state => state.pageControls.designPage);
@@ -28,7 +28,6 @@ export default function ChooseDesign(clickedItem) {
 
     const { data, isProtected, error } = useFetch(`${process.env.REACT_APP_CODE_API_URL}?section=${section.toLowerCase()}&page=${page}`, "GET", "codes");
     const [codes, setCodes] = useState([]);
-    // const [choosenSlug, setChoosenSlug] = useState();
 
     useEffect(() => {
         if (!data) return;
@@ -45,6 +44,7 @@ export default function ChooseDesign(clickedItem) {
     function saveCodes() {
         let extractedCodes;
         if (designPage === "home") {
+            console.log("first")
             extractedCodes = Extraction(home);
         } else if (designPage === "contact") {
             extractedCodes = Extraction(contact);
@@ -54,6 +54,7 @@ export default function ChooseDesign(clickedItem) {
             extractedCodes = Extraction(authentication);
         }
 
+        console.log(extractedCodes)
         dispatch(storeHomePageCode({ code: extractedCodes, section: designPage }));
     }
 
@@ -70,9 +71,8 @@ export default function ChooseDesign(clickedItem) {
     }, [page, url, section]);
 
     async function renderCodes(slug, section) {
-        
         const code = await fetchSigleCode(slug, section)
-        
+        dispatch(storeCodes({code, designPage}))
     }
 
     return (
