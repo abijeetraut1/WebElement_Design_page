@@ -3,23 +3,23 @@ import { ImSpinner3 } from "react-icons/im";
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Extraction } from "./../../Extraction/Extraction";
-import { storeCodes, clearPreviousCodeOnDOM } from "../../../../../reduxFunction/storeUsedCode/StoreCodeSlice";
+import { storeCodes } from "../../../../../reduxFunction/storeUsedCode/StoreCodeSlice";
 import { storeHomePageCode } from "../../../../../reduxFunction/StorePageCode/StorePageCode";
 import { useFetch } from '../../../../../hooks/GetRequest/useFetch';
-import { Render } from '../../Render/Render';
-import { setHostingPannelActive, setDesignPage, setDesignSection, setEdit, setPage } from '../../../../../reduxFunction/PageControls/pageControls';
+import { setHostingPannelActive, setPage } from '../../../../../reduxFunction/PageControls/pageControls';
 import testProfile from "../../../../test-image/test-profile.jpeg";
-import ai from "../../../../../Images/ai.png";
-
-import { IoEyeSharp } from "react-icons/io5";
-import { FiEdit2 } from "react-icons/fi";
+// import ai from "../../../../../Images/ai.png";
+import DesignControls from "../DesignControls/DesignControl";
+import Filter from "../Filter/Filter";
 
 export default function ChooseDesign(clickedItem) {
     const designPage = useSelector(state => state.pageControls.designPage);
     const section = useSelector(state => state.pageControls.designSection);
     const page = useSelector(state => state.pageControls.isPage);
-    const [open, setOpen] = useState(true);  // for choose design pannel determine close or open
+    const isFilterActive = useSelector(state => state.pageControls.isFilterActive);
+
     const [isSping, setIsSpin] = useState(false);
+    const [open, setOpen] = useState(true);  // for choose design pannel determine close or open
 
     const [url, setUrl] = useState(`${process.env.REACT_APP_CODE_API_URL}?section=${section.toLowerCase()}&page=${page}`);
     const dispatch = useDispatch();
@@ -31,18 +31,11 @@ export default function ChooseDesign(clickedItem) {
         setCodes(data)
     }, [codes, data]);
 
-
     // codes ids 
     const home = useSelector(state => state.StoreCodeSlice.homeIDs);
     const about = useSelector(state => state.StoreCodeSlice.aboutIDs);
     const contact = useSelector(state => state.StoreCodeSlice.contactIDs);
     const authentication = useSelector(state => state.StoreCodeSlice.authenticationIDs);
-
-    const homePage = useSelector(state => state.StorePageCode.home);
-    const aboutPage = useSelector(state => state.StorePageCode.about);
-    const contactPage = useSelector(state => state.StorePageCode.contact);
-    const loginPage = useSelector(state => state.StorePageCode.authentication);
-
 
     // save code function
     function saveCodes() {
@@ -76,12 +69,12 @@ export default function ChooseDesign(clickedItem) {
 
     return (
         <div>
-            <aside className={`fixed top-0 left-0 ${open ? "w-1/5 bg-zinc-900" : "w-0 bg-transparent"} duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100 `} >
+            <aside className={`fixed top-0 left-0 ${open ? "w-1/5 bg-testBg" : "w-0 bg-transparent"} duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100 `} >
                 <div className="sm:col-span-3 inset-0 backdrop-blur-md">
                     <div className='flex items-center justify-between space-x-2'>
                         <div className="flex items-center justify-between space-x-2">
                             <button
-                                className='border:solid border border-white bg-zinc-900 p-2 rounded-md'
+                                className='border:solid border border-white bg-testBg p-2 rounded-md'
                                 onClick={() => setOpen(open ? false : true)}
                             >
                                 {<FiSidebar className='text-white text-xl ' />}
@@ -96,7 +89,6 @@ export default function ChooseDesign(clickedItem) {
 
                         {open &&
                             <div className="flex space-x-1">
-                                
                                 <div>
                                     <button
                                         className="flex items-center space-x-2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -113,73 +105,19 @@ export default function ChooseDesign(clickedItem) {
                             </div>
                         }
                     </div>
-                    {open &&
-                        <div className="space-y-1">
-                            <div className="flex items-center justify-center space-x-1 mt-2">
-                                <div>
-                                    <select
-                                        id="web-section"
-                                        name="web-section"
-                                        autoComplete="web-section"
-                                        className="block w-96 rounded-md border-0 py-1.5 text-gray-900 outline-none font-bold shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                                        onChange={el => {
-                                            dispatch(setDesignSection(el.target.value))
-                                            dispatch(setPage("reset"))
-                                        }} // section choose name
-                                        value={section}
-                                    >
-                                        <option value="navigation">Navigation Section</option>
-                                        <option value="hero">Hero Section</option>
-                                        <option value='body'>Body Section</option>
-                                        <option value="footer">Footer Section</option>
-                                        <option value="webpage" >Complete Website</option>
-                                        <option value="login" >Login</option>
-                                    </select>
-                                </div>
-                                <button className="h-fit w-fit rounded-md">
-                                    <img src={ai} alt="ai_image_load_failed" />
-                                </button>
-                            </div>
-                            <div>
-                                <select name="" id=""
-                                    className="block w-96 rounded-md border-0 py-1.5 text-gray-900 outline-none font-bold shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                                    onChange={(el) => {
-                                        dispatch(setDesignPage(el.target.value));
-                                        saveCodes();
 
-                                        if (!homePage) return;
+                    <div>
+                        <DesignControls />
+                    </div>
 
-                                        if (el.target.value === "home") {
-                                            Render(el.target.value, home, homePage);
-                                        } else if (el.target.value === "about") {
-                                            Render(el.target.value, about, aboutPage);
-                                        } else if (el.target.value === "contact") {
-                                            Render(el.target.value, contact, contactPage);
-                                        } else if (el.target.value === "login") {
-                                            Render(el.target.value, authentication, loginPage);
-                                        }
-                                        dispatch(clearPreviousCodeOnDOM());
-                                    }}
-                                    value={designPage}
-                                >
-                                    <option value="home">Home</option>
-                                    <option value="about">About</option>
-                                    <option value='contact'>Contact</option>
-                                    <option value="login">Login</option>
-                                </select>
-                            </div>
-                        </div>
-                    }
-                    {open && <div className="my-4 block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
-                        {section} Section
-                    </div>}
                 </div>
+
 
                 {open && <section id="choose-deign" className="h-3/4 overflow-auto rounded-md">
                     {isProtected && <p>Fetching codes</p>}
-                    {error && <p className="text-white">server error please wait we are fixing it.</p>}
+                    {(error && isFilterActive === false) && <p className="text-white">server error please wait we are fixing it.</p>}
 
-                    {(page >= 1)  && <div>
+                    {(page >= 1) && <div>
                         <button
                             className="w-full rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             onClick={() => {
@@ -190,7 +128,7 @@ export default function ChooseDesign(clickedItem) {
                         </button>
                     </div>}
 
-                    {codes && codes.map((code, i) => (
+                    {(codes && isFilterActive === false) && codes.map((code, i) => (
                         <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded" >
                             <div className="">
                                 <img src={`${process.env.REACT_APP_IMAGE_URL}/${JSON.parse(code.images)[0]}`} alt="image_cannot_be_shown" />
@@ -230,7 +168,7 @@ export default function ChooseDesign(clickedItem) {
                             </div>
                         </div>
                     ))}
-                    {codes && <div>
+                    {(codes && isFilterActive === false) && <div>
                         <button
                             className="w-full rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             onClick={() => {
@@ -240,6 +178,7 @@ export default function ChooseDesign(clickedItem) {
                             More
                         </button>
                     </div>}
+                    {isFilterActive && <Filter />}
                 </section>}
 
                 {open &&

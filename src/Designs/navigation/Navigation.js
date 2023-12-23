@@ -9,7 +9,7 @@ export default function Navigation() {
         <header className='h-fit flex justify-between items-center bg-neutral-950 p-2 text-white pl-4 pr-4'>
             <div>
                 <Link to="#">
-                    <h1 className='font-extrabold tracking-wider'>WEB-X-LOGO</h1>
+                    <h1 className='font-extrabold tracking-wider'>Web Element</h1>
                 </Link>
             </div>
             <div className='flex justify-between items-center space-x-4'>

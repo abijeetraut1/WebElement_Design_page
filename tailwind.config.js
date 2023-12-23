@@ -11,6 +11,9 @@ module.exports = {
       textColor: {
         'fontBlue': '#2f81f7',
       },
+      backgroundColor: {
+        'testBg': '#191919',
+      },
     },
   },
   plugins: [],

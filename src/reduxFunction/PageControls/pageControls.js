@@ -9,7 +9,8 @@ const pageControlsSlice = createSlice({
     designPage: "home", // which page we are working on
     designSection: "navigation", // which component we are editing on
     isEdit: false, // allowing the pannel to be edit
-    isPage: 0 // shows the current page options
+    isPage: 0, // shows the current page options
+    isFilterActive: false
   },
   reducers: {
     setHostingPannelActive: (state, action) => {
@@ -27,12 +28,15 @@ const pageControlsSlice = createSlice({
     setPage: (state, action) => {
       if (action.payload === "more") {
         state.isPage = state.isPage + 1;
-      } else if(action.payload === "previous") {
+      } else if (action.payload === "previous") {
         state.isPage = state.isPage - 1;
-      } else if(action.payload === "reset"){
+      } else if (action.payload === "reset") {
         state.isPage = 0;
       }
     },
+    setFilterActive: (state, action) => {
+      state.isFilterActive = state.isFilterActive ? false : true; 
+    }
   },
 });
 
@@ -41,7 +45,8 @@ export const {
   setDesignPage,
   setDesignSection,
   setEdit,
-  setPage
+  setPage,
+  setFilterActive
 } = pageControlsSlice.actions;
 
 export default pageControlsSlice.reducer;
