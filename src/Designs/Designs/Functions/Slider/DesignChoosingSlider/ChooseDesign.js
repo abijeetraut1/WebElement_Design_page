@@ -11,6 +11,8 @@ import testProfile from "../../../../test-image/test-profile.jpeg";
 // import ai from "../../../../../Images/ai.png";
 import DesignControls from "../DesignControls/DesignControl";
 import Filter from "../Filter/Filter";
+import axios from "axios";
+import { fetchSigleCode } from "../../FetchSingle/FetchSingle";
 
 export default function ChooseDesign(clickedItem) {
     const designPage = useSelector(state => state.pageControls.designPage);
@@ -26,9 +28,10 @@ export default function ChooseDesign(clickedItem) {
 
     const { data, isProtected, error } = useFetch(`${process.env.REACT_APP_CODE_API_URL}?section=${section.toLowerCase()}&page=${page}`, "GET", "codes");
     const [codes, setCodes] = useState([]);
+    // const [choosenSlug, setChoosenSlug] = useState();
 
     useEffect(() => {
-        if(!data) return;
+        if (!data) return;
         setCodes(data)
     }, [codes, data]);
 
@@ -66,8 +69,11 @@ export default function ChooseDesign(clickedItem) {
         setUrl(`${process.env.REACT_APP_CODE_API_URL}?section=${section.toLowerCase()}&page=${page}`);
     }, [page, url, section]);
 
-
-    
+    async function renderCodes(slug, section) {
+        
+        const code = await fetchSigleCode(slug, section)
+        
+    }
 
     return (
         <div>
@@ -160,9 +166,8 @@ export default function ChooseDesign(clickedItem) {
                                     </button>
                                     <button
                                         className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                        onClick={() => {
-                                            // dispatch(storeCodes({ name: code.name, html: code.htmlCode, css: code.cssCode, js: code.jsCode, type: code.type, slug: code.slug, pageName: designPage }))
-                                        }}
+                                        value={code.slug}
+                                        onClick={(el) => renderCodes(el.target.value, section)}
                                     >
                                         Use
                                     </button>
