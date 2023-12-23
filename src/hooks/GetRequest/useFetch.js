@@ -16,16 +16,17 @@ export const useFetch = (url, method, purpose) => {
             setIsPending(true)
 
             try {
-                let code;
-                code = await axios({
+                let response;
+                response = await axios({
                     method: method,
                     url: url,
                 });
+
                 setIsPending(false)
                 if (purpose === "codes") {
-                    setData(code.data.message.selectDataQuery)
+                    setData(response.data.message.arraySelectedData);
                 } else {
-                    setData(code)
+                    setData(response)
                 }
 
                 setError(null)

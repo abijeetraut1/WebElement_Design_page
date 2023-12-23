@@ -1,8 +1,7 @@
 import React from 'react'
 import SearchComponent from '../SearchComponent/SearchComponent'
 import { useDispatch, useSelector } from 'react-redux';
-import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
-import { setDesignPage, setDesignSection, setFilterActive, setPage } from '../../../../../reduxFunction/PageControls/pageControls';
+import { setDesignPage, setDesignSection, setPage } from '../../../../../reduxFunction/PageControls/pageControls';
 import { Render } from '../../Render/Render';
 import { clearPreviousCodeOnDOM } from '../../../../../reduxFunction/storeUsedCode/StoreCodeSlice';
 import { Extraction } from '../../Extraction/Extraction';
@@ -39,9 +38,7 @@ export default function DesignControl() {
         dispatch(storeHomePageCode({ code: extractedCodes, section: designPage }));
     }
 
-    function toggleFilter(){
-        dispatch(setFilterActive());
-    }
+    
 
     return (
         <div>
@@ -98,14 +95,9 @@ export default function DesignControl() {
                     </select>
                 </div>
 
-                <div className="flex items-center justify-center space-x-1 mt-2">
+                <div className="flex items-center justify-start space-x-1 mt-2">
                     <div>
                         <SearchComponent />
-                    </div>
-                    <div>
-                        <button onClick={() => toggleFilter()} className="rounded-md bg-indigo-600 p-2 text-white">
-                            <HiOutlineAdjustmentsHorizontal />
-                        </button>
                     </div>
                 </div>
             </div>

@@ -12,7 +12,6 @@ import HostingIdendity from "./HostingProcess/HostingIdentification/HostingIdend
 import { PopupEditorTriggerer } from "./Functions/popupEditor/PopupEditorTriggerer/PopupEditorTriggerer";
 import ChooseDesign from "./Functions/Slider/DesignChoosingSlider/ChooseDesign";
 
-import { IoEyeSharp } from "react-icons/io5";
 import { FiEdit2 } from "react-icons/fi";
 import { setEdit } from "../../reduxFunction/PageControls/pageControls";
 

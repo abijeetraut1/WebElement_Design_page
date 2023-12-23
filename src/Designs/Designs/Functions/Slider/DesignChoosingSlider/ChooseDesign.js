@@ -3,7 +3,7 @@ import { ImSpinner3 } from "react-icons/im";
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Extraction } from "./../../Extraction/Extraction";
-import { storeCodes } from "../../../../../reduxFunction/storeUsedCode/StoreCodeSlice";
+// import { storeCodes } from "../../../../../reduxFunction/storeUsedCode/StoreCodeSlice";
 import { storeHomePageCode } from "../../../../../reduxFunction/StorePageCode/StorePageCode";
 import { useFetch } from '../../../../../hooks/GetRequest/useFetch';
 import { setHostingPannelActive, setPage } from '../../../../../reduxFunction/PageControls/pageControls';
@@ -28,6 +28,7 @@ export default function ChooseDesign(clickedItem) {
     const [codes, setCodes] = useState([]);
 
     useEffect(() => {
+        if(!data) return;
         setCodes(data)
     }, [codes, data]);
 
@@ -66,6 +67,7 @@ export default function ChooseDesign(clickedItem) {
     }, [page, url, section]);
 
 
+    
 
     return (
         <div>
@@ -130,7 +132,7 @@ export default function ChooseDesign(clickedItem) {
 
                     {(codes && isFilterActive === false) && codes.map((code, i) => (
                         <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded" >
-                            <div className="">
+                            <div>
                                 <img src={`${process.env.REACT_APP_IMAGE_URL}/${JSON.parse(code.images)[0]}`} alt="image_cannot_be_shown" />
                             </div>
                             <div className="bg-white py-3 ">
@@ -159,7 +161,7 @@ export default function ChooseDesign(clickedItem) {
                                     <button
                                         className="w-1/2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                         onClick={() => {
-                                            dispatch(storeCodes({ name: code.name, html: code.htmlCode, css: code.cssCode, js: code.jsCode, type: code.type, slug: code.slug, pageName: designPage }))
+                                            // dispatch(storeCodes({ name: code.name, html: code.htmlCode, css: code.cssCode, js: code.jsCode, type: code.type, slug: code.slug, pageName: designPage }))
                                         }}
                                     >
                                         Use

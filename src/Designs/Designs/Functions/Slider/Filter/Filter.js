@@ -1,6 +1,4 @@
-import React from 'react'
-import { setFilterActive } from '../../../../../reduxFunction/PageControls/pageControls'
-import { useDispatch } from 'react-redux/es/hooks/useSelector'
+import React from 'react';
 import { IoStarSharp } from "react-icons/io5";
 import "./FilterStyles/disableArrows.css"
 export default function Filter() {
@@ -32,9 +30,27 @@ export default function Filter() {
                             type="number"
                             name="site-name"
                             id="site-name"
-                            style={{}}
                             class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xs sm:leading-6"
                         />
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        Visibility
+                    </div>
+                    <div class="flex flex-col">
+                        <div>
+                            <input id="filter-mobile-color-2" name="color[]" value="public" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                            <label for="filter-mobile-color-2" class="ml-3 min-w-0 flex-1">your codes</label>
+                        </div>
+                        <div>
+                            <input id="filter-mobile-color-2" name="color[]" value="ai" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                            <label for="filter-mobile-color-2" class="ml-3 min-w-0 flex-1">AI Generated Codes</label>
+                        </div>
+                        <div>
+                            <input id="filter-mobile-color-2" name="color[]" value="private" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                            <label for="filter-mobile-color-2" class="ml-3 min-w-0 flex-1">Private Codes</label>
+                        </div>
                     </div>
                 </div>
                 <div>
