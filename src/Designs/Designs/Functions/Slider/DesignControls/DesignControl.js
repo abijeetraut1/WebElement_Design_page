@@ -98,7 +98,7 @@ export default function DesignControl({open}) {
                     </div>
 
                     <div className={`${open ? "block" : "hidden"}`}>
-                        <div className="flex items-center justify-start space-x-1 mt-2">
+                        <div className="mt-2">
                             <div>
                                 <SearchComponent />
                             </div>

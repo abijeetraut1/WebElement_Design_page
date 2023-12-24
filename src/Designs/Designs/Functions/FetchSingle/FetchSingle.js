@@ -4,7 +4,7 @@ export async function fetchSigleCode(slug, section) {
 
     const singleCall = await axios({
         method: "GET",
-        url: `${process.env.REACT_APP_GET_SINGLE_CODE}?section=${section.toLowerCase()}&slug=${slug}`,
+        url: `${process.env.REACT_APP_GET_SELECTED_CODE}?section=${section.toLowerCase()}&slug=${slug}`,
         params:{
             section,
             slug
