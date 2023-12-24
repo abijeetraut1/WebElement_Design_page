@@ -2,16 +2,29 @@ import { useState } from "react"
 import React from 'react'
 import { CiSearch } from "react-icons/ci";
 import { setFilterActive } from "../../../../../reduxFunction/PageControls/pageControls";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
-
+import axios from "axios";
+import { clearFetchedCodes, setFetchedCodes } from "../../../../../reduxFunction/storeUsedCode/StoreCodeSlice";
 
 export default function SearchComponent() {
     const [searchValue, setSearchValue] = useState("");
+    const designSection = useSelector(state => state.pageControls.designSection);
     const dispatch = useDispatch();
 
     function toggleFilter() {
         dispatch(setFilterActive());
+    }
+
+    async function searchTheCodes(searchText) {
+        console.log(searchText);
+        const fetchData = await axios({
+            method: "GET",
+            url: `http://localhost:8000/api/v1/codes/search?section=${designSection}&name=${searchText}`,
+        }) 
+
+        dispatch(clearFetchedCodes())
+        dispatch(setFetchedCodes(fetchData.data.message.arraySelectedData));
     }
 
     return (
@@ -31,6 +44,8 @@ export default function SearchComponent() {
                     <div>
                         <button
                             className="rounded-md bg-indigo-600 p-2 text-white"
+                            onClick={() => searchTheCodes(searchValue)}
+                            key="asfasdfasdf"
                         >
                             <CiSearch />
                         </button>
