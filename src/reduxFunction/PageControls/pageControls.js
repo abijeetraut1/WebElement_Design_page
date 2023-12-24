@@ -28,8 +28,6 @@ const pageControlsSlice = createSlice({
     setPage: (state, action) => {
       if (action.payload === "more") {
         state.isPage = state.isPage + 1;
-      } else if (action.payload === "previous") {
-        state.isPage = state.isPage - 1;
       } else if (action.payload === "reset") {
         state.isPage = 0;
       }

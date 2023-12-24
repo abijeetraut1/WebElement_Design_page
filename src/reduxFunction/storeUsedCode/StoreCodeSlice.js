@@ -8,6 +8,7 @@ const slices = createSlice({
     name: "codes",
     initialState: {
         codes: [],
+        fetchedCodes: [],
         usedFonts: [],
         homeIDs: [],
         contactIDs: [],
@@ -81,6 +82,15 @@ const slices = createSlice({
                 }
             }
         },
+        setFetchedCodes: (state, action) => {
+            if (!action.payload) return;
+            action.payload.forEach(code => {
+                state.fetchedCodes.push(code);
+            })
+        },
+        clearFetchedCodes: (state, action) => {
+            state.fetchedCodes.splice(0, state.fetchedCodes.length);
+        },
         removeCode: (state, action) => {
             // it only does for the home pages
             state.homeIDs = state.homeIDs.filter(ids => ids !== action.payload.id)
@@ -106,6 +116,8 @@ export const {
     removeCode,
     clearPreviousCodeOnDOM,
     storeFonts,
+    setFetchedCodes,
+    clearFetchedCodes
 } = slices.actions;
 
 export default slices.reducer;

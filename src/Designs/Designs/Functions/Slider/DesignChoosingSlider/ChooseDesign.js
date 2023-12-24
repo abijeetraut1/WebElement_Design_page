@@ -12,7 +12,7 @@ import testProfile from "../../../../test-image/test-profile.jpeg";
 import DesignControls from "../DesignControls/DesignControl";
 import Filter from "../Filter/Filter";
 import { fetchSigleCode } from "../../FetchSingle/FetchSingle";
-import {storeCodes} from "../../../../../reduxFunction/storeUsedCode/StoreCodeSlice";
+import {setFetchedCodes, storeCodes} from "../../../../../reduxFunction/storeUsedCode/StoreCodeSlice";
 
 export default function ChooseDesign(clickedItem) {
     const designPage = useSelector(state => state.pageControls.designPage);
@@ -27,12 +27,12 @@ export default function ChooseDesign(clickedItem) {
     const dispatch = useDispatch();
 
     const { data, isProtected, error } = useFetch(`${process.env.REACT_APP_CODE_API_URL}?section=${section.toLowerCase()}&page=${page}`, "GET", "codes");
-    const [codes, setCodes] = useState([]);
+    const codes = useSelector(state => state.StoreCodeSlice.fetchedCodes);
 
     useEffect(() => {
         if (!data) return;
-        setCodes(data)
-    }, [codes, data]);
+        dispatch(setFetchedCodes(data));
+    }, [data, dispatch]);
 
     // codes ids 
     const home = useSelector(state => state.StoreCodeSlice.homeIDs);
@@ -115,7 +115,7 @@ export default function ChooseDesign(clickedItem) {
                     </div>
 
                     <div>
-                        <DesignControls />
+                        <DesignControls open={open} />
                     </div>
 
                 </div>
@@ -124,17 +124,6 @@ export default function ChooseDesign(clickedItem) {
                 {open && <section id="choose-deign" className="h-3/4 overflow-auto rounded-md">
                     {isProtected && <p>Fetching codes</p>}
                     {(error && isFilterActive === false) && <p className="text-white">server error please wait we are fixing it.</p>}
-
-                    {(page >= 1) && <div>
-                        <button
-                            className="w-full rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            onClick={() => {
-                                dispatch(setPage("previous"));
-                            }}
-                        >
-                            Previous
-                        </button>
-                    </div>}
 
                     {(codes && isFilterActive === false) && codes.map((code, i) => (
                         <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded" >
