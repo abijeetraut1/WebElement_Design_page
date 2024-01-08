@@ -1,8 +1,8 @@
 import React from 'react';
 import LOGO from "../../../Images/logo.webp";
 import { Link } from 'react-router-dom';
-import Form from '../Components/Form/Form';
-import SideBar from '../Components/SlideBar/SideBar';
+import LoginForm from './components/Form/LoginForm';
+import LoginSidebars from "./components/SlideBar/LoginSideBar"
 
 export default function Login() {
 
@@ -10,7 +10,7 @@ export default function Login() {
         <section className="bg-white">
             <div className="flex min-h-screen">
                 <div className="flex flex-row w-full">
-                    <SideBar/>
+                    <LoginSidebars />
 
                     <div className="flex flex-1 flex-col items-center justify-center px-10 relative">
                         <div className="flex lg:hidden justify-between items-center w-full py-4">
@@ -18,20 +18,19 @@ export default function Login() {
                                 <img className="w-10 h-8" alt='' src={LOGO} />
                                 <p to="#" className="font-medium text-xl">WebElement</p>
                             </Link>
-                            <Link href="#" className="font-medium text-[#fff]">
+                            <Link href="/signup" className="font-medium text-[#fff]">
                                 <button className="flex items-center justify-center bg-black flex-none px-3 py-2 md:px-4 md:py-3 border-2 rounded-lg font-medium border-black relative">
                                     Create account
                                 </button>
                             </Link>
                         </div>
 
-                        <div className="flex flex-1 flex-col  justify-center space-y-5 max-w-md">
+                        <div className="flex flex-1 flex-col  justify-center space-y-5 w-[50%]">
                             <div className="flex flex-col space-y-2 text-center">
-                                <h2 className="text-3xl md:text-4xl font-bold">Sign in</h2>
-                                <p className="text-md md:text-xl">Sign up or log in to place the order, no password require!</p>
+                                <h2 className="text-3xl md:text-4xl font-bold">Login</h2>
                             </div>
                             <div>
-                                <Form />
+                                <LoginForm />
                             </div>
                         </div>
                     </div>

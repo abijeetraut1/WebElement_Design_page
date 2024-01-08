@@ -3,7 +3,7 @@ import React from 'react';
 export default function Form() {
   return (
     <form
-      className="flex flex-col max-w-md space-y-5"
+      className="flex flex-col max-w-full space-y-5"
     >
       <label>
         <input

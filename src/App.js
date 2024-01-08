@@ -7,7 +7,7 @@ import DrawAWebSite from './Designs/Draw/DrawAWebSite';
 import Uploadcode from './pages/UploadCode/Uploadcode';
 import Home from './pages/Home/Home';
 import Login from './pages/Auth/Login/Login';
-
+import Signup from './pages/Auth/Signup/Signup';
 
 function App() {
   return (
@@ -21,7 +21,7 @@ function App() {
               <Route path='/draw'  element={<DrawAWebSite />} />
               <Route path='/upload'  element={<Uploadcode />} />
               <Route path='/login' element={<Login/>} />
-              <Route path='/signup' element={<Login/>} />
+              <Route path='/signup' element={<Signup/>} />
             </Routes>
         </BrowserRouter>
     </section>
