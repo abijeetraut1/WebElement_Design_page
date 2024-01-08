@@ -25,7 +25,7 @@ export default function Login() {
                             </Link>
                         </div>
 
-                        <div className="flex flex-1 flex-col  justify-center space-y-5 w-[50%]">
+                        <div className="flex flex-1 flex-col  justify-center space-y-5 w-[40%]">
                             <div className="flex flex-col space-y-2 text-center">
                                 <h2 className="text-3xl md:text-4xl font-bold">Login</h2>
                             </div>

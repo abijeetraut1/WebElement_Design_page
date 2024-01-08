@@ -10,7 +10,7 @@ export default function SideBar() {
                 <p to="#" className="font-medium text-xl">WebElement</p>
             </Link>
             <div className='space-y-5'>
-                <h1 className="lg:text-3xl xl:text-5xl xl:leading-snug font-extrabold capitalize">Enter your account and ease your webdev journey</h1>
+                <h1 className="lg:text-3xl xl:text-5xl xl:leading-snug font-extrabold capitalize">Join Now, Let's Make WebDev Effortless</h1>
                 <p className="text-lg">You do not have an account?</p>
                 <Link
                     className="inline-block flex-none border-2 rounded-lg font-medium border-black bg-black text-white"
