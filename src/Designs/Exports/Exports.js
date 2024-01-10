@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Editor from '@monaco-editor/react';
-import Navigation from "../navigation/Navigation"
+// import Navigation from "../../pages/Components/navigation/Navigation"
 
 
 export default function Exports() {
@@ -25,7 +25,7 @@ export default function Exports() {
 
   return (
     <div className='min-h-screen min-w-screen bg-slate-800 text-white'>
-      <Navigation />
+      {/* <Navigation /> */}
       <section className='flex justify-center space-x-2 items-center h-screen'>
         <section id='render-html-codes'>
           <Editor

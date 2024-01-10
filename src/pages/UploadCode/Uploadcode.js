@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import Navigation from "../../Designs/navigation/Navigation"
+// import Navigation from "../Components/navigation/Navigation"
 import "../../Designs/Designs/Functions/popupEditor/NodeTextStyle/popupElement.css"
 import { VscCheck, VscClose } from "react-icons/vsc";
 import html from "../../Images/html.png"
@@ -11,7 +11,7 @@ export default function Uploadcode() {
     const [htmlCode, setHtml] = useState("html");
     const [cssCode, setCss] = useState("css");
     const [jsCode, setJs] = useState("js");
-    const [name, setName] = useState("name");
+    const [name, setName] = useState(null);
 
     const [active, setActive] = useState("html");
     const [notificationActive, setNotificationActive] = useState(false);
@@ -28,7 +28,7 @@ export default function Uploadcode() {
     return (
         <div>
             <section className="overflow-x-hidden bg-neutral-900 h-screen w-screen">
-                <Navigation />
+                {/* <Navigation /> */}
                 <section className="flex space-x-10 w-screen">
                     <section className='w-1/5 h-screen bg-neutral-800'>
                         <div className='space-x-2 p-2'>
@@ -78,11 +78,13 @@ export default function Uploadcode() {
                                     <span>
                                         <input
                                             value={name}
+                                            placeholder="hero section"
                                             onChange={(el) => setName(el.target.value)}
                                             className="bg-transparent border border-borderColor p-1 rounded w-fit h-8 outline-none focus:ring focus:ring-fontBlue focus:outline-none"
                                             type="text"
                                             name="page-name"
                                             id="page-name"
+                                            required
                                         />
                                     </span>
                                     <span>{<VscCheck className="text-xl text-fontBlue duration-200" />}</span>

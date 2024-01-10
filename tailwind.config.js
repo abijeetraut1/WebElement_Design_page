@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      gradientColorStopPositions: {
+        33: '33%',
+      },
       borderColor: {
         'borderColor': '#6a6c6a',
       },
