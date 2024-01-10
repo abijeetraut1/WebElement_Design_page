@@ -5,10 +5,10 @@ import LOGO from "../../Images/logo_design.svg";
 
 export default function Home() {
     return (
-        <section className="bg-white">
+        <section  style={{ color: 'white', backgroundImage: 'linear-gradient(to top, #0f172a, #334257)' }} className="bg-white">
             <div className="flex min-h-screen">
                 <div className="flex flex-row w-full">
-                    <Sidebars props={{ sologon: "We Reduce, The Complexity of ", buttons: ["signup", "login"], highlight:"Web Development" }} />
+                    {/* <Sidebars props={{ sologon: "We Reduce, The Complexity of ", buttons: ["signup", "login"], highlight:"Web Development" }} /> */}
 
                     <div className="flex flex-1 flex-col items-center justify-center px-10 relative">
                         <div className="flex lg:hidden justify-between items-center w-full py-4">
