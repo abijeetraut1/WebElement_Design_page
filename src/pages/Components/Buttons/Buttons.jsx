@@ -1,19 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+const auth = [
+    { name: 'Login', href: '/login' },
+    { name: 'Signup', href: '/signup' },
+]
+
 export default function Buttons({ buttons }) {
     return (
         <div>
-            <div className='space-x-3'>
-                {buttons && buttons.map((button) => (
+            <div className='space-x-3 flex'>
+                {auth.map((item) => (
                     <Link
-                        key={button}
-                        className="inline-block flex-none border-2 rounded-lg font-medium border-black bg-black text-white"
-                        to={`/${button}`}>
+                        key={item.name}
+                        href={item.href}
+                        className="-mx-3 w-fit block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white"
+                    >
                         <button
-                            className="inline-block flex-none px-4 py-3 border-2 rounded-lg font-medium border-black bg-black text-white"
+                            className="w-24 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
-                            {button === "signup" ? "Create account" : button === "login" ? "Get started" : ""}
+                            {item.name}
                         </button>
                     </Link>
                 ))}
