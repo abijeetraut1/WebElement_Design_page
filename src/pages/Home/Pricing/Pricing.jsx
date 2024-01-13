@@ -29,7 +29,7 @@ export default function Pricing() {
                     </p>
                 </div>
 
-                <div className="flex flex-col mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
+                <div className="flex flex-col space-y-2 mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
                     {Services.map(service => (
                         <div className='flex rounded-3xl ring-1 ring-gray-200 flex-col sm:flex-col md:flex-col lg:flex-row '>
                             <div className="p-8 sm:p-10 lg:flex-auto">
