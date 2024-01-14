@@ -6,7 +6,7 @@ import Pricing from './Pricing/Pricing';
 export default function Home() {
     return (
         <section
-            style={{ backgroundImage: 'linear-gradient(to top, #10192C, #314055)' }}
+            className='bg-slate-300'
         >
             <div>
                 <Navbar />
@@ -17,7 +17,7 @@ export default function Home() {
             </div>
 
             <div>
-                <Pricing />
+                
             </div>
         </section>
     )

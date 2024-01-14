@@ -8,6 +8,7 @@ import Buttons from '../Buttons/Buttons';
 
 const navigation = [
     { name: 'Design', href: '#' },
+    { name: 'Pricing', href: '/pricing' },
     { name: 'Host', href: '#' },
     { name: 'Developers', href: '#' },
     { name: 'Blogs', href: '#' },
@@ -21,16 +22,17 @@ export default function Navbar() {
         <header>
             <nav className="flex items-center justify-between lg:px-8" aria-label="Global">
                 <div className="flex lg:flex-1">
-                    <Link href="#" className="-m-1.5 p-1.5 flex">
+                    <Link href="#" className="flex items-center -m-1.5 p-1.5">
                         <div>
                             <img
-                                className="h-8 w-auto"
+                                className="h-14 w-auto"
                                 src={LOGO}
                                 alt=""
                             />
                         </div>
                         <div>
                             <img
+                                style={{ filter: "brightness(0.3)" }}
                                 className="h-8 w-auto"
                                 src={LOGOTEXT}
                                 alt=""
@@ -41,7 +43,7 @@ export default function Navbar() {
                 <div className="flex lg:hidden duration-300">
                     <button
                         type="button"
-                        className="-m-2.5 rounded-md p-2.5 text-white"
+                        className="-m-2.5 rounded-md p-2.5 text-gray-600 font-bold"
                         onClick={() => setMobileMenuOpen(true)}
                     >
                         <RiMenuFoldLine className="h-6 w-6 " aria-hidden="true" />
@@ -50,7 +52,7 @@ export default function Navbar() {
 
                 <div className="hidden lg:flex lg:gap-x-6">
                     {navigation.map((item) => (
-                        <Link key={item.name} href={item.href} className="text-base font-semibold leading-6 text-white">
+                        <Link key={item.name} href={item.href} className="text-base font-bold leading-6 text-gray-600">
                             {item.name}
                         </Link>
                     ))}
@@ -92,10 +94,10 @@ export default function Navbar() {
                         </Link>
                         <button
                             type="button"
-                            className="-m-2.5 rounded-md p-2.5 text-white"
+                            className="-m-2.5 rounded-md p-2.5 text-gray-600 font-bold"
                             onClick={() => setMobileMenuOpen(false)}
                         >
-                            {/* <span className="sr-only text-white">
+                            {/* <span className="sr-only text-gray-600 font-bold">
                             </span> */}
                             <RiMenuUnfoldLine className="h-6 w-6" aria-hidden="true" />
                         </button>
@@ -107,7 +109,7 @@ export default function Navbar() {
                                     <Link
                                         key={item.name}
                                         href={item.href}
-                                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white"
+                                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-600 font-bold"
                                     >
                                         {item.name}
                                     </Link>
