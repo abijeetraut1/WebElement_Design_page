@@ -15,8 +15,8 @@ export default function Hero() {
     return (
         <section>
             <div className="relative isolate px-6 lg:px-8">
-                
-                <TopBackgroundClipPath/>
+
+                <TopBackgroundClipPath />
 
                 <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
                     <div className="hidden sm:mb-8 sm:flex sm:justify-center">
@@ -58,7 +58,7 @@ export default function Hero() {
                         <div className="mt-10 flex items-center justify-center gap-x-6">
                             {websiteTypes.map(websiteType => (
                                 <Link
-                                    to={"/"+websiteType.url}
+                                    to={"/" + websiteType.url}
                                 >
                                     <button
                                         className="rounded-md ring-1 ring-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-gray-600 shadow-sm hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -68,8 +68,8 @@ export default function Hero() {
                         </div>
                     </div>
                 </div>
-                
-                <BottomBackgroundClipPath/>
+
+                <BottomBackgroundClipPath />
             </div>
         </section>
     )
