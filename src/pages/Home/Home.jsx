@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from '../Components/Navigationbar/Navbar';
 import Hero from './HeroSection/Hero';
-import Pricing from './Pricing/Pricing';
+import Body from './BodySection/Body';
 
 export default function Home() {
     return (
@@ -17,7 +17,7 @@ export default function Home() {
             </div>
 
             <div>
-                
+                <Body/>
             </div>
         </section>
     )
