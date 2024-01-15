@@ -9,6 +9,7 @@ import Login from './pages/Auth/Login/Login';
 import Signup from './pages/Auth/Signup/Signup';
 import NotFound from './pages/NotFound/NotFound';
 
+
 function App() {
   return (
     <section className="App">
@@ -22,6 +23,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='*' element={<NotFound />} />
+          
         </Routes>
       </BrowserRouter>
     </section>
