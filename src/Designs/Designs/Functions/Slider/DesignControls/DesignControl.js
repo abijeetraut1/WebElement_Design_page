@@ -1,5 +1,4 @@
 import React from 'react'
-import SearchComponent from '../SearchComponent/SearchComponent'
 import { useDispatch, useSelector } from 'react-redux';
 import { setDesignPage, setDesignSection, setPage } from '../../../../../reduxFunction/PageControls/pageControls';
 import { Render } from '../../Render/Render';
@@ -8,7 +7,26 @@ import { Extraction } from '../../Extraction/Extraction';
 import { storeHomePageCode } from '../../../../../reduxFunction/StorePageCode/StorePageCode';
 
 
-export default function DesignControl({open}) {
+const sections = [
+    { item: 'Navigation' },
+    { item: 'Body' },
+    { item: 'Hero' },
+    { item: 'Footer' },
+    { item: 'Login' },
+    { item: 'Webpage' },
+];
+
+const pages = [
+    { item: 'Home' },
+    { item: 'About' },
+    { item: 'Login' },
+    { item: 'Contact' },
+    { item: 'Product' },
+    { item: 'Order' },
+];
+
+
+export default function DesignControl({ open }) {
     const dispatch = useDispatch();
     const homePage = useSelector(state => state.StorePageCode.home);
     const aboutPage = useSelector(state => state.StorePageCode.about);
@@ -16,6 +34,7 @@ export default function DesignControl({open}) {
     const loginPage = useSelector(state => state.StorePageCode.authentication);
     const section = useSelector(state => state.pageControls.designSection);
     const designPage = useSelector(state => state.pageControls.designPage);
+    // const open = useSelector(state => state.pageControls.isOpen);
 
     // codes ids 
     const home = useSelector(state => state.StoreCodeSlice.homeIDs);
@@ -52,17 +71,16 @@ export default function DesignControl({open}) {
                             onChange={el => {
                                 dispatch(setDesignSection(el.target.value))
                                 dispatch(setPage("reset"))
-                                
+
                                 dispatch(clearFetchedCodes());
                             }} // section choose name
                             value={section}
+                            title='choose which component would you like to add'
                         >
-                            <option value="navigation">Navigation Section</option>
-                            <option value="hero">Hero Section</option>
-                            <option value='body'>Body Section</option>
-                            <option value="footer">Footer Section</option>
-                            <option value="webpage" >Complete Website</option>
-                            <option value="login" >Login</option>
+                            {sections.map(section => (
+                                <option value={section.item}>{section.item} Section</option>
+                            ))}
+
                         </select>
                     </div>
 
@@ -84,27 +102,19 @@ export default function DesignControl({open}) {
                                 } else if (el.target.value === "login") {
                                     Render(el.target.value, authentication, loginPage);
                                 }
+
                                 dispatch(setPage("reset"));
                                 // dispatch(clearFetchedCodes());
                                 dispatch(clearPreviousCodeOnDOM());
                             }}
+                            title='choose which page you like to design'
                             value={designPage}
                         >
-                            <option value="home">Home</option>
-                            <option value="about">About</option>
-                            <option value='contact'>Contact</option>
-                            <option value="login">Login</option>
+                            {pages.map(page => (
+                                <option value={page.item}>{page.item} Page</option>
+                            ))}
                         </select>
                     </div>
-
-                    <div className={`${open ? "block" : "hidden"}`}>
-                        <div className="mt-2">
-                            <div>
-                                <SearchComponent />
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             }
         </div>

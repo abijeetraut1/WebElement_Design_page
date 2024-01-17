@@ -10,7 +10,9 @@ const pageControlsSlice = createSlice({
     designSection: "navigation", // which component we are editing on
     isEdit: false, // allowing the pannel to be edit
     isPage: 0, // shows the current page options
-    isFilterActive: false
+    isFilterActive: false,
+    isEditing: false,
+    isOpen: false,
   },
   reducers: {
     setHostingPannelActive: (state, action) => {
@@ -33,8 +35,15 @@ const pageControlsSlice = createSlice({
       }
     },
     setFilterActive: (state, action) => {
-      state.isFilterActive = state.isFilterActive ? false : true; 
-    }
+      state.isFilterActive = state.isFilterActive ? false : true;
+    },
+    setEditingMode: (state, action) => {
+      state.isEditing = state.isEditing ? false : true;
+    },
+    setIsOpen: (state, action) => {
+      state.isOpen = state.isOpen ? false : true;
+    },
+
   },
 });
 
@@ -44,7 +53,9 @@ export const {
   setDesignSection,
   setEdit,
   setPage,
-  setFilterActive
+  setFilterActive,
+  setEditingMode,
+  setIsOpen
 } = pageControlsSlice.actions;
 
 export default pageControlsSlice.reducer;

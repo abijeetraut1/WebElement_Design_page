@@ -1,27 +1,26 @@
 import { FiSidebar } from "react-icons/fi";
-import { ImSpinner3 } from "react-icons/im";
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Extraction } from "./../../Extraction/Extraction";
-// import { storeCodes } from "../../../../../reduxFunction/storeUsedCode/StoreCodeSlice";
 import { storeHomePageCode } from "../../../../../reduxFunction/StorePageCode/StorePageCode";
 import { useFetch } from '../../../../../hooks/GetRequest/useFetch';
-import { setHostingPannelActive, setPage } from '../../../../../reduxFunction/PageControls/pageControls';
+import { setHostingPannelActive, setPage, setIsOpen } from '../../../../../reduxFunction/PageControls/pageControls';
 import testProfile from "../../../../test-image/test-profile.jpeg";
-// import ai from "../../../../../Images/ai.png";
 import DesignControls from "../DesignControls/DesignControl";
 import Filter from "../Filter/Filter";
 import { fetchSigleCode } from "../../FetchSingle/FetchSingle";
-import {setFetchedCodes, storeCodes} from "../../../../../reduxFunction/storeUsedCode/StoreCodeSlice";
+import { setFetchedCodes, storeCodes } from "../../../../../reduxFunction/storeUsedCode/StoreCodeSlice";
+import ToggleSwitch from "../../../components/Switch/ToggleSwitch";
+
 
 export default function ChooseDesign(clickedItem) {
     const designPage = useSelector(state => state.pageControls.designPage);
     const section = useSelector(state => state.pageControls.designSection);
     const page = useSelector(state => state.pageControls.isPage);
     const isFilterActive = useSelector(state => state.pageControls.isFilterActive);
+    const open = useSelector(state => state.pageControls.isOpen);
 
     const [isSping, setIsSpin] = useState(false);
-    const [open, setOpen] = useState(true);  // for choose design pannel determine close or open
 
     const [url, setUrl] = useState(`${process.env.REACT_APP_CODE_API_URL}?section=${section.toLowerCase()}&page=${page}`);
     const dispatch = useDispatch();
@@ -72,18 +71,18 @@ export default function ChooseDesign(clickedItem) {
 
     async function renderCodes(slug, section) {
         const code = await fetchSigleCode(slug, section)
-        dispatch(storeCodes({code, designPage}))
+        dispatch(storeCodes({ code, designPage }))
     }
 
     return (
         <div>
-            <aside className={`fixed top-0 left-0 ${open ? "w-1/5 bg-testBg" : "w-0 bg-transparent"} duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100 `} >
+            <aside className={`md:w-1/2 lg:w-1/2 xl:w-2/5 2xl:w-1/5 fixed top-0 left-0 ${open ? "w-full bg-testBg" : "w-0 bg-transparent"} duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100`} >
                 <div className="sm:col-span-3 inset-0 backdrop-blur-md">
                     <div className='flex items-center justify-between space-x-2'>
                         <div className="flex items-center justify-between space-x-2">
                             <button
                                 className='border:solid border border-white bg-testBg p-2 rounded-md'
-                                onClick={() => setOpen(open ? false : true)}
+                                onClick={() => dispatch(setIsOpen())}
                             >
                                 {<FiSidebar className='text-white text-xl ' />}
                             </button>
@@ -95,26 +94,23 @@ export default function ChooseDesign(clickedItem) {
                             }
                         </div>
 
-                        {open &&
-                            <div className="flex space-x-1">
-                                <div>
-                                    <button
-                                        className="flex items-center space-x-2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                        onClick={() => {
-                                            setIsSpin(true);
-                                            saveCodes();
-                                        }}
-                                    >
-                                        {
-                                            isSping === true ? <div className="animate-spin"> <ImSpinner3 /> </div> : <div>Save</div>
-                                        }
-                                    </button>
-                                </div>
-                            </div>
-                        }
                     </div>
 
                     <div>
+                        <div className="flex items-end justify-end space-x-1">
+                            <div>
+                                <ToggleSwitch open={open} />
+                            </div>
+                            {open && <div>
+                                <button
+                                    className="flex items-center space-x-2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    onClick={() => saveCodes()}
+                                    title='save designed page'
+                                >
+                                    Save
+                                </button>
+                            </div>}
+                        </div>
                         <DesignControls open={open} />
                     </div>
 
@@ -182,18 +178,19 @@ export default function ChooseDesign(clickedItem) {
                         <div className="flex items-center space-x-2 justify-between">
                             <div className="flex items-center space-x-3">
                                 <div>
-                                    <button>
+                                    <button title="profile">
                                         <img src={testProfile} className='outline-white h-10 w-10 rounded-full outline' alt="cannot display profile" />
                                     </button>
                                 </div>
                                 <div>
-                                    <span className="text-white cursor-pointer">Abijeet Raut</span>
+                                    <span title="username" className="text-white cursor-pointer">Abijeet Raut</span>
                                 </div>
                             </div>
                             <div>
                                 <button
                                     className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     onClick={() => dispatch(setHostingPannelActive(true))}
+                                    title="host designed website"
                                 >
                                     Host
                                 </button>

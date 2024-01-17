@@ -32,7 +32,7 @@ export default function Designs() {
             </section>
 
             <section className={openHostingPannel === false ? "block" : "hidden"}>
-                <aside>
+                <aside >
                     <ChooseDesign clickedItem={clickedHTMLElement} />
                 </aside>
 

@@ -30,26 +30,27 @@ export default function SearchComponent() {
 
     return (
         <div>
-            <section className="flex">
+            <section className="w-full">
                 <div>
                     <input
                         type="text"
                         name="site-name"
                         id="site-name"
+                        
                         className="block rounded-md font-semibold text-xl w-full border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xs sm:leading-6 sm:max-w-full"
                         onInput={(el) => setSearchValue(el.target.value)}
                         value={searchValue}
                     />
 
                 </div>
-                <div className="w-fit">
+                {/* <div className="w-fit">
                     <button
-                        className="rounded-md bg-indigo-600 p-2 text-white"
+                        className="flex items-center space-x-2 rounded-md bg-indigo-600 px-4 py-2 text-xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         onClick={() => searchTheCodes(searchValue)}
                     >
                         <CiSearch />
                     </button>
-                </div>
+                </div> */}
 
                 {/*
                     <div>
