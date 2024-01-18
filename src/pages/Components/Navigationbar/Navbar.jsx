@@ -7,20 +7,20 @@ import { RiMenuFoldLine, RiMenuUnfoldLine } from "react-icons/ri";
 import Buttons from '../Buttons/Buttons';
 
 const navigation = [
-    { name: 'Design', href: '#' },
+    { name: 'Design', href: '/design' },
     { name: 'Pricing', href: '/pricing' },
-    { name: 'Host', href: '#' },
-    { name: 'Developers', href: '#' },
-    { name: 'Blogs', href: '#' },
+    { name: 'Host', href: '/host' },
+    { name: 'Developers', href: '/developers' },
+    { name: 'Blogs', href: '/blogs' },
 ]
 
 
 export default function Navbar() {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
-        <header>
-            <nav className="flex items-center justify-between lg:px-8" aria-label="Global">
+        <header className=''>
+            <nav className="flex items-center justify-between px-6 sm:py-0 lg:px-8" aria-label="Global">
                 <div className="flex lg:flex-1">
                     <Link href="#" className="flex items-center -m-1.5 p-1.5">
                         <div>
@@ -43,8 +43,8 @@ export default function Navbar() {
                 <div className="flex lg:hidden duration-300">
                     <button
                         type="button"
-                        className="-m-2.5 rounded-md p-2.5 text-gray-600 font-bold"
-                        onClick={() => setMobileMenuOpen(true)}
+                        className="z-30 -m-2.5 rounded-md h-full  p-2.5 text-gray-600 font-bold"
+                        onClick={() => setMobileMenuOpen(mobileMenuOpen === true ? false : true)}
                     >
                         <RiMenuFoldLine className="h-6 w-6 " aria-hidden="true" />
                     </button>
@@ -52,7 +52,7 @@ export default function Navbar() {
 
                 <div className="hidden lg:flex lg:gap-x-6">
                     {navigation.map((item) => (
-                        <Link key={item.name} href={item.href} className="text-base font-bold leading-6 text-gray-600">
+                        <Link key={item.name} to={item.href} className="text-base cursor-pointer font-bold leading-6 text-gray-600">
                             {item.name}
                         </Link>
                     ))}
@@ -109,7 +109,7 @@ export default function Navbar() {
                                     <Link
                                         key={item.name}
                                         href={item.href}
-                                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-600 font-bold"
+                                        className="-mx-3 block rounded-lg px-3 py-2 text-base cursor-pointer leading-7 text-gray-600 font-bold"
                                     >
                                         {item.name}
                                     </Link>

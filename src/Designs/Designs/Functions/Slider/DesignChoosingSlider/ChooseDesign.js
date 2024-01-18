@@ -174,21 +174,17 @@ export default function ChooseDesign(clickedItem) {
                 </section>}
 
                 {open &&
-                    <section className="fiexed bottom-0">
-                        <div className="flex items-center space-x-2 justify-between">
+                    <section className="fixed bottom-1 w-full">
+                        <div className="flex items-center justify-between w-full px-4">
                             <div className="flex items-center space-x-3">
-                                <div>
-                                    <button title="profile">
-                                        <img src={testProfile} className='outline-white h-10 w-10 rounded-full outline' alt="cannot display profile" />
-                                    </button>
-                                </div>
-                                <div>
-                                    <span title="username" className="text-white cursor-pointer">Abijeet Raut</span>
-                                </div>
+                                <button title="profile">
+                                    <img src={testProfile} className='outline-white h-10 w-10 rounded-full outline' alt="cannot display profile" />
+                                </button>
+                                <span title="username" className="text-white cursor-pointer">Abijeet Raut</span>
                             </div>
                             <div>
                                 <button
-                                    className="rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     onClick={() => dispatch(setHostingPannelActive(true))}
                                     title="host designed website"
                                 >
@@ -196,7 +192,9 @@ export default function ChooseDesign(clickedItem) {
                                 </button>
                             </div>
                         </div>
-                    </section>}
+                    </section>
+
+                }
             </aside>
         </div>
     )
