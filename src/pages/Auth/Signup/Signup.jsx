@@ -3,14 +3,17 @@ import LOGO from "../../../Images/logo_design.svg";
 import { Link } from 'react-router-dom';
 import Sidebars from '../../Components/sidebars/Sidebars';
 import SignupForm from './compoents/Form/SignupForm';
+import "./css.css"
 
 export default function Signup() {
 
     return (
-        <section className="bg-white">
+        <section  id ="w3r-dot" className="bg-slate-300">
             <div className="flex min-h-screen">
                 <div className="flex flex-row w-full">
-                    <Sidebars props={{ sologon: "Let's Start", buttons: ["login"], highlight: "Effortless web development journey" }} />
+                    <div>
+                        <Sidebars props={{ sologon: "Let's Start", buttons: ["login"], highlight: "Effortless web development journey" }} />
+                    </div>
 
                     <div className="flex flex-1 flex-col items-center justify-center px-10 relative">
                         <div className="flex lg:hidden justify-between items-center w-full py-4">

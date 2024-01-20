@@ -8,7 +8,7 @@ export default function Sidebars(props) {
     const { sologon, buttons, highlight } = props.props;
 
     return (
-        <div className='fixed hidden h-screen lg:flex flex-col justify-between bg-[#111827] text-white lg:p-8 xl:p-12 lg:max-w-sm xl:max-w-lg' style={{ color: 'transparent', backgroundImage: 'linear-gradient(to top, #334257, #0f172a)' }}>
+        <div className='hidden h-screen lg:flex flex-col justify-between bg-[#111827] text-white lg:p-8 xl:p-12 lg:max-w-sm xl:max-w-xl xl:w-full ' >
             <Link to="/" className="flex w-fit items-center justify-start">
                 <div>
                     <img className="w-auto h-12" alt='' src={LOGO} />

@@ -1,23 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import dashboard from "./../../../Images/dashboard.webp";
-import product_view from "./../../../Images/product_view.png";
+import { MdOutlineDesignServices } from "react-icons/md";
 import ComponentsIntro from './components/componentsIntro/ComponentsIntro';
 import AiIntro from './components/AiIntro/AiIntro';
 
 const whatWeOffers = [
     {
         title: "Design",
+        icon: MdOutlineDesignServices,
         description: "Crafting a website equipped with a comprehensive array of advanced functionalities allows you to breathe life into your unique vision",
-        backgruond: "bg-indigo-500/50"
-    }, {
-        title: "infrastructure",
+    },{
+        title: "Develop",
+        icon: MdOutlineDesignServices,
         description: "Crafting a website equipped with a comprehensive array of advanced functionalities allows you to breathe life into your unique vision",
-        backgruond: "bg-blue-400"
-    }, {
-        title: "host",
+    },{
+        title: "Integrate",
+        icon: MdOutlineDesignServices,
         description: "Crafting a website equipped with a comprehensive array of advanced functionalities allows you to breathe life into your unique vision",
-        backgruond: "bg-sky-600",
+    },{
+        title: "Live",
+        icon: MdOutlineDesignServices,
+        description: "Crafting a website equipped with a comprehensive array of advanced functionalities allows you to breathe life into your unique vision",
+    },{
+        title: "Analyze",
+        icon: MdOutlineDesignServices,
+        description: "Crafting a website equipped with a comprehensive array of advanced functionalities allows you to breathe life into your unique vision",
     },
 ]
 
@@ -27,32 +34,34 @@ export default function Body() {
 
 
     return (
-        <section className="mx-auto w-full py-2 sm:py-48 lg:py-56 md:flex md:flex-col">
-            <section>
-                <section className='flex flex-col-reverse mx-4'>
+        <section className="bg-gray-800 pt-9 pb-9 lg:mx-0 lg:mt:12 lg:mb:12 w-full py-2 md:flex md:flex-col">
+            <section className=''>
+                <section className=' flex flex-col sm:mx-0 sm:py-10'>
                     <div className="text-left w-full sm:w-1/2">
                         <div>
-                            <h1 className="text-left capitalize text-4xl flex flex-col font-light tracking-tight text-gray-900 sm:text-6xl">
+                            <h1 className="pl-4 pb-2 text-left capitalize text-4xl flex flex-col font-light tracking-tight text-white sm:text-6xl">
                                 All Web Essentiels, <br /> at one place
                             </h1>
                         </div>
-                        <section>
-                            <div className="flex items-center justify-left gap-x-14 flex-wrap w-full" >
-                                {whatWeOffers.map((whatWeOffer) => (
-                                    <div key={whatWeOffer.title} className={`mt-6 py-16 px-12 ${whatWeOffer.backgruond} w-full rounded-3xl`}>
-                                        <div className='mt-5'>
-                                            <h1 className='font-serif tracking-wide text-xl capitalize text-gray-900 backdrop-blur-3xl'>{whatWeOffer.title}</h1>
-                                        </div>
-                                        <div className='mt-5 sm:mt-0 hidden sm:block'>
-                                            <p>{whatWeOffer.description}</p>
-                                        </div>
+                    </div>
+
+                    <div className=' w-full lg:flex lg:flex-wrap space-y-2 p-4 sm:py-9'>
+                        {whatWeOffers.map((offer, i) => (
+                            <div key={i} className="rounded-lg block space-y-4 shadow-slate-300/50 bg-[#ffffff30] shadow-md bg-blend-normal backdrop-blur-md p-6 lg:w-1/5 ">
+                                <div className='flex items-center space-x-2 text-slate-300'>
+                                    <div>
+                                        { <offer.icon className=' text-3xl' />}
                                     </div>
-                                ))}
+                                    <div>
+                                        <h1 className='capitalize'>{offer.title}</h1>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p className='text-justify'>{offer.description}</p>
+                                </div>
                             </div>
-                            <div className='flex items-end'>
-                                <img src={dashboard} alt="" />
-                            </div>
-                        </section>
+                        ))}
+
                     </div>
                 </section>
 

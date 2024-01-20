@@ -13,7 +13,7 @@ export default function Buttons({ buttons }) {
                 {auth.map((item) => (
                     <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.href}
                         className="-mx-3 w-fit block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white"
                     >
                         <button

@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      mobileTextSize:{
+        'mobileHeadingTextSize':'2xl'
+      },
       gradientColorStopPositions: {
         33: '33%',
       },
@@ -17,6 +20,7 @@ module.exports = {
       backgroundColor: {
         'testBg': '#191919',
       },
+      
     },
   },
   plugins: [],

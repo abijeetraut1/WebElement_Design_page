@@ -7,7 +7,7 @@ import Test from './Test/Test';
 export default function Home() {
     return (
         <section
-            className='bg-slate-300 overflow-x-hidden px-2'
+            className='bg-slate-300 overflow-x-hidden sm:px-0'
         >
             <div>
                 <Navbar />
@@ -16,12 +16,9 @@ export default function Home() {
             <div>
                 <Hero />
             </div>
-            <div>
-                <Test />
+            <div className='max-w-[1920px]'>
+                <Body />
             </div>
-            {/* <div>
-                <Body/>
-            </div> */}
         </section>
     )
 }
