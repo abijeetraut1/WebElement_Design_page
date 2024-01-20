@@ -45,7 +45,7 @@ export default function Body() {
                         </div>
                     </div>
 
-                    <div className=' w-full lg:flex lg:flex-wrap space-y-2 p-4 sm:py-9'>
+                    <div className=' w-full lg:flex lg:flex-wrap space-y-4 p-4 sm:py-9'>
                         {whatWeOffers.map((offer, i) => (
                             <div key={i} className="rounded-lg block space-y-4 shadow-slate-300/50 bg-[#ffffff30] shadow-md bg-blend-normal backdrop-blur-md p-6 lg:w-1/5 ">
                                 <div className='flex items-center space-x-2 text-slate-300'>
