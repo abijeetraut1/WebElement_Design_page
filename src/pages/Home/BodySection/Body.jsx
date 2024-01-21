@@ -67,7 +67,7 @@ export default function Body() {
                                         </div>
                                     </div>
                                     <div className='px-1 pb-2'>
-                                        <img className='object-cover rounded-md w-full' src={testpng} alt="" />
+                                        <img className='object-cover rounded-md  w-full' src={testpng} alt="" />
                                     </div>
                                 </div>
                             ))}
