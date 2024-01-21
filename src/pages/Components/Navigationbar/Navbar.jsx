@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import LOGO from "./../../../Images/logo_design.svg";
 import LOGOTEXT from "./../../../Images/logo_text.svg";
 import { Link } from 'react-router-dom';
-import { Dialog } from '@headlessui/react'
-import { RiMenuFoldLine, RiMenuUnfoldLine } from "react-icons/ri";
+import { HiMenu } from "react-icons/hi";
 import Buttons from '../Buttons/Buttons';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsMobileSlideBarOpen } from '../../../reduxFunction/PageControls/pageControls';
 
 const navigation = [
     { name: 'Design', href: '/design' },
@@ -16,11 +17,12 @@ const navigation = [
 
 
 export default function Navbar() {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const dispatch = useDispatch();
+    const mobileMenuOpen = useSelector(state => state.pageControls.isMobileSlideBarOpen);
 
     return (
-        <header className=''>
-            <nav className="flex items-center justify-between px-6 sm:py-0 lg:px-8" aria-label="Global">
+        <header >
+            <nav className="px-2 flex items-center justify-between sm:py-0 lg:px-8" aria-label="Global">
                 <div className="flex lg:flex-1">
                     <Link href="#" className="flex items-center -m-1.5 p-1.5">
                         <div>
@@ -30,7 +32,7 @@ export default function Navbar() {
                                 alt=""
                             />
                         </div>
-                        <div>
+                        <div className='hidden lg:block'>
                             <img
                                 style={{ filter: "brightness(0.3)" }}
                                 className="h-8 w-auto"
@@ -39,15 +41,6 @@ export default function Navbar() {
                             />
                         </div>
                     </Link>
-                </div>
-                <div className="flex lg:hidden duration-300">
-                    <button
-                        type="button"
-                        className="z-30 -m-2.5 rounded-md h-full  p-2.5 text-gray-600 font-bold"
-                        onClick={() => setMobileMenuOpen(mobileMenuOpen === true ? false : true)}
-                    >
-                        <RiMenuFoldLine className="h-6 w-6 " aria-hidden="true" />
-                    </button>
                 </div>
 
                 <div className="hidden lg:flex lg:gap-x-6">
@@ -62,66 +55,42 @@ export default function Navbar() {
                         <Buttons />
                     </div>
                 </div>
+
+                <div className="flex items-center justify-center lg:hidden duration-300">
+                    <button
+                        type="button"
+                        className="z-50 -m-2.5 rounded-md h-full p-2.5 text-black "
+                        onClick={() => dispatch(setIsMobileSlideBarOpen())}
+                    >
+                        <HiMenu className="h-8 w-8" aria-hidden="true" />
+                    </button>
+                </div>
             </nav>
 
-            <Dialog
-                className="lg:hidden duration-300" open={mobileMenuOpen} onClose={setMobileMenuOpen}
-            >
-                <Dialog.Panel className="fixed inset-0 z-50" />
-                <div
-                    className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
-                    style={{ backgroundImage: 'linear-gradient(to top, #4478e9, #161c25)' }}
 
-                >
-                    <div className="flex items-center justify-between">
-                        <Link href="#" className="-m-1.5 p-1.5 flex">
-                            <div>
-                                <img
-                                    className="h-8 w-auto"
-                                    src={LOGO}
-                                    alt=""
-                                />
-                            </div>
-                            <div className='flex items-center justify-between'>
-                                <div>
-                                    <img
-                                        className="h-6 w-auto"
-                                        src={LOGOTEXT}
-                                        alt=""
-                                    />
-                                </div>
-                            </div>
-                        </Link>
-                        <button
-                            type="button"
-                            className="-m-2.5 rounded-md p-2.5 text-gray-600 font-bold"
-                            onClick={() => setMobileMenuOpen(false)}
-                        >
-                            {/* <span className="sr-only text-gray-600 font-bold">
-                            </span> */}
-                            <RiMenuUnfoldLine className="h-6 w-6" aria-hidden="true" />
-                        </button>
+            <nav className={`${mobileMenuOpen ? "w-[60%] duration-300" : "w-0 duration-300"}  h-screen bg-slate-400 absolute z-40 top-0 right-0`}>
+                <div className='flex flex-col absolute top-20 px-4 space-y-3 w-full'>
+                    <div>
+                        {mobileMenuOpen && <div className="text-left flex flex-col gap-2">
+                            {navigation.map((item) => (
+                                <Link key={item.name} to={item.href}>
+                                    {item.name}
+                                </Link>
+                            ))}
+                        </div>}
                     </div>
-                    <div className="mt-6 flow-root">
-                        <div className="-my-6 divide-y divide-gray-500/10">
-                            <div className="space-y-2 py-6">
-                                {navigation.map((item) => (
-                                    <Link
-                                        key={item.name}
-                                        href={item.href}
-                                        className="-mx-3 block rounded-lg px-3 py-2 text-base cursor-pointer leading-7 text-gray-600 font-bold"
-                                    >
-                                        {item.name}
-                                    </Link>
-                                ))}
-                            </div>
-                            <div className="py-6">
-                                <Buttons />
-                            </div>
+
+                    {mobileMenuOpen && <div className='border-t-2 border-white w-full'></div>}
+                    
+                    <div className="flex flex-1 justify-start">
+                        <div >
+                            {mobileMenuOpen && <Buttons />}
                         </div>
                     </div>
                 </div>
-            </Dialog>
+
+            </nav>
+
         </header>
     )
 }

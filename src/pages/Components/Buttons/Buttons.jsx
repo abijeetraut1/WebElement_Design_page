@@ -9,7 +9,7 @@ const auth = [
 export default function Buttons({ buttons }) {
     return (
         <div>
-            <div className='space-x-3 flex'>
+            <div className='sm:space-x-3 flex flex-col sm:flex-row'>
                 {auth.map((item) => (
                     <Link
                         key={item.name}

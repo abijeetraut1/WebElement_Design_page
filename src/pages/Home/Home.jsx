@@ -2,12 +2,14 @@ import React from 'react';
 import Navbar from '../Components/Navigationbar/Navbar';
 import Hero from './HeroSection/Hero';
 import Body from './BodySection/Body';
-import Test from './Test/Test';
+import { useSelector } from 'react-redux';
 
 export default function Home() {
+    const mobileMenuOpen = useSelector(state => state.pageControls.isMobileSlideBarOpen);
+
     return (
         <section
-            className='bg-slate-300 overflow-x-hidden sm:px-0'
+            className={`bg-slate-300  ${mobileMenuOpen ? "overflow-hidden h-screen" : "overflow-x-hidden"} sm:px-0`}
         >
             <div>
                 <Navbar />

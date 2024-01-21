@@ -76,15 +76,15 @@ export default function ChooseDesign(clickedItem) {
 
     return (
         <div>
-            <aside className={`md:w-1/2 lg:w-1/2 xl:w-2/5 2xl:w-1/5 fixed top-0 left-0 ${open ? "w-full bg-testBg" : "w-0 bg-transparent"} duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100`} >
+            <aside className={`md:w-1/2 lg:w-1/2 xl:w-2/5 2xl:w-1/5 fixed top-0 left-0 ${open ? "w-full bg-[#191919]" : "w-0 bg-transparent"} duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100`} >
                 <div className="sm:col-span-3 inset-0 backdrop-blur-md">
                     <div className='flex items-center justify-between space-x-2'>
                         <div className="flex items-center justify-between space-x-2">
                             <button
-                                className='border:solid border border-white bg-testBg p-2 rounded-md'
+                                className='border:solid border border-white bg-[#191919] p-2 rounded-md'
                                 onClick={() => dispatch(setIsOpen())}
                             >
-                                {<FiSidebar className='text-white text-xl ' />}
+                                <FiSidebar className='text-white text-xl ' />
                             </button>
 
                             {open &&

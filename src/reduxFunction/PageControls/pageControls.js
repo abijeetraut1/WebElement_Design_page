@@ -13,6 +13,7 @@ const pageControlsSlice = createSlice({
     isFilterActive: false,
     isEditing: false,
     isOpen: false,
+    isMobileSlideBarOpen: false,
   },
   reducers: {
     setHostingPannelActive: (state, action) => {
@@ -43,7 +44,9 @@ const pageControlsSlice = createSlice({
     setIsOpen: (state, action) => {
       state.isOpen = state.isOpen ? false : true;
     },
-
+    setIsMobileSlideBarOpen: (state, action) => {
+      state.isMobileSlideBarOpen = state.isMobileSlideBarOpen ? false : true;
+    },
   },
 });
 
@@ -55,7 +58,8 @@ export const {
   setPage,
   setFilterActive,
   setEditingMode,
-  setIsOpen
+  setIsOpen,
+  setIsMobileSlideBarOpen
 } = pageControlsSlice.actions;
 
 export default pageControlsSlice.reducer;

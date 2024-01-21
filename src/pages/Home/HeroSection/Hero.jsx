@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import templateImage from "../../../Images/shoes.png";
 import "./style.css";
+import { setIsMobileSlideBarOpen } from '../../../reduxFunction/PageControls/pageControls';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 const websiteTypes = [
     { type: "E-Commerce", url: "/design" },
@@ -10,11 +13,12 @@ const websiteTypes = [
 ]
 
 export default function Hero() {
+    const dispatch = useDispatch();
+    const mobileMenuOpen = useSelector(state => state.pageControls.isMobileSlideBarOpen);
 
     return (
         <section>
-            <div className="relative isolate">
-
+            <div className={`relative isolate ${mobileMenuOpen ? "blur-sm duration-300" : "blur-0"}`}>
                 <div id='dotgrids' className="mx-auto w-full py-32 sm:py-48 lg:py-56 sm:px-6 lg:px-8">
                     <div className="w-auto m-auto sm:mb-4 flex justify-center">
                         <div className="w-fit flex relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/25 hover:ring-gray-900/20">
@@ -32,7 +36,7 @@ export default function Hero() {
                             Design and host websites{" "}
                         </h1>
                         <h1 className="capitalize text-3xl flex flex-col font-black tracking-tight text-gray-900 sm:text-6xl">
-                            without anyfear
+                            without any fear
                         </h1>
 
                         <p className="mt-2 sm:mt-6 text-lg leading-8 text-gray-600">
