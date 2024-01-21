@@ -69,9 +69,9 @@ export default function Navbar() {
 
 
             <nav className={`${mobileMenuOpen ? "w-[60%] duration-300" : "w-0 duration-300"}  h-screen bg-slate-400 absolute z-40 top-0 right-0`}>
-                <div className='flex flex-col absolute top-20 px-4 space-y-3 w-full'>
+                <div className='flex flex-col absolute top-14 px-4 space-y-3 w-full'>
                     <div>
-                        {mobileMenuOpen && <div className="text-left flex flex-col gap-2">
+                        {mobileMenuOpen && <div className="font-semibold text-left flex flex-col gap-2">
                             {navigation.map((item) => (
                                 <Link key={item.name} to={item.href}>
                                     {item.name}
@@ -83,8 +83,8 @@ export default function Navbar() {
                     {mobileMenuOpen && <div className='border-t-2 border-white w-full'></div>}
                     
                     <div className="flex flex-1 justify-start">
-                        <div >
-                            {mobileMenuOpen && <Buttons />}
+                        <div className='w-full'>
+                            {mobileMenuOpen && <Buttons className='w-full' />}
                         </div>
                     </div>
                 </div>

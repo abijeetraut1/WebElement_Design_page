@@ -9,7 +9,7 @@ export default function Home() {
 
     return (
         <section
-            className={`bg-slate-300  ${mobileMenuOpen ? "overflow-hidden h-screen" : "overflow-x-hidden"} sm:px-0`}
+            className={`bg-slate-300 ${mobileMenuOpen? "overflow-hidden h-screen" : "overflow-x-hidden"} w-full sm:px-0`}
         >
             <div>
                 <Navbar />

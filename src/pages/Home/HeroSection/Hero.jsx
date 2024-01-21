@@ -13,7 +13,6 @@ const websiteTypes = [
 ]
 
 export default function Hero() {
-    const dispatch = useDispatch();
     const mobileMenuOpen = useSelector(state => state.pageControls.isMobileSlideBarOpen);
 
     return (
@@ -21,7 +20,7 @@ export default function Hero() {
             <div className={`relative isolate ${mobileMenuOpen ? "blur-sm duration-300" : "blur-0"}`}>
                 <div id='dotgrids' className="mx-auto w-full py-32 sm:py-48 lg:py-56 sm:px-6 lg:px-8">
                     <div className="w-auto m-auto sm:mb-4 flex justify-center">
-                        <div className="w-fit flex relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/25 hover:ring-gray-900/20">
+                        <div className="w-fit flex relative bg-slate-300 rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/25 hover:ring-gray-900/20">
                             Announcing <pre className='hidden sm:block'> our next round of funding. </pre>
                             <Link to="/blogs" className="font-semibold text-indigo-600">
                                 <span className="absolute inset-0" aria-hidden="true" />

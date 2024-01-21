@@ -39,7 +39,7 @@ export default function Body() {
 
     return (
         <section className="bg-gray-800 pt-9 lg:mx-0 w-full md:flex md:flex-col">
-            <section className='w-full lg:flex lg:flex-wrap lg:justify-center sm:pt-9'>
+            <section className='w-full lg:flex lg:flex-wrap lg:justify-start sm:pt-9'>
                 <section className='flex flex-col items-center justify-center w-full sm:mx-0 sm:py-10'>
                     <div className="text-left w-full sm:w-1/2">
                         <div>
@@ -50,9 +50,9 @@ export default function Body() {
                     </div>
 
                     <div>
-                        <div className='w-full lg:flex lg:justify-start lg:flex-wrap pb-6 sm:pb-0 space-y-4 sm:space-y-4  sm:gap-0 lg:gap-10 lg:space-x-0 p-4 sm:pt-9'>
+                        <div id='glass-pane-body' className='w-full lg:flex lg:justify-start lg:flex-wrap pb-6 sm:pb-0 space-y-4 lg:space-y-0  sm:gap-0 lg:gap-10 lg:space-x-0 p-4 sm:pt-9'>
                             {whatWeOffers.map((offer, i) => (
-                                <div key={i} className="flex flex-col rounded-lg space-y-4 shadow-slate-300/50 bg-[#ffffff30] shadow-md bg-blend-normal backdrop-blur-md pt-6 lg:w-[48%]">
+                                <div id='glass-pane' key={i} className="flex flex-col rounded-lg space-y-4 shadow-slate-300/50 bg-[#ffffff30] shadow-md bg-blend-normal backdrop-blur-md pt-6 lg:w-[30%]">
                                     <div className='px-6 space-y-4'>
                                         <div className='flex items-center space-x-2 text-slate-300'>
                                             <div>
@@ -66,7 +66,7 @@ export default function Body() {
                                             <p className='text-justify text-slate-300/75'>{offer.description}</p>
                                         </div>
                                     </div>
-                                    <div >
+                                    <div className='px-1 pb-2'>
                                         <img className='object-cover rounded-md w-full' src={testpng} alt="" />
                                     </div>
                                 </div>
