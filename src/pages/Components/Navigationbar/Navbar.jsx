@@ -24,7 +24,7 @@ export default function Navbar() {
         <header >
             <nav className="px-2 flex items-center justify-between sm:py-0 lg:px-8" aria-label="Global">
                 <div className="flex lg:flex-1">
-                    <Link href="#" className="flex items-center -m-1.5 p-1.5">
+                    <Link to="/" className="flex items-center -m-1.5 p-1.5">
                         <div>
                             <img
                                 className="h-14 w-auto"

@@ -9,7 +9,7 @@ export default function Home() {
 
     return (
         <section
-            className={`bg-slate-300 ${mobileMenuOpen? "overflow-hidden h-screen" : "overflow-x-hidden"} w-full sm:px-0`}
+            className={`bg-slate-300 ${mobileMenuOpen ? "overflow-hidden" : "overflow-x-hidden"} w-full`}
         >
             <div>
                 <Navbar />
@@ -18,7 +18,7 @@ export default function Home() {
             <div>
                 <Hero />
             </div>
-            <div className='max-w-[1920px]'>
+            <div>
                 <Body />
             </div>
         </section>
