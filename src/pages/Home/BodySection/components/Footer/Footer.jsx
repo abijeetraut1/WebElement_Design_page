@@ -12,8 +12,8 @@ const explores = [
 ];
 
 const premiums = [
-    { title: "Webelement Pro", link: "/pro" },
-    { title: "Webelement Blogger AI", link: "/pro" },
+    { title: "WebBro", link: "/webbro" },
+    { title: "WritifyAI", link: "/writifyAI" },
 ];
 
 const comparasions = [
