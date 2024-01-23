@@ -2,6 +2,7 @@ import React from 'react';
 import ComponentsIntro from './components/componentsIntro/ComponentsIntro';
 import AiIntro from './components/AiIntro/AiIntro';
 import WebsiteIntro from './components/websiteIntro/WebsiteIntro';
+import Trust from './components/Trust/Trust';
 
 
 export default function Body() {
@@ -15,6 +16,8 @@ export default function Body() {
                 <ComponentsIntro />
 
                 <AiIntro />
+
+                <Trust />
             </section>
 
         </section >
