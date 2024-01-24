@@ -3,6 +3,7 @@ import LOGO from "../../../../../Images/logo_design.svg";
 import LOGOTEXT from "../../../../../Images/logo_text.svg";
 import Table from './component/Table/Table';
 import { Link } from 'react-router-dom';
+import { CiFacebook, CiInstagram, CiTwitter } from "react-icons/ci";
 
 const explores = [
     { title: "Community", link: "/community" },
@@ -36,8 +37,6 @@ const company = [
     { title: "About Webelement", link: "/about" },
     { title: "Career", link: "/career" },
     { title: "Medias", link: "/medias" },
-    { title: "Discord", link: "/discord" },
-    { title: "Twitter", link: "/twitter" },
 ];
 
 const blogs = [
@@ -54,11 +53,11 @@ const regulations = [
 
 export default function Footer() {
     return (
-        <section className='w-full bg-gray-900 text-white'>
-            <div className='sm:px-96 sm:py-32 space-y-6'>
-                <div className='flex justify-between'>
+        <section className='py-10 w-full bg-gray-900 text-white'>
+            <div className='p-6 sm:px-96 sm:py-32 space-y-6'>
+                <div className='space-y-2 mx-4 lg:mx-10 lg:pmx-0 flex flex-col justify-center lg:flex-row lg:justify-between flex-wrap'>
                     <Table title="company" props={company} />
-                    <div>
+                    <div className='space-y-2'>
                         <Table title="premium" props={premiums} />
                         <div> <Table title="explore" props={explores} /> </div>
                     </div>
@@ -74,26 +73,45 @@ export default function Footer() {
                         <div>
                             {"©️ webelement " + new Date().getFullYear()}
                         </div>
-                        <div className='space-x-4'>
+                        <div className='space-x-4 flex justify-center flex-wrap'>
                             {regulations.map((regulation, i) => (
-                                <Link key={i} to={regulation.link}> {regulation.title} </Link>
+                                <Link key={i} to={regulation.link} className='my-1'> {regulation.title} </Link>
                             ))}
                         </div>
                     </div>
-                    <div className='flex justify-center items-center'>
-                        <div>
-                            <img
-                                className="h-14 w-auto"
-                                src={LOGO}
-                                alt=""
-                            />
+                    <div className='flex flex-col'>
+                        <div className='flex justify-center items-center'>
+                            <div>
+                                <img
+                                    className="h-14 w-auto"
+                                    src={LOGO}
+                                    alt=""
+                                />
+                            </div>
+                            <div className='hidden lg:block'>
+                                <img
+                                    className="h-8 w-auto"
+                                    src={LOGOTEXT}
+                                    alt=""
+                                />
+                            </div>
                         </div>
-                        <div className='hidden lg:block'>
-                            <img
-                                className="h-8 w-auto"
-                                src={LOGOTEXT}
-                                alt=""
-                            />
+                        <div className='flex lg:hidden space-x-4 '>
+                            <div>
+                                <Link to="/facebook">
+                                    <CiFacebook className='w-6 h-auto' />
+                                </Link>
+                            </div>
+                            <div>
+                                <Link to="/instagram">
+                                    <CiInstagram className='w-6 h-auto' />
+                                </Link>
+                            </div>
+                            <div>
+                                <Link to="/twitter">
+                                    <CiTwitter className='w-6 h-auto' />
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>

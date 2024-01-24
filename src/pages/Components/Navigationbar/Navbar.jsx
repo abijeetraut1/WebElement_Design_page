@@ -68,7 +68,7 @@ export default function Navbar() {
             </nav>
 
 
-            <nav className={`${mobileMenuOpen ? "w-[60%] duration-300" : "w-0 duration-300"}  h-screen bg-slate-400 absolute z-40 top-0 right-0`}>
+            <nav className={`${mobileMenuOpen ? "w-full duration-300" : "w-0 duration-300"}  h-screen bg-slate-400 absolute z-40 top-0 right-0`}>
                 <div className='flex flex-col absolute top-14 px-4 space-y-3 w-full'>
                     <div>
                         {mobileMenuOpen && <div className="font-semibold text-left flex flex-col gap-2">

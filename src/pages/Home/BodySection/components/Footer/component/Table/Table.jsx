@@ -1,15 +1,22 @@
 import React from 'react';
+import { IoIosArrowDown } from "react-icons/io";
 import { Link } from 'react-router-dom';
 
 
 
-export default function Table({title, props}) {
+export default function Table({ title, props }) {
+
     return (
-        <table className='flex flex-col text-left mb-2'>
-            <th className='py-1 capitalize'>{title}</th>
-            {props.map((prop, i) => (
-                <Link key={i} className='rounded font-normal w-[130%] hover:bg-slate-800 text-slate-300/90' to={prop.link}><tr >{prop.title}</tr></Link>
-            ))}
-        </table>
+        <section>
+            <section className='none lg:block'>
+                <table className='flex flex-col text-left mb-2'>
+                    <th className='py-1 capitalize'>{title}</th>
+                    {props.map((prop, i) => (
+                        <Link key={i} className='rounded font-normal w-[130%] hover:bg-slate-800 text-slate-300/90' to={prop.link}><tr >{prop.title}</tr></Link>
+                    ))}
+                </table>
+
+            </section>
+        </section>
     )
 }
