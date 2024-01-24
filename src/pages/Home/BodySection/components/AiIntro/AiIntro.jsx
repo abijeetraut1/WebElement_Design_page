@@ -1,4 +1,5 @@
 import React from 'react';
+import "./style/style.css";
 
 export default function AiIntro() {
     return (
@@ -7,7 +8,9 @@ export default function AiIntro() {
                 <div className="text-left ">
                     <div>
                         <heading className="capitalize text-3xl flex flex-col font-semibold tracking-tight text-white sm:text-5xl">
-                            Design Once, Code Never <br />  Empowering Designers <br /> with AI
+                            <h1>Design Once, Code Never</h1>
+                            <h1>Empowering Designers</h1>
+                            <h1>with AI</h1>
                         </heading>
                     </div>
                 </div>

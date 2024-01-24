@@ -21,8 +21,8 @@ export default function Navbar() {
     const mobileMenuOpen = useSelector(state => state.pageControls.isMobileSlideBarOpen);
 
     return (
-        <header >
-            <nav className="px-2 flex items-center justify-between sm:py-0 lg:px-8" aria-label="Global">
+        <header className='w-full'>
+            <nav className="px-2 flex items-center justify-between sm:py-0 lg:px-8">
                 <div className="flex lg:flex-1">
                     <Link to="/" className="flex items-center -m-1.5 p-1.5">
                         <div>
@@ -50,6 +50,7 @@ export default function Navbar() {
                         </Link>
                     ))}
                 </div>
+
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                     <div className="flex space-x-2">
                         <Buttons />
@@ -68,7 +69,7 @@ export default function Navbar() {
             </nav>
 
 
-            <nav className={`${mobileMenuOpen ? "w-full duration-300" : "w-0 duration-300"}  h-screen bg-slate-400 absolute z-40 top-0 right-0`}>
+            <nav className={`block lg:hidden ${mobileMenuOpen ? "w-full duration-300" : "hidden w-0 duration-300"} h-screen bg-slate-400 absolute z-40 top-0 right-0`}>
                 <div className='flex flex-col absolute top-14 px-4 space-y-3 w-full'>
                     <div>
                         {mobileMenuOpen && <div className="font-semibold text-left flex flex-col gap-2">
@@ -82,9 +83,9 @@ export default function Navbar() {
 
                     {mobileMenuOpen && <div className='border-t-2 border-white w-full'></div>}
                     
-                    <div className="flex flex-1 justify-start">
-                        <div className='w-full'>
-                            {mobileMenuOpen && <Buttons className='w-full' />}
+                    <div >
+                        <div className='overflow-hidden'>
+                            {mobileMenuOpen && <Buttons className="w-full"  />}
                         </div>
                     </div>
                 </div>

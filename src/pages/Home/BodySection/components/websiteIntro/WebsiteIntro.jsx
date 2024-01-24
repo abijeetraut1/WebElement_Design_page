@@ -42,7 +42,7 @@ const whatWeOffers = [
 
 export default function WebsiteIntro() {
     return (
-        <section className='px-2 lg:px-52 py-16 max-w-[1920px]'>
+        <section className='px-4 lg:px-52 py-16 max-w-[1920px]'>
             <section className='lg:flex lg:items-start lg:justify-start lg:flex-col w-full pb-6'>
                 <div className="text-left">
                     <div>
@@ -52,10 +52,10 @@ export default function WebsiteIntro() {
                     </div>
                 </div>
 
-                <div className='space-y-2 flex flex-wrap justify-between'>
+                <div className='space-y-4 lg:space-y-2 flex flex-wrap justify-between'>
                     {whatWeOffers.map((offer) => (
-                        <div id='glass-pane' className={`${offer.width === "w-full" ? "flex-col lg:flex-row lg:w-full" : `lg:${offer.width} flex-col lg:flex-row`} flex pt-12 lg:py-12 `}>
-                            <div className={`${offer.width === "w-full" ? "lg:w-2/5 " : "lg:flex-row w-full pr-10 "} space-y-4 px-6 py-2 space-x-4 items-center`}>
+                        <div id='glass-pane' className={`${offer.width === "w-full" ? "flex-col lg:flex-row lg:w-full" : `lg:${offer.width} flex-col lg:flex-row`} flex pt-6 lg:pt-12 lg:py-12 `}>
+                            <div className={`${offer.width === "w-full" ? "w-full lg:w-2/5 " : "lg:flex-row w-full pr-10 "} space-y-4 px-2 lg:px-6 py-2 space-x-4 items-center`}>
                                 <div className={`px-2 lg:px-4 flex ${offer.width === "w-full" ? "" : "items-start"}  space-x-2 w-full`}>
                                     <div>
                                         {<offer.icon className='text-3xl text-white' />}
@@ -65,7 +65,7 @@ export default function WebsiteIntro() {
                                     </div>
                                 </div>
                                 <div>
-                                    <p className='text-justify text-slate-300/90'>{offer.description}</p>
+                                    <p className='text-slate-300/90'>{offer.description}</p>
                                 </div>
                             </div>
                             <div>
