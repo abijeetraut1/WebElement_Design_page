@@ -54,7 +54,7 @@ const regulations = [
 export default function Footer() {
     return (
         <section className='py-10 w-full bg-gray-900 text-white'>
-            <div className='p-6 sm:px-96 sm:py-32 space-y-6'>
+            <div className='p-6 sm:py-32 space-y-6'>
                 <div className='space-y-2 mx-2 lg:mx-10 lg:pmx-0 flex flex-col justify-center lg:flex-row lg:justify-between flex-wrap'>
                     <Table title="company" props={company} />
                     <div className='space-y-2'>

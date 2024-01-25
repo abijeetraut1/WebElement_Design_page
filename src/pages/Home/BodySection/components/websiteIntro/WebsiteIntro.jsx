@@ -35,19 +35,19 @@ const whatWeOffers = [
       title: "Analyze",
       icon: SlGraph,
       description: "Lorem ipsum dolor sit amet consectetur adipisicing elit...",
-      width: "lg:w-[69%]"
+      width: "lg:w-[50%]"
     },
     {
       title: "Analyze",
       icon: SlGraph,
       description: "Lorem ipsum dolor sit amet consectetur adipisicing elit...",
-      width: "lg:w-[30%]"
+      width: "lg:w-[49%]"
     }
   ];
 
 export default function WebsiteIntro() {
     return (
-        <section className='px-4 lg:px-52 py-8 md:py-16 max-w-[1920px]'>
+        <section className='px-4 lg:px-20 py-8 md:py-16 max-w-[1920px]'>
             <section className='lg:flex lg:items-start lg:justify-start lg:flex-col w-full pb-6'>
                 <div className="text-left">
                     <div>
