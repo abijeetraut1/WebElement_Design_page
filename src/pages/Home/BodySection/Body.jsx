@@ -17,7 +17,8 @@ export default function Body() {
 
                 <AiIntro />
 
-                <Trust />
+                {/* when times and rating comes */}
+                {/* <Trust /> */}
             </section>
 
         </section >

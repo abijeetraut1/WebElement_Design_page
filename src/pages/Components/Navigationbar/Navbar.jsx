@@ -69,29 +69,33 @@ export default function Navbar() {
             </nav>
 
 
-            <nav className={`block lg:hidden ${mobileMenuOpen ? "w-full duration-300" : "hidden w-0 duration-300"} h-screen bg-slate-400 absolute z-40 top-0 right-0`}>
+            <nav className={`block lg:hidden ${mobileMenuOpen ? "w-[80%] duration-300" : "w-0 duration-300"} h-screen bg-slate-400 absolute z-40 top-0 right-0`}>
                 <div className='flex flex-col absolute top-14 px-4 space-y-3 w-full'>
-                    <div>
-                        {mobileMenuOpen && <div className="font-semibold text-left flex flex-col gap-2">
-                            {navigation.map((item) => (
-                                <Link key={item.name} to={item.href}>
-                                    {item.name}
-                                </Link>
-                            ))}
-                        </div>}
-                    </div>
+                    {mobileMenuOpen &&
+                        <div>
+                            <div className="font-semibold text-left flex flex-col gap-2">
+                                {navigation.map((item) => (
+                                    <Link key={item.name} to={item.href}>
+                                        {item.name}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    }
 
                     {mobileMenuOpen && <div className='border-t-2 border-white w-full'></div>}
-                    
-                    <div >
-                        <div className='overflow-hidden'>
-                            {mobileMenuOpen && <Buttons className="w-full"  />}
+
+                    {mobileMenuOpen &&
+                        <div >
+                            <div className='overflow-hidden'>
+                                <Buttons className="w-full" />
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
 
             </nav>
 
-        </header>
+        </header >
     )
 }

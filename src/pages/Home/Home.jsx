@@ -9,8 +9,8 @@ export default function Home() {
     const mobileMenuOpen = useSelector(state => state.pageControls.isMobileSlideBarOpen);
 
     return (
-        <section style={{ width: "100vw", overflowX: "hidden" }}
-            className={`bg-slate-300 ${mobileMenuOpen ? "overflow-hidden h-screen w-auto" : "w-fit overflow-x-hidden"}`}
+        <section
+            className={`bg-slate-300 ${mobileMenuOpen ? "overflow-hidden h-screen w-auto" : "overflow-x-hidden"}`}
         >
             <div>
                 <Navbar />
