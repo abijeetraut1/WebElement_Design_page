@@ -34,12 +34,13 @@ export default function ChooseDesign(clickedItem) {
     }, [data, dispatch]);
 
     // codes ids 
+    // extract codes from the redux
     const home = useSelector(state => state.StoreCodeSlice.homeIDs);
     const about = useSelector(state => state.StoreCodeSlice.aboutIDs);
     const contact = useSelector(state => state.StoreCodeSlice.contactIDs);
     const authentication = useSelector(state => state.StoreCodeSlice.authenticationIDs);
 
-    // save code function
+    // save code function 
     function saveCodes() {
         let extractedCodes;
         if (designPage === "home") {
@@ -93,7 +94,6 @@ export default function ChooseDesign(clickedItem) {
                                 </div>
                             }
                         </div>
-
                     </div>
 
                     <div>
@@ -111,12 +111,15 @@ export default function ChooseDesign(clickedItem) {
                                 </button>
                             </div>}
                         </div>
+
+                        {/* choosing up the design section */}
                         <DesignControls open={open} />
                     </div>
 
                 </div>
 
 
+                {/* lopping over the codes which was choosen */}
                 {open && <section id="choose-deign" className="h-3/4 overflow-auto rounded-md">
                     {isProtected && <p>Fetching codes</p>}
                     {(error && isFilterActive === false) && <p className="text-white">server error please wait we are fixing it.</p>}
