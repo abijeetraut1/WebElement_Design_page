@@ -28,17 +28,21 @@ export default function Designs() {
         // side design choosing section
         <section>
             <section className={openHostingPannel === true ? "block overflow-hidden" : "hidden"}>
+                {/* choosing the hosting and domain name for website */}
                 <HostingIdendity />
             </section>
 
             <section className={openHostingPannel === false ? "block" : "hidden"}>
+                {/* design selector panel based on the clicked section */}
                 <aside >
                     <ChooseDesign clickedItem={clickedHTMLElement} />
                 </aside>
 
+               {/* choosen design text based content editor */}
                 <PopupElement clicked={clickedHTMLElement} />
 
                 <section id="extract-code" className="h-screen" >
+                    {/* setting up the another html settup plate for font and other external css links */}
                     <html lang="en">
                         <head>
                             <meta charset="UTF-8" />
@@ -57,9 +61,11 @@ export default function Designs() {
                         </head>
 
                         <body id="edit-space">
+                            {/* looping over the choosen designs for tendering the choosen contends */}
                             {selectedCodes && selectedCodes.map((code, i) => (
                                 <section key={code.id} >
                                     <div className="control-buttons flex flex-row w-full  items-center justify-center absolute z-50">
+                                        {/* choose design section remover editor pannel */}
                                         <div className="control-buttons py-1 px-6 bg-blue-500 flex items-center justify-center space-x-4">
                                             <div>
                                                 <button className="control-buttons" >
@@ -92,6 +98,7 @@ export default function Designs() {
                                     </div>
 
                                     <div>
+                                        {/* loading up the html codes */}
                                         <div
                                             id={code.id + "-html-structure"}
                                             dangerouslySetInnerHTML={{ __html: code.codeParams.html }}
@@ -102,6 +109,7 @@ export default function Designs() {
                                                 setClickedHTMLElement(event.target);
                                             }}
                                         ></div>
+                                        {/* loading up the css codes */}
                                         <style id={code.id + "-style-structure"} dangerouslySetInnerHTML={{ __html: code.codeParams.css }}></style>
                                     </div>
                                 </section>
