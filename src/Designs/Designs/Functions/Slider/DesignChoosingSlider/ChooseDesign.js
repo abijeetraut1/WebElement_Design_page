@@ -107,7 +107,6 @@ export default function ChooseDesign() {
                                 </div>
                             }
                         </div>
-
                     </div>
 
                     <div>
@@ -138,6 +137,7 @@ export default function ChooseDesign() {
                 </div>
 
 
+                {/* lopping over the codes which was choosen */}
                 {open && <section id="choose-deign" className="h-3/4 overflow-auto rounded-md">
                     {isProtected && <p>Fetching codes</p>}
                     {(error && isFilterActive === false) && <p className="text-white">server error please wait we are fixing it.</p>}
