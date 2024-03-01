@@ -23,12 +23,14 @@ export default function PopupElement(clickedHTMLElement) {
                     </button>
                 </div>
 
+                {/* color-picker to change the font-color */}
                 <div className='px-3'>
                     <input className='scale-150' type="color" name="fontColorChange" id="fontColorChange" 
                         onChange={(event) => PopupButtons(clickedHTMLElement, event, "fontColor")}
                     />
                 </div>
 
+                {/* button to change the font to bold */}
                 <div>
                     <button
                         className="rounded-md bg-indigo-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" 
@@ -37,6 +39,8 @@ export default function PopupElement(clickedHTMLElement) {
                         <VscBold />
                     </button>
                 </div>
+
+                {/* button to change the font to italic */}
                 <div>
                     <button
                         onClick={(event) => PopupButtons(clickedHTMLElement, event, "italic")}
@@ -45,6 +49,8 @@ export default function PopupElement(clickedHTMLElement) {
                         <VscItalic />
                     </button>
                 </div>
+
+                {/* change the text fonts choosing */}
                 <div>
                     <select name="" id="fonts" 
                         style={{outline:"none"}}
@@ -64,6 +70,8 @@ export default function PopupElement(clickedHTMLElement) {
                         ))}
                     </select>
                 </div>
+
+                {/* fonts variance font-weight */}
                 <div>
                     <select name="" id="fonts" 
                         style={{outline:"none"}}
@@ -79,6 +87,8 @@ export default function PopupElement(clickedHTMLElement) {
                         ))}
                     </select>
                 </div>
+
+                {/* for change the input field */}
                 <div>
                     <select name="" id="" 
                         style={{outline:"none"}}

@@ -1,3 +1,10 @@
+/** 
+    *HostingIdentity Component
+    *This component provides a UI for hosting a site and sending codes to a server.
+    *It allows users to enter a domain name, save codes for different pages, and initiate hosting.
+    *@returns {JSX.Element} HostingIdentity component
+ */
+
 import React, { useState } from 'react'
 import { VscChromeClose } from "react-icons/vsc";
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,18 +15,22 @@ export default function HostingIdendity() {
     const dispatch = useDispatch();
     const [siteName, setSiteName] = useState("");
 
-    // pages codes
+    
+    // extracted the redux saved code to host the codes
     const homePageCode = useSelector(state => state.StorePageCode.home);
     const aboutPageCode = useSelector(state => state.StorePageCode.about);
     const contactPageCode = useSelector(state => state.StorePageCode.contact);
     const authentication = useSelector(state => state.StorePageCode.authentication);
 
+    /*
+        send the extracted host codes to the backend.
+    */
     async function saveTheCodes() {
         try {
             console.log(homePageCode.codes)
             const sendHostCodes = await axios({
                 method: "POST",
-                url: "http://127.0.0.1:8000/api/v1/hosting/hostcodes",
+                url: process.env.REACT_APP_HOSTCODE_API,
                 data: {
                     webPageName: siteName,
                     home: homePageCode.codes,
@@ -38,6 +49,8 @@ export default function HostingIdendity() {
     return (
         <section className='transition-300 drop-shadow-xl h-screen w-screen bg-slate-400 flex items-center justify-center font-extrabold'>
             <div className='rounded bg-white '>
+                
+                {/* closing the hosting pannel */}
                 <div className='w-full flex justify-end p-1'>
                     <button onClick={() => dispatch(setHostingPannelActive(false))} className='rounded-3xl bg-gray-500 p-1 text-white'><VscChromeClose /></button>
                 </div>

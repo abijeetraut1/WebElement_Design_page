@@ -1,6 +1,8 @@
 import { FiSidebar } from "react-icons/fi";
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+// Extraction function used to extract the code using DOM code extractor
 import { Extraction } from "./../../Extraction/Extraction";
 import { storeHomePageCode } from "../../../../../reduxFunction/StorePageCode/StorePageCode";
 import { useFetch } from '../../../../../hooks/GetRequest/useFetch';
@@ -13,7 +15,7 @@ import { setFetchedCodes, storeCodes } from "../../../../../reduxFunction/storeU
 import ToggleSwitch from "../../../components/Switch/ToggleSwitch";
 
 
-export default function ChooseDesign(clickedItem) {
+export default function ChooseDesign() {
     const designPage = useSelector(state => state.pageControls.designPage);
     const section = useSelector(state => state.pageControls.designSection);
     const page = useSelector(state => state.pageControls.isPage);
@@ -33,13 +35,18 @@ export default function ChooseDesign(clickedItem) {
         dispatch(setFetchedCodes(data));
     }, [data, dispatch]);
 
-    // codes ids 
+    // extracting the IDs from the react-redux of the desing used section
     const home = useSelector(state => state.StoreCodeSlice.homeIDs);
     const about = useSelector(state => state.StoreCodeSlice.aboutIDs);
     const contact = useSelector(state => state.StoreCodeSlice.contactIDs);
     const authentication = useSelector(state => state.StoreCodeSlice.authenticationIDs);
 
     // save code function
+    /*
+        when the save code runs its tooks the section id from the redux(useSelector)
+        extract the all the changed codes by the help of extract function
+        and stores again stores into redux
+    */
     function saveCodes() {
         let extractedCodes;
         if (designPage === "home") {
@@ -57,6 +64,7 @@ export default function ChooseDesign(clickedItem) {
         dispatch(storeHomePageCode({ code: extractedCodes, section: designPage }));
     }
 
+    // for loaders
     useEffect(() => {
         if (isSping === true) {
             setTimeout(() => {
@@ -65,12 +73,17 @@ export default function ChooseDesign(clickedItem) {
         }
     }, [isSping]);
 
+    // changing the url deisgn to for another page / section
     useEffect(() => {
         setUrl(`${process.env.REACT_APP_CODE_API_URL}?section=${section.toLowerCase()}&page=${page}`);
     }, [page, url, section]);
 
+    // render codes runs when a user choose a design to work on it or click on USE BUTTON
     async function renderCodes(slug, section) {
+        // when a user chooses a design fetchSingleCode ask backend to give codes of the choosen design 
         const code = await fetchSigleCode(slug, section)
+        
+        // storeCodes saves the codes into redux so that code will get rendered in DOM 
         dispatch(storeCodes({ code, designPage }))
     }
 
@@ -80,6 +93,7 @@ export default function ChooseDesign(clickedItem) {
                 <div className="sm:col-span-3 inset-0 backdrop-blur-md">
                     <div className='flex items-center justify-between space-x-2'>
                         <div className="flex items-center justify-between space-x-2">
+                            {/* button for open and closing the chooseDesign pannel */}
                             <button
                                 className='border:solid border border-white bg-[#191919] p-2 rounded-md'
                                 onClick={() => dispatch(setIsOpen())}
@@ -101,6 +115,8 @@ export default function ChooseDesign(clickedItem) {
                             <div>
                                 <ToggleSwitch open={open} />
                             </div>
+
+                            {/* save the code button, by clicking the code will get stored in redux  */}
                             {open && <div>
                                 <button
                                     className="flex items-center space-x-2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -111,6 +127,11 @@ export default function ChooseDesign(clickedItem) {
                                 </button>
                             </div>}
                         </div>
+
+                        {/* 
+                            it contains the codes which makes easy which page designs we are choosing
+                            in which page we are working on
+                        */}
                         <DesignControls open={open} />
                     </div>
 
@@ -121,6 +142,7 @@ export default function ChooseDesign(clickedItem) {
                     {isProtected && <p>Fetching codes</p>}
                     {(error && isFilterActive === false) && <p className="text-white">server error please wait we are fixing it.</p>}
 
+                    {/* looping over the designs for user to choose and work on it */}
                     {(codes && isFilterActive === false) && codes.map((code, i) => (
                         <div key={code.name.replaceAll(" ", "-")} className="bg-white p-2 my-4 rounded" >
                             <div>
@@ -160,6 +182,8 @@ export default function ChooseDesign(clickedItem) {
                             </div>
                         </div>
                     ))}
+
+                    {/* extract more code at the initial stage it will load 30 templates by clicking it will add more 30 templates */}
                     {(codes && isFilterActive === false) && <div>
                         <button
                             className="w-full rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -170,18 +194,24 @@ export default function ChooseDesign(clickedItem) {
                             More
                         </button>
                     </div>}
+
+                    {/* filter section which will give the code based on the requirement added */}
                     {isFilterActive && <Filter />}
                 </section>}
 
                 {open &&
                     <section className="fixed bottom-1 w-full">
                         <div className="flex items-center justify-between w-full px-4">
+                            
+                            {/* authentication user profile */}
                             <div className="flex items-center space-x-3">
                                 <button title="profile">
                                     <img src={testProfile} className='outline-white h-10 w-10 rounded-full outline' alt="cannot display profile" />
                                 </button>
                                 <span title="username" className="text-white cursor-pointer">Abijeet Raut</span>
                             </div>
+
+                            {/* this button activate the hosting pannel allows users to register the sites */}
                             <div>
                                 <button
                                     className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -193,7 +223,6 @@ export default function ChooseDesign(clickedItem) {
                             </div>
                         </div>
                     </section>
-
                 }
             </aside>
         </div>
