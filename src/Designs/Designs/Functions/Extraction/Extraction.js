@@ -4,11 +4,6 @@ export function Extraction(IDS) {
         IDS.forEach(id => {
             let html = document.getElementById(id + "-html-structure").innerHTML;
             let css = document.getElementById(id + "-style-structure").innerHTML;
-
-            const htmlLength = html.length;
-            const cssLength = css.length;
-
-            console.log(htmlLength, cssLength);
             
             const parsedHtml = JSON.stringify(html);
             const parsedCss = JSON.stringify(css);

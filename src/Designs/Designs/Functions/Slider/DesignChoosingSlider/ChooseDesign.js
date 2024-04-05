@@ -1,4 +1,4 @@
-import { FiSidebar } from "react-icons/fi";
+import { TbLayoutSidebarRightCollapseFilled } from "react-icons/tb";
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Extraction } from "./../../Extraction/Extraction";
 import { storeHomePageCode } from "../../../../../reduxFunction/StorePageCode/StorePageCode";
 import { useFetch } from '../../../../../hooks/GetRequest/useFetch';
-import { setHostingPannelActive, setPage, setIsOpen } from '../../../../../reduxFunction/PageControls/pageControls';
-import testProfile from "../../../../test-image/test-profile.jpeg";
+import { setHostingPannelActive, setPage, setChooseDesignIsOpen } from '../../../../../reduxFunction/PageControls/pageControls';
+import testProfile from "../../../../test-image/test-profile.png";
 import DesignControls from "../DesignControls/DesignControl";
 import Filter from "../Filter/Filter";
 import { fetchSigleCode } from "../../FetchSingle/FetchSingle";
@@ -20,7 +20,7 @@ export default function ChooseDesign() {
     const section = useSelector(state => state.pageControls.designSection);
     const page = useSelector(state => state.pageControls.isPage);
     const isFilterActive = useSelector(state => state.pageControls.isFilterActive);
-    const open = useSelector(state => state.pageControls.isOpen);
+    const chooseDesignIsOpen = useSelector(state => state.pageControls.isChooseDesignIsOpen);
 
     const [isSping, setIsSpin] = useState(false);
 
@@ -89,19 +89,19 @@ export default function ChooseDesign() {
 
     return (
         <div>
-            <aside className={`md:w-1/2 lg:w-1/2 xl:w-2/5 2xl:w-1/5 fixed top-0 left-0 ${open ? "w-full bg-[#191919]" : "w-0 bg-transparent"} duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100`} >
+            <aside className={`md:w-1/2 lg:w-1/2 xl:w-2/5 2xl:w-1/5 fixed top-12 left-0 ${chooseDesignIsOpen ? "w-full bg-custom-black" : "w-0 bg-transparent"} duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100`} >
                 <div className="sm:col-span-3 inset-0 backdrop-blur-md">
                     <div className='flex items-center justify-between space-x-2'>
                         <div className="flex items-center justify-between space-x-2">
                             {/* button for open and closing the chooseDesign pannel */}
                             <button
-                                className='border:solid border border-white bg-[#191919] p-2 rounded-md'
-                                onClick={() => dispatch(setIsOpen())}
+                                className='border:solid border border-white bg-custom-black p-2 rounded-md'
+                                onClick={() => dispatch(setChooseDesignIsOpen())}
                             >
-                                <FiSidebar className='text-white text-xl ' />
+                                <TbLayoutSidebarRightCollapseFilled className='text-white text-xl rotate-180' />
                             </button>
 
-                            {open &&
+                            {chooseDesignIsOpen &&
                                 <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
                                     Web Element
                                 </div>
@@ -112,11 +112,11 @@ export default function ChooseDesign() {
                     <div>
                         <div className="flex items-end justify-end space-x-1">
                             <div>
-                                <ToggleSwitch open={open} />
+                                <ToggleSwitch open={chooseDesignIsOpen} />
                             </div>
 
                             {/* save the code button, by clicking the code will get stored in redux  */}
-                            {open && <div>
+                            {chooseDesignIsOpen && <div>
                                 <button
                                     className="flex items-center space-x-2 rounded-md bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     onClick={() => saveCodes()}
@@ -131,14 +131,14 @@ export default function ChooseDesign() {
                             it contains the codes which makes easy which page designs we are choosing
                             in which page we are working on
                         */}
-                        <DesignControls open={open} />
+                        <DesignControls open={chooseDesignIsOpen} />
                     </div>
 
                 </div>
 
 
                 {/* lopping over the codes which was choosen */}
-                {open && <section id="choose-deign" className="h-3/4 overflow-auto rounded-md">
+                {chooseDesignIsOpen && <section id="choose-deign" className="h-3/4 overflow-auto rounded-md">
                     {isProtected && <p>Fetching codes</p>}
                     {(error && isFilterActive === false) && <p className="text-white">server error please wait we are fixing it.</p>}
 
@@ -199,7 +199,7 @@ export default function ChooseDesign() {
                     {isFilterActive && <Filter />}
                 </section>}
 
-                {open &&
+                {chooseDesignIsOpen &&
                     <section className="fixed bottom-1 w-full">
                         <div className="flex items-center justify-between w-full px-4">
                             

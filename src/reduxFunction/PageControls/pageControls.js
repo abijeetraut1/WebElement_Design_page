@@ -12,7 +12,8 @@ const pageControlsSlice = createSlice({
     isPage: 0, // shows the current page options
     isFilterActive: false,
     isEditing: false,
-    isOpen: false,
+    isChooseDesignIsOpen: false,
+    isCustomizeDesignIsOpen: false,
     isMobileSlideBarOpen: false,
   },
   reducers: {
@@ -41,8 +42,11 @@ const pageControlsSlice = createSlice({
     setEditingMode: (state, action) => {
       state.isEditing = state.isEditing ? false : true;
     },
-    setIsOpen: (state, action) => {
-      state.isOpen = state.isOpen ? false : true;
+    setChooseDesignIsOpen: (state, action) => {
+      state.isChooseDesignIsOpen = state.isChooseDesignIsOpen ? false : true;
+    },
+    setCustomizeDesignIsOpen: (state, action) => {
+      state.isCustomizeDesignIsOpen = state.isCustomizeDesignIsOpen ? false : true;
     },
     setIsMobileSlideBarOpen: (state, action) => {
       state.isMobileSlideBarOpen = state.isMobileSlideBarOpen ? false : true;
@@ -58,7 +62,8 @@ export const {
   setPage,
   setFilterActive,
   setEditingMode,
-  setIsOpen,
+  setChooseDesignIsOpen,
+  setCustomizeDesignIsOpen,
   setIsMobileSlideBarOpen
 } = pageControlsSlice.actions;
 

@@ -18,6 +18,8 @@ import { changeAltImage } from "./Functions/popupEditor/ChangeAltImage/ChangeAlt
 import HostingIdendity from "./HostingProcess/HostingIdentification/HostingIdendity";
 import { PopupEditorTriggerer } from "./Functions/popupEditor/PopupEditorTriggerer/PopupEditorTriggerer";
 import ChooseDesign from "./Functions/Slider/DesignChoosingSlider/ChooseDesign";
+import Navigation from "./components/Navigation/Navigation";
+import CustomizeDesignSlider from "./Functions/Slider/CustomizeDesignSlider/CustomizeDesignSlider";
 
 import { FiEdit2 } from "react-icons/fi";
 import { setEdit } from "../../reduxFunction/PageControls/pageControls";
@@ -34,6 +36,9 @@ export default function Designs() {
     return (
         // side design choosing section
         <section>
+            <nav>
+                <Navigation/>
+            </nav>
             <section className={openHostingPannel === true ? "block overflow-hidden" : "hidden"}>
                 {/* pannel to host a website on a specif domain */}
                 <HostingIdendity />
@@ -122,6 +127,10 @@ export default function Designs() {
                         </body>
                     </html>
                 </section>
+
+                <aside>
+                    <CustomizeDesignSlider />
+                </aside>
             </section >
         </section >
     )

@@ -8,6 +8,9 @@ module.exports = {
       fontSize: {
         'mobile': '1.5rem',
       },
+      backgroundColor: {
+        'custom-black': '#191919',
+      },
     },
   },
   plugins: [],

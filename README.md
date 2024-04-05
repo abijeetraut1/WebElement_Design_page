@@ -4,5 +4,3 @@ webelement is a web development platform enforcing every individual to develop t
 # pages
 designs (`/design`)
     desins is a refers to those page which allows users to customize the choosen design based on the requirement and overall the operations are done there all the operations like hosting website are hosted here.
-
-# Components and Functions overthrough
