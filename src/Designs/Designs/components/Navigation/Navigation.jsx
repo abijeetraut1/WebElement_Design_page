@@ -1,18 +1,31 @@
-import React from 'react'
+import React, {useState} from 'react'
 import testProfile from "../../../test-image/test-profile.png";
 import logo from "../../../test-image/logo.png";
 import { Link } from 'react-router-dom';
-
+import { FiSidebar } from 'react-icons/fi';
 
 export default function Navigation() {
+    const [open, setOpen] = useState();
+
     return (
         <nav className="h-12 w-full px-4 fixed bg-custom-black shadow-zinc-950 flex justify-between items-center border-b border-[#525252]">
-            
+
             {/* logo section and dev control section */}
-            <div>
-                <Link to="/">
-                    <img src={logo} className='h-8 w-fit cursor-pointer' alt="cannot display profile" />
-                </Link>
+            <div className='flex flex-row space-x-4 justify-start items-center'>
+                <div>
+                    <Link to="/">
+                        <img src={logo} className='h-8 w-fit cursor-pointer' alt="cannot display profile" />
+                    </Link>
+                </div>
+                <div className='flex flex-row space-x-4 justify-start items-center'>
+                    <button
+                        className="rounded-md text-2xl font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        title="Disable Editor Vissible"
+                        onClick={() => setOpen(open === true ? false : true)}
+                    >
+                        <FiSidebar />
+                    </button>
+                </div>
             </div>
 
             {/* profile and basic web control section */}
