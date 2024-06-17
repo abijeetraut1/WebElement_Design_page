@@ -9,8 +9,11 @@ module.exports = {
         'mobile': '1.5rem',
       },
       backgroundColor: {
-        'custom-black': '#191919',
+        'custom-black': '#282828',
       },
+      textColor: {
+        'custom-color': "#ccc",
+      }
     },
   },
   plugins: [],

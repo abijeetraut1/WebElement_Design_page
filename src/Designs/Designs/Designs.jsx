@@ -4,7 +4,7 @@
  * Also provides functionality for hosting identification and popup editing.
  * @returns {JSX.Element} Designs component
 */
-
+// setEditingMode
 import React, { useState } from "react";
 import { VscChromeClose, VscGripper } from "react-icons/vsc";
 import { useFetch } from "../../hooks/GetRequest/useFetch";
@@ -23,6 +23,7 @@ import CustomizeDesignSlider from "./Functions/Slider/CustomizeDesignSlider/Cust
 
 import { FiEdit2 } from "react-icons/fi";
 import { setEdit } from "../../reduxFunction/PageControls/pageControls";
+
 
 export default function Designs() {
     const dispatch = useDispatch();

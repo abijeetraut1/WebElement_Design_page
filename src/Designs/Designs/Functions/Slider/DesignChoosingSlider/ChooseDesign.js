@@ -89,7 +89,7 @@ export default function ChooseDesign() {
 
     return (
         <div>
-            <aside className={`md:w-1/2 lg:w-1/2 xl:w-2/5 2xl:w-1/5 fixed top-12 left-0 ${chooseDesignIsOpen ? "w-full bg-custom-black" : "w-0 bg-transparent"} duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100`} >
+            <aside className={`md:w-1/2 lg:w-1/2 xl:w-2/5 2xl:w-1/6 fixed top-12 left-0 ${chooseDesignIsOpen ? "w-full bg-custom-black" : "w-0 bg-transparent"} duration-300 l-0 h-screen px-3 pt-4 shadow-zinc-950 z-1 backdrop-opacity-100`} >
                 <div className="sm:col-span-3 inset-0 backdrop-blur-md">
                     <div className='flex items-center justify-between space-x-2'>
                         <div className="flex items-center justify-between space-x-2">
@@ -100,12 +100,6 @@ export default function ChooseDesign() {
                             >
                                 <TbLayoutSidebarRightCollapseFilled className='text-white text-xl rotate-180' />
                             </button>
-
-                            {chooseDesignIsOpen &&
-                                <div className="block text-xl font-medium leading-6 text-white border:solid rounded-md w-full text-left capitalize">
-                                    Web Element
-                                </div>
-                            }
                         </div>
                     </div>
 
@@ -199,31 +193,6 @@ export default function ChooseDesign() {
                     {isFilterActive && <Filter />}
                 </section>}
 
-                {chooseDesignIsOpen &&
-                    <section className="fixed bottom-1 w-full">
-                        <div className="flex items-center justify-between w-full px-4">
-                            
-                            {/* authentication user profile */}
-                            <div className="flex items-center space-x-3">
-                                <button title="profile">
-                                    <img src={testProfile} className='outline-white h-10 w-10 rounded-full outline' alt="cannot display profile" />
-                                </button>
-                                <span title="username" className="text-white cursor-pointer">Abijeet Raut</span>
-                            </div>
-
-                            {/* this button activate the hosting pannel allows users to register the sites */}
-                            <div>
-                                <button
-                                    className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                    onClick={() => dispatch(setHostingPannelActive(true))}
-                                    title="host designed website"
-                                >
-                                    Host
-                                </button>
-                            </div>
-                        </div>
-                    </section>
-                }
             </aside>
         </div>
     )
